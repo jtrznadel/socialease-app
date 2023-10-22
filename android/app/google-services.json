@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "303270447407",
+    "project_id": "socialease-app-97cc7",
+    "storage_bucket": "socialease-app-97cc7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:303270447407:android:1404f249845076f39b39da",
+        "android_client_info": {
+          "package_name": "com.example.social_ease_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo8StcMhGOLMcqeKEmv63p1othQFDpjOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

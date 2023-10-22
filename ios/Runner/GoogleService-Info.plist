@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBVj4n8LyqQv66MlBAjtM8PrJeC5_Vzz0U</string>
+	<key>GCM_SENDER_ID</key>
+	<string>303270447407</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.socialEaseApp</string>
+	<key>PROJECT_ID</key>
+	<string>socialease-app-97cc7</string>
+	<key>STORAGE_BUCKET</key>
+	<string>socialease-app-97cc7.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:303270447407:ios:a9f54f9a63e213ae9b39da</string>
+</dict>
+</plist>
