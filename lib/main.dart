@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
               ColorScheme.fromSwatch(accentColor: AppColors.primaryColor),
           useMaterial3: true,
           appBarTheme: const AppBarTheme(color: Colors.transparent),
-          fontFamily: Fonts.poppins,
           scaffoldBackgroundColor: Colors.white),
       onGenerateRoute: generateRoute,
     );
