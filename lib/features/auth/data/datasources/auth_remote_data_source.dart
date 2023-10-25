@@ -116,7 +116,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         case UpdateUserAction.displayName:
           await _authClient.currentUser?.updateDisplayName(userData as String);
           await _updateUserData({'fullName': userData});
-        case UpdateUserAction.profielAvatar:
+        case UpdateUserAction.profileAvatar:
           final ref = _dbClient
               .ref()
               .child('profile_pics/${_authClient.currentUser?.uid}');
