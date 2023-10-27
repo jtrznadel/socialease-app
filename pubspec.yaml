@@ -29,6 +29,7 @@ dependencies:
   cloud_firestore: ^4.11.0
   firebase_storage: ^11.3.1
   firebase_ui_auth: ^1.9.1
+  bloc_test: ^9.1.4
 
 dev_dependencies:
   flutter_test:
