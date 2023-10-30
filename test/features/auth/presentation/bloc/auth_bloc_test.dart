@@ -9,7 +9,6 @@ import 'package:social_ease_app/features/auth/domain/usecases/sign_in.dart';
 import 'package:social_ease_app/features/auth/domain/usecases/sign_up.dart';
 import 'package:social_ease_app/features/auth/domain/usecases/update_user.dart';
 import 'package:social_ease_app/features/auth/presentation/bloc/auth_bloc.dart';
-import '';
 
 class MockSignIn extends Mock implements SignIn {}
 

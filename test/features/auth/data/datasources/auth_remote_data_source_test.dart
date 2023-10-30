@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,7 +14,6 @@ import 'package:social_ease_app/core/utils/constants.dart';
 import 'package:social_ease_app/core/utils/typedefs.dart';
 import 'package:social_ease_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:social_ease_app/features/auth/data/models/user_model.dart';
-import 'package:social_ease_app/features/auth/domain/entites/user.dart';
 
 class MockFirebasaStorage extends Mock implements FirebaseStorage {}
 

@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_ease_app/core/common/app/provides/user_provider.dart';
-import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/core/services/router.dart';
