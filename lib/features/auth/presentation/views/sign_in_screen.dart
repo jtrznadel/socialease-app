@@ -56,13 +56,27 @@ class _SignInScreenState extends State<SignInScreen> {
                 child: Center(
                   child: ListView(
                     shrinkWrap: true,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
                     children: [
-                      Text(
-                        'Witness the Beauty of Compassion.',
-                        style: TextStyle(
-                          fontFamily: Fonts.montserrat,
-                          fontSize: 32,
+                      RichText(
+                        text: TextSpan(
+                          text: 'Witness the Beauty of ',
+                          style: TextStyle(
+                            fontFamily: Fonts.montserrat,
+                            fontSize: 32,
+                            color: Colors.black,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'Commpassion.',
+                              style: TextStyle(
+                                fontFamily: Fonts.montserrat,
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(
@@ -118,22 +132,16 @@ class _SignInScreenState extends State<SignInScreen> {
                                 }
                               },
                             ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const Text(
-                            'Do not have an account yet?',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushReplacementNamed(
-                                  context, SignUpScreen.routeName);
-                            },
-                            child: const Text('Register now!'),
-                          )
-                        ],
-                      )
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, SignUpScreen.routeName);
+                          },
+                          child: const Text('Do not have an account yet?'),
+                        ),
+                      ),
                     ],
                   ),
                 ),

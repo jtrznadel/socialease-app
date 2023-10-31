@@ -15,6 +15,9 @@ class MediaRes {
   //<-- SIGN IN -->
   static const signInImage = '$_baseImage/sign_in_image.png';
 
+  //<-- SIGN UP -->
+  static const signUpImage = '$_baseImage/sign_up_image.png';
+
   //lotties
   static const underConstruction = '$_baseLottie/under_construction.json';
 }
