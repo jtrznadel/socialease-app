@@ -30,7 +30,8 @@ class LocalUser extends Equatable {
   final List<String> groupIds;
 
   @override
-  List<Object?> get props => [uid, email];
+  List<Object?> get props =>
+      [uid, email, profileAvatar, bio, points, fullName, groupIds.length];
 
   @override
   String toString() {

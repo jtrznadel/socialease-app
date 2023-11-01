@@ -18,6 +18,9 @@ class MediaRes {
   //<-- SIGN UP -->
   static const signUpImage = '$_baseImage/sign_up_image.png';
 
+  //<-- PROFILE -->
+  static const defaultAvatarImage = '$_baseImage/default_avatar_image.png';
+
   //lotties
   static const underConstruction = '$_baseLottie/under_construction.json';
 }

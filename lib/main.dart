@@ -2,11 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_ease_app/core/common/app/provides/user_provider.dart';
+import 'package:social_ease_app/core/common/app/providers/user_provider.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/core/services/router.dart';
-import 'package:social_ease_app/features/dashboard/providers/dashboard_controller.dart';
+import 'package:social_ease_app/features/dashboard/presentation/providers/dashboard_controller.dart';
 import 'package:social_ease_app/firebase_options.dart';
 
 Future<void> main() async {

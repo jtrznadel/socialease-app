@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_ease_app/core/common/app/provides/tab_navigator.dart';
+import 'package:social_ease_app/core/common/app/providers/tab_navigator.dart';
 import 'package:social_ease_app/core/common/views/persistent_view.dart';
+import 'package:social_ease_app/features/profile/presentation/views/profile_view.dart';
 
 class DashboardController extends ChangeNotifier {
   List<int> _indexHistory = [0];
@@ -19,13 +20,13 @@ class DashboardController extends ChangeNotifier {
       child: const PersistentView(),
     ),
     ChangeNotifierProvider(
-      create: (_) => TabNavigator(TabItem(child: const Text('View 4'))),
+      create: (_) => TabNavigator(TabItem(child: const ProfileView())),
       child: const PersistentView(),
     ),
   ];
 
   List<Widget> get screens => _screens;
-  int _currentIndex = 2;
+  int _currentIndex = 0;
 
   int get currentIndex => _currentIndex;
 

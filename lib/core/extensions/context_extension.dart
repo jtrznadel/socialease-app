@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_ease_app/core/common/app/provides/tab_navigator.dart';
-import 'package:social_ease_app/core/common/app/provides/user_provider.dart';
+import 'package:social_ease_app/core/common/app/providers/tab_navigator.dart';
+import 'package:social_ease_app/core/common/app/providers/user_provider.dart';
 import 'package:social_ease_app/features/auth/domain/entites/user.dart';
 
 extension ContextExt on BuildContext {

@@ -1,13 +1,12 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:social_ease_app/core/common/app/provides/user_provider.dart';
+import 'package:social_ease_app/core/common/app/providers/user_provider.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/features/auth/data/models/user_model.dart';
-import 'package:social_ease_app/features/dashboard/providers/dashboard_controller.dart';
-import 'package:social_ease_app/features/dashboard/utils/dashboard_utils.dart';
+import 'package:social_ease_app/features/dashboard/presentation/providers/dashboard_controller.dart';
+import 'package:social_ease_app/features/dashboard/presentation/utils/dashboard_utils.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
