@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:social_ease_app/core/common/app/provides/tab_navigator.dart';
 import 'package:social_ease_app/core/common/app/provides/user_provider.dart';
 import 'package:social_ease_app/features/auth/domain/entites/user.dart';
 
@@ -15,4 +16,10 @@ extension ContextExt on BuildContext {
   UserProvider get userProvider => read<UserProvider>();
 
   LocalUser? get currentUser => userProvider.user;
+
+  TabNavigator get tabNavigator => read<TabNavigator>();
+
+  void pop() => tabNavigator.pop();
+
+  void push(Widget page) => tabNavigator.push(TabItem(child: page));
 }
