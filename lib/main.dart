@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:social_ease_app/core/common/app/providers/user_provider.dart';
 import 'package:social_ease_app/core/res/colors.dart';
@@ -15,7 +16,10 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseUIAuth.configureProviders([EmailAuthProvider()]);
+
   await init();
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+
   runApp(const MyApp());
 }
 

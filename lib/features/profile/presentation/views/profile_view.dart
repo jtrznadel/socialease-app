@@ -11,19 +11,36 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: Colors.white,
-      appBar: const ProfileAppBar(),
+      appBar: ProfileAppBar(),
       body: GradientBackground(
-        image: MediaRes.onBoardingGradient,
-        child: ListView(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
+        image: MediaRes.dashboardGradient,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            children: [
+              ProfileHeader(),
+              Spacer(),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  children: [
+                    Text(
+                      'Version 0.0.1',
+                      style: TextStyle(
+                          fontSize: 12, color: AppColors.secondaryTextColor),
+                    ),
+                    Text(
+                      '© 2023-2024 jTrznadel. Icons by Icons8',
+                      style: TextStyle(
+                          fontSize: 12, color: AppColors.secondaryTextColor),
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
-          children: const [
-            ProfileHeader(),
-          ],
         ),
       ),
     );

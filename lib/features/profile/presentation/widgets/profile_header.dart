@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:social_ease_app/core/common/app/providers/user_provider.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
+import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
+import 'package:social_ease_app/features/profile/presentation/widgets/account_stats.dart';
+import 'package:social_ease_app/features/profile/presentation/widgets/social_buttons.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({super.key});
@@ -17,6 +22,7 @@ class ProfileHeader extends StatelessWidget {
                 ? null
                 : user.profileAvatar;
         return Column(
+          mainAxisSize: MainAxisSize.max,
           children: [
             image != null
                 ? CircleAvatar(
@@ -33,9 +39,12 @@ class ProfileHeader extends StatelessWidget {
               height: 20,
             ),
             Text(
-              user?.fullName ?? 'No User',
+              user?.fullName ?? 'Hey, Stranger',
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primaryTextColor),
             ),
             if (user?.bio != null && user!.bio!.isNotEmpty) ...[
               const SizedBox(
@@ -46,13 +55,19 @@ class ProfileHeader extends StatelessWidget {
                 child: Text(
                   user.bio!,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  style: const TextStyle(
+                      fontSize: 14, color: AppColors.secondaryTextColor),
                 ),
               ),
             ],
             const SizedBox(
               height: 15,
-            )
+            ),
+            const SocialButtons(),
+            const SizedBox(
+              height: 15,
+            ),
+            const AccountStats()
           ],
         );
       },

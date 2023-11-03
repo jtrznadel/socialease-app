@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_ease_app/core/res/colors.dart';
 
 class IField extends StatelessWidget {
   const IField({
@@ -11,6 +12,7 @@ class IField extends StatelessWidget {
     this.fillColour,
     this.suffixIcon,
     this.hintText,
+    this.labelText,
     this.keyboardType,
     this.hintStyle,
     this.overrideValidator = false,
@@ -24,6 +26,7 @@ class IField extends StatelessWidget {
   final bool readOnly;
   final Widget? suffixIcon;
   final String? hintText;
+  final String? labelText;
   final TextInputType? keyboardType;
   final bool overrideValidator;
   final TextStyle? hintStyle;
@@ -57,9 +60,13 @@ class IField extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(90),
           borderSide: BorderSide(
+            width: 2,
             color: Theme.of(context).primaryColor,
           ),
         ),
+        floatingLabelStyle: const TextStyle(color: AppColors.primaryColor),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        labelText: labelText,
         // overwriting the default padding helps with that puffy look
         contentPadding: const EdgeInsets.symmetric(horizontal: 20),
         filled: filled,
