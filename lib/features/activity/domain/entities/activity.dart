@@ -8,6 +8,7 @@ class Activity extends Equatable {
     required this.description,
     required this.location,
     required this.category,
+    required this.groupId,
     required this.createdAt,
     required this.updatedAt,
     required this.createdBy,
@@ -23,6 +24,7 @@ class Activity extends Equatable {
           description: '_empty.description',
           location: '_empty.location',
           category: ActivityCategory.charity,
+          groupId: '_empty.groupId',
           tags: const [],
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
@@ -34,6 +36,7 @@ class Activity extends Equatable {
   final String description;
   final String location;
   final ActivityCategory category;
+  final String groupId;
   final List<String> tags;
   final String? image;
   final bool imageIsFile;

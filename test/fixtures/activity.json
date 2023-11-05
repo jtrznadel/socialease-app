@@ -4,6 +4,7 @@
     "description": "_empty.description",
     "location": "_empty.location",
     "category": "charity",
+    "groupId": "_empty.groupId",
     "tags": [],
     "createdAt": {
         "_seconds": 1677483528,

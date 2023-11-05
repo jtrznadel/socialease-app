@@ -598,7 +598,7 @@ packages:
     source: hosted
     version: "5.6.4"
   google_sign_in_mocks:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: google_sign_in_mocks
       sha256: "09312785f1076b0646bb675a324355c33524bbdb760d1c6ebd5e4dcf04d9a343"
