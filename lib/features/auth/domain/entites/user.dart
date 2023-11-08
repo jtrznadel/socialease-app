@@ -29,6 +29,8 @@ class LocalUser extends Equatable {
   final String fullName;
   final List<String> groupIds;
 
+  bool get isAdmin => email == 'admin@socialease.com';
+
   @override
   List<Object?> get props =>
       [uid, email, profileAvatar, bio, points, fullName, groupIds.length];

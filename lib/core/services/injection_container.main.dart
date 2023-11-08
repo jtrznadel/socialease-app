@@ -5,6 +5,23 @@ final sl = GetIt.instance;
 Future<void> init() async {
   await _initAuth();
   await _initOnBoarding();
+  await _initActivity();
+}
+
+Future<void> _initActivity() async {
+  sl
+    ..registerFactory(
+        () => ActivityCubit(addActivity: sl(), getActivities: sl()))
+    ..registerLazySingleton(() => AddActivity(sl()))
+    ..registerLazySingleton(() => GetActivities(sl()))
+    ..registerLazySingleton<ActivityRepository>(
+        () => ActivityRepositoryImpl(sl()))
+    ..registerLazySingleton<ActivityRemoteDataSource>(
+        () => ActivityRemoteDataSourceImpl(
+              auth: sl(),
+              storage: sl(),
+              firestore: sl(),
+            ));
 }
 
 Future<void> _initOnBoarding() async {

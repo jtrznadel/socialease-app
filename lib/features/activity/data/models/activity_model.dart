@@ -60,6 +60,7 @@ class ActivityModel extends Activity {
     String? createdBy,
     List<String>? tags,
     String? image,
+    bool? imageIsFile,
   }) {
     return ActivityModel(
       id: id ?? this.id,
@@ -73,6 +74,7 @@ class ActivityModel extends Activity {
       createdBy: createdBy ?? this.createdBy,
       tags: tags ?? this.tags,
       image: image ?? this.image,
+      imageIsFile: imageIsFile ?? this.imageIsFile,
     );
   }
 

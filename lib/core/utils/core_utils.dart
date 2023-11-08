@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 
 class CoreUtils {
@@ -24,5 +27,15 @@ class CoreUtils {
           margin: const EdgeInsets.all(10),
         ),
       );
+  }
+
+  static Future<File?> pickImage() async {
+    final image = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
+    if (image != null) {
+      return File(image.path);
+    }
+    return null;
   }
 }

@@ -20,6 +20,10 @@ class MediaRes {
   //<-- PROFILE -->
   static const defaultAvatarImage = '$_baseImage/default_avatar_image.png';
 
+  //<-- ACTIVITY -->
+  static const defaultActivityBackground =
+      '$_baseImage/default_activity_background.png';
+
   //gradients
 
   static const onBoardingGradient = '$_baseImage/on_boarding_gradient.png';
