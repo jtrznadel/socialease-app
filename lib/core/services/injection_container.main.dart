@@ -11,7 +11,11 @@ Future<void> init() async {
 Future<void> _initActivity() async {
   sl
     ..registerFactory(
-        () => ActivityCubit(addActivity: sl(), getActivities: sl()))
+      () => ActivityCubit(
+        addActivity: sl(),
+        getActivities: sl(),
+      ),
+    )
     ..registerLazySingleton(() => AddActivity(sl()))
     ..registerLazySingleton(() => GetActivities(sl()))
     ..registerLazySingleton<ActivityRepository>(

@@ -515,11 +515,28 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.8"
+  flutter_switch:
+    dependency: "direct main"
+    description:
+      name: flutter_switch
+      sha256: b91477f926bba135d2d203d7b24367492662d8d9c3aa6adb960b14c1087d3c41
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_tindercard:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "1a42eae9ce2da6c6ef35f6687cf16b68dd94acb4"
+      url: "https://github.com/NonymousMorlock/flutter_tindercard.git"
+    source: git
+    version: "0.0.1"
   flutter_web_plugins:
     dependency: transitive
     description: flutter

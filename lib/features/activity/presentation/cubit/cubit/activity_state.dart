@@ -20,7 +20,7 @@ class ActivitiesLoaded extends ActivityState {
   List<Object> get props => [activities];
 }
 
-class AddingActivity extends ActivityState {}
+final class AddingActivity extends ActivityState {}
 
 class ActivityAdded extends ActivityState {}
 

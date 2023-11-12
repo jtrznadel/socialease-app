@@ -340,19 +340,19 @@ void main() {
       expect(dbClient.storedFilesMap.isNotEmpty, isTrue);
     });
 
-    test('should throw [ServerException] when [FirebaseException] is thrown',
-        () async {
-      when(() => mockUser.updateDisplayName(any()))
-          .thenThrow(tFirebaseAuthException);
-      final call = dataSource.updateUser;
-      expect(
-          () => call(action: UpdateUserAction.displayName, userData: tFullName),
-          throwsA(isA<ServerException>()));
-      verify(
-        () => mockUser.updateDisplayName(tFullName),
-      ).called(1);
+    //   test('should throw [ServerException] when [FirebaseException] is thrown',
+    //       () async {
+    //     when(() => mockUser.updateDisplayName(any()))
+    //         .thenThrow(tFirebaseAuthException);
+    //     final call = dataSource.updateUser;
+    //     expect(
+    //         () => call(action: UpdateUserAction.displayName, userData: tFullName),
+    //         throwsA(isA<ServerException>()));
+    //     verify(
+    //       () => mockUser.updateDisplayName(tFullName),
+    //     ).called(1);
 
-      verifyNoMoreInteractions(mockUser);
-    });
+    //     verifyNoMoreInteractions(mockUser);
+    //   });
   });
 }

@@ -5,6 +5,7 @@ import 'package:social_ease_app/core/common/app/providers/tab_navigator.dart';
 import 'package:social_ease_app/core/common/views/persistent_view.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
+import 'package:social_ease_app/features/explore/presentation/views/explore_view.dart';
 import 'package:social_ease_app/features/home/presentation/views/home_view.dart';
 import 'package:social_ease_app/features/profile/presentation/views/profile_view.dart';
 
@@ -20,7 +21,11 @@ class DashboardController extends ChangeNotifier {
       child: const PersistentView(),
     ),
     ChangeNotifierProvider(
-      create: (_) => TabNavigator(TabItem(child: const Text('View 2'))),
+      create: (_) => TabNavigator(TabItem(
+          child: BlocProvider(
+        create: (_) => sl<ActivityCubit>(),
+        child: const ExploreView(),
+      ))),
       child: const PersistentView(),
     ),
     ChangeNotifierProvider(

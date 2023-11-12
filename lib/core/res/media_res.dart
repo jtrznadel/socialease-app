@@ -3,6 +3,7 @@ class MediaRes {
 
   static const _baseImage = 'assets/images';
   static const _baseLottie = 'assets/lottie';
+  static const _categories = '$_baseImage/category_images';
 
   //images
 
@@ -23,6 +24,7 @@ class MediaRes {
   //<-- ACTIVITY -->
   static const defaultActivityBackground =
       '$_baseImage/default_activity_background.png';
+  static const activityOfTheDay = '$_baseImage/activityOTD.png';
 
   //gradients
 
@@ -31,4 +33,14 @@ class MediaRes {
 
   //lotties
   static const underConstruction = '$_baseLottie/under_construction.json';
+
+  //categories
+  static const animalWelfare = '$_categories/animal_welfare.png';
+  static const charity = '$_categories/charity.png';
+  static const disasterRelief = '$_categories/disaster_relief.png';
+  static const education = '$_categories/education.png';
+  static const elderlyCare = '$_categories/elderly_care.png';
+  static const environment = '$_categories/environment.png';
+  static const foodAndHunger = '$_categories/food_and_hunger.png';
+  static const homelessness = '$_categories/homelessness.png';
 }

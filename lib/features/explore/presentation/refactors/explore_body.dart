@@ -1,21 +1,21 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_ease_app/core/common/app/providers/activity_of_the_day_notifier.dart';
+import 'package:provider/provider.dart';
+import 'package:social_ease_app/core/common/app/providers/explore_activities_type_notifier.dart';
 import 'package:social_ease_app/core/common/views/loading_view.dart';
 import 'package:social_ease_app/core/res/colors.dart';
-import 'package:social_ease_app/core/utils/core_utils.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
-import 'package:social_ease_app/features/home/presentation/refactors/home_categories.dart';
-import 'package:social_ease_app/features/home/presentation/refactors/home_header.dart';
+import 'package:social_ease_app/features/explore/presentation/refactors/explore_list.dart';
+import 'package:social_ease_app/features/explore/presentation/refactors/explore_map.dart';
 
-class HomeBody extends StatefulWidget {
-  const HomeBody({super.key});
+class ExploreBody extends StatefulWidget {
+  const ExploreBody({super.key});
 
   @override
-  State<HomeBody> createState() => _HomeBodyState();
+  State<ExploreBody> createState() => _ExploreBodyState();
 }
 
-class _HomeBodyState extends State<HomeBody> {
+class _ExploreBodyState extends State<ExploreBody> {
   void getActivities() {
     context.read<ActivityCubit>().getActivities();
   }
@@ -28,19 +28,8 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ActivityCubit, ActivityState>(
-      listener: (_, state) {
-        if (state is ActivityError) {
-          CoreUtils.showSnackBar(context, state.message);
-        } else if (state is ActivitiesLoaded && state.activities.isNotEmpty) {
-          final activities = state.activities..shuffle();
-          final activityOfTheDay = activities.first;
-          context
-              .read<ActivityOfTheDayNotifier>()
-              .setActivityOfTheDay(activityOfTheDay);
-        }
-      },
-      builder: ((context, state) {
+    return BlocBuilder<ActivityCubit, ActivityState>(
+      builder: (context, state) {
         if (state is LoadingActivities) {
           return const LoadingView();
         } else if (state is ActivitiesLoaded && state.activities.isEmpty ||
@@ -60,16 +49,19 @@ class _HomeBodyState extends State<HomeBody> {
             ),
           );
         } else if (state is ActivitiesLoaded) {
-          return ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            children: const [
-              HomeHeader(),
-              HomeCategories(),
-            ],
+          final activities = state.activities;
+          return Consumer<ExploreActivitiesTypeNotifier>(
+            builder: (_, provider, __) {
+              bool exploreType = provider.exploreType;
+              if (exploreType) {
+                return ExploreMap(activities: activities);
+              }
+              return ExploreList(activities: activities);
+            },
           );
         }
         return const SizedBox.shrink();
-      }),
+      },
     );
   }
 }

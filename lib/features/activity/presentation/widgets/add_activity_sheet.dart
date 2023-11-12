@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/common/widgets/i_field.dart';
+import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/core/utils/core_utils.dart';
@@ -56,7 +57,7 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
             CoreUtils.showSnackBar(context, state.message);
           } else if (state is AddingActivity) {
             loading = true;
-            Navigator.pop(context);
+            CoreUtils.showLoadingDialog(context);
           } else if (state is ActivityAdded) {
             if (loading) {
               loading = false;
@@ -170,6 +171,7 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                                 createdAt: now,
                                 updatedAt: now,
                                 imageIsFile: isFile,
+                                createdBy: context.currentUser!.uid,
                               );
                               context
                                   .read<ActivityCubit>()

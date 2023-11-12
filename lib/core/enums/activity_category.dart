@@ -1,10 +1,10 @@
 enum ActivityCategory {
-  environment,
   charity,
   animalWelfare,
   foodAndHunger,
-  education,
+  disasterRelief,
   elderlyCare,
   homelessness,
-  disasterRelief
+  education,
+  environment,
 }

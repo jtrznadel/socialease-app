@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:social_ease_app/core/common/app/providers/activity_of_the_day_notifier.dart';
+import 'package:social_ease_app/core/common/app/providers/explore_activities_type_notifier.dart';
 import 'package:social_ease_app/core/common/app/providers/user_provider.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
@@ -34,14 +35,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => DashboardController()),
         ChangeNotifierProvider(create: (_) => ActivityOfTheDayNotifier()),
+        ChangeNotifierProvider(create: (_) => ExploreActivitiesTypeNotifier()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: '.socialEase',
         theme: ThemeData(
             visualDensity: VisualDensity.adaptivePlatformDensity,
-            colorScheme:
-                ColorScheme.fromSwatch(accentColor: AppColors.primaryColor),
+            colorScheme: ColorScheme.fromSwatch(accentColor: Colors.white),
             useMaterial3: true,
             appBarTheme: const AppBarTheme(color: Colors.transparent),
             scaffoldBackgroundColor: Colors.white),

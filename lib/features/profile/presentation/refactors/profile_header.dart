@@ -27,7 +27,6 @@ class ProfileHeader extends StatelessWidget {
                 ? null
                 : user.profileAvatar;
         return Column(
-          mainAxisSize: MainAxisSize.max,
           children: [
             image != null
                 ? CircleAvatar(
@@ -78,7 +77,7 @@ class ProfileHeader extends StatelessWidget {
             ),
             if (!context.currentUser!.isAdmin) ...[
               ProfileActionButton(
-                label: 'Request a Activity',
+                label: 'Request an Activity',
                 icon: Icons.post_add,
                 onPressed: () {
                   showModalBottomSheet(
@@ -94,7 +93,12 @@ class ProfileHeader extends StatelessWidget {
                     ),
                   );
                 },
-              )
+              ),
+              ProfileActionButton(
+                label: 'Register an Organization',
+                icon: Icons.diversity_3_outlined,
+                onPressed: () {},
+              ),
             ] else ...[
               ProfileActionButton(
                 label: 'Manage requests',

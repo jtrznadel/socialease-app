@@ -29,6 +29,16 @@ class CoreUtils {
       );
   }
 
+  static void showLoadingDialog(BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
   static Future<File?> pickImage() async {
     final image = await ImagePicker().pickImage(
       source: ImageSource.gallery,
