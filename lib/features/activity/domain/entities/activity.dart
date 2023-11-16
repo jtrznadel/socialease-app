@@ -13,6 +13,7 @@ class Activity extends Equatable {
     required this.updatedAt,
     required this.createdBy,
     required this.tags,
+    this.status = "new",
     this.image,
     this.imageIsFile = false,
   });
@@ -40,6 +41,7 @@ class Activity extends Equatable {
   final List<String> tags;
   final String? image;
   final bool imageIsFile;
+  final String status;
   final DateTime createdAt;
   final DateTime updatedAt;
   final String createdBy;

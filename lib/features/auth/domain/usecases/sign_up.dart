@@ -3,7 +3,7 @@ import 'package:social_ease_app/core/usecases/usecases.dart';
 import 'package:social_ease_app/core/utils/typedefs.dart';
 import 'package:social_ease_app/features/auth/domain/repositories/auth_repository.dart';
 
-class SignUp extends UsecaseWithParams<void, SignUpParams> {
+class SignUp extends FutureUsecaseWithParams<void, SignUpParams> {
   const SignUp(this._repo);
 
   final AuthRepository _repo;

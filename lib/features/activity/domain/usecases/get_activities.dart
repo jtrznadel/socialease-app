@@ -3,7 +3,7 @@ import 'package:social_ease_app/core/utils/typedefs.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/domain/repositories/activity_repository.dart';
 
-class GetActivities extends UsecaseWithoutParams<List<Activity>> {
+class GetActivities extends FutureUsecaseWithoutParams<List<Activity>> {
   const GetActivities(this._repo);
 
   final ActivityRepository _repo;

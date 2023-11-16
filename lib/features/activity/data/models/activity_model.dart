@@ -15,6 +15,7 @@ class ActivityModel extends Activity {
     required super.updatedAt,
     required super.createdBy,
     required super.tags,
+    super.status = "new",
     super.image,
     super.imageIsFile = false,
   });
@@ -35,18 +36,18 @@ class ActivityModel extends Activity {
 
   ActivityModel.fromMap(DataMap map)
       : super(
-          id: map['id'] as String,
-          title: map['title'] as String,
-          description: map['description'] as String,
-          location: map['location'] as String,
-          category: ActivityCategory.values.byName(map['category']),
-          groupId: map['groupId'] as String,
-          createdAt: (map['createdAt'] as Timestamp).toDate(),
-          updatedAt: (map['updatedAt'] as Timestamp).toDate(),
-          createdBy: map['createdBy'] as String,
-          tags: (map['tags'] as List<dynamic>).cast<String>(),
-          image: map['image'] as String?,
-        );
+            id: map['id'] as String,
+            title: map['title'] as String,
+            description: map['description'] as String,
+            location: map['location'] as String,
+            category: ActivityCategory.values.byName(map['category']),
+            groupId: map['groupId'] as String,
+            createdAt: (map['createdAt'] as Timestamp).toDate(),
+            updatedAt: (map['updatedAt'] as Timestamp).toDate(),
+            createdBy: map['createdBy'] as String,
+            tags: (map['tags'] as List<dynamic>).cast<String>(),
+            image: map['image'] as String?,
+            status: map['status'] as String);
 
   ActivityModel copyWith({
     String? id,
@@ -61,6 +62,7 @@ class ActivityModel extends Activity {
     List<String>? tags,
     String? image,
     bool? imageIsFile,
+    String? status,
   }) {
     return ActivityModel(
       id: id ?? this.id,
@@ -75,6 +77,7 @@ class ActivityModel extends Activity {
       tags: tags ?? this.tags,
       image: image ?? this.image,
       imageIsFile: imageIsFile ?? this.imageIsFile,
+      status: status ?? this.status,
     );
   }
 
@@ -90,5 +93,6 @@ class ActivityModel extends Activity {
         'createdBy': createdBy,
         'tags': tags,
         'image': image,
+        'status': status,
       };
 }

@@ -15,5 +15,6 @@
         "_nanoseconds": 123456000
     },
     "createdBy": "_empty.createdBy",
-    "image": null
+    "image": null,
+    "status": "new"
 }

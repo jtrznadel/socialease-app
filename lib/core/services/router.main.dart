@@ -43,8 +43,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Dashboard.routeName:
       return _pageBuilder((_) => const Dashboard(), settings: settings);
     case RequestsManagementScreen.routeName:
-      return _pageBuilder((_) => const RequestsManagementScreen(),
-          settings: settings);
+      return _pageBuilder(
+        (_) => BlocProvider(
+          create: (_) => sl<ActivityCubit>(),
+          child: const RequestsManagementScreen(),
+        ),
+        settings: settings,
+      );
     case ActivityDetailsScreen.routeName:
       return _pageBuilder(
           (_) => ActivityDetailsScreen(settings.arguments as Activity),
