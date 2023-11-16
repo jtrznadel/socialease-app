@@ -29,7 +29,7 @@ class _TinderCardsState extends State<TinderCards>
           maxWidth: context.width,
           maxHeight: context.width * .9,
           minWidth: context.width * .71,
-          minHeight: context.width * .85,
+          minHeight: context.width * .6,
           cardController: cardController,
           allowSwipe: false,
           swipeUpdateCallback:
@@ -60,12 +60,12 @@ class _TinderCardsState extends State<TinderCards>
                 ),
                 if (isFirst)
                   Positioned(
-                      bottom: 130,
-                      right: 20,
+                      bottom: 85,
+                      right: -20,
                       child: Image.asset(
                         MediaRes.activityOfTheDay,
                         height: 180,
-                        width: 149,
+                        width: 150,
                       ))
               ],
             );

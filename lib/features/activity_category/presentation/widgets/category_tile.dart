@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:social_ease_app/core/enums/activity_category.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
-import 'package:social_ease_app/features/activity_category/category_info_mapper.dart';
 
 class CategoryTile extends StatelessWidget {
   const CategoryTile({
     Key? key,
     required this.category,
     this.onTap,
+    required this.primaryColor,
+    required this.secondaryColor,
   }) : super(key: key);
 
-  final CategoryInfo category;
+  final ActivityCategory category;
   final VoidCallback? onTap;
+  final Color primaryColor;
+  final Color secondaryColor;
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +27,17 @@ class CategoryTile extends StatelessWidget {
         width: context.width * .3,
         height: context.width * .3,
         decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+                offset: const Offset(2, 4),
+                blurRadius: 10,
+                color: Colors.black.withOpacity(.5))
+          ],
           borderRadius: BorderRadius.circular(15),
-          gradient: const LinearGradient(
+          gradient: LinearGradient(
             colors: [
-              AppColors.primaryColor,
-              AppColors.secondaryColor,
+              primaryColor,
+              secondaryColor,
             ],
             end: Alignment.topLeft,
             begin: Alignment.bottomRight,
@@ -42,7 +52,7 @@ class CategoryTile extends StatelessWidget {
               height: 70, // Adjusted height to stick out
             ),
             Text(
-              category.name,
+              category.label,
               textAlign: TextAlign.center,
             ),
           ],

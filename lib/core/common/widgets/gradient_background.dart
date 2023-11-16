@@ -12,9 +12,14 @@ class GradientBackground extends StatelessWidget {
     return Container(
       constraints: const BoxConstraints.expand(),
       decoration: BoxDecoration(
-        image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
+        image: DecorationImage(
+          image: AssetImage(image),
+          fit: BoxFit.cover,
+        ),
       ),
-      child: SafeArea(child: child),
+      child: SafeArea(
+        child: child,
+      ),
     );
   }
 }

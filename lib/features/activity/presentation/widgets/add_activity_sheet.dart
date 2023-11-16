@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/common/widgets/i_field.dart';
+import 'package:social_ease_app/core/enums/activity_category.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/core/utils/core_utils.dart';
 import 'package:social_ease_app/features/activity/data/models/activity_model.dart';
@@ -18,6 +20,7 @@ class AddActivitySheet extends StatefulWidget {
 }
 
 class _AddActivitySheetState extends State<AddActivitySheet> {
+  ActivityCategory selectedCategory = ActivityCategory.charity;
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final imageController = TextEditingController();
@@ -153,6 +156,35 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                   const SizedBox(
                     height: 30,
                   ),
+                  DropdownButton<ActivityCategory>(
+                    value: selectedCategory,
+                    onChanged: (ActivityCategory? newValue) {
+                      setState(() {
+                        selectedCategory = newValue ?? ActivityCategory.charity;
+                      });
+                    },
+                    items: ActivityCategory.values.map((category) {
+                      return DropdownMenuItem<ActivityCategory>(
+                        value: category,
+                        child: Text(category.label),
+                      );
+                    }).toList(),
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontFamily: Fonts.montserrat),
+                    underline: Container(
+                      height: 2,
+                      color: AppColors.primaryColor,
+                    ),
+                    dropdownColor: AppColors.bgColor,
+                    icon: const Icon(Icons.arrow_drop_down),
+                    iconSize: 36,
+                    isExpanded: true,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
                   Row(
                     children: [
                       Expanded(
@@ -168,6 +200,7 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                                     : isFile
                                         ? image!.path
                                         : imageController.text.trim(),
+                                category: selectedCategory,
                                 createdAt: now,
                                 updatedAt: now,
                                 imageIsFile: isFile,

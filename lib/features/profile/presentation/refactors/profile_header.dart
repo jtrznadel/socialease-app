@@ -10,6 +10,7 @@ import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/activity/presentation/widgets/add_activity_sheet.dart';
+import 'package:social_ease_app/features/admin_panel/presentation/views/requests_management.dart';
 import 'package:social_ease_app/features/profile/presentation/widgets/account_stats.dart';
 import 'package:social_ease_app/features/profile/presentation/widgets/profile_action_button.dart';
 import 'package:social_ease_app/features/profile/presentation/widgets/social_buttons.dart';
@@ -67,15 +68,15 @@ class ProfileHeader extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            const SocialButtons(),
-            const SizedBox(
-              height: 15,
-            ),
-            const AccountStats(),
-            const SizedBox(
-              height: 15,
-            ),
             if (!context.currentUser!.isAdmin) ...[
+              const SocialButtons(),
+              const SizedBox(
+                height: 15,
+              ),
+              const AccountStats(),
+              const SizedBox(
+                height: 15,
+              ),
               ProfileActionButton(
                 label: 'Request an Activity',
                 icon: Icons.post_add,
@@ -100,8 +101,66 @@ class ProfileHeader extends StatelessWidget {
                 onPressed: () {},
               ),
             ] else ...[
+              const Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      color: Colors.black,
+                      height: 2,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      'ADMIN PANEL',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      color: Colors.black,
+                      height: 2,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               ProfileActionButton(
-                label: 'Manage requests',
+                label: 'Users Management',
+                icon: Icons.manage_accounts,
+                onPressed: () {},
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ProfileActionButton(
+                label: 'Requests Management',
+                numberToCheck: 2,
+                icon: Icons.manage_history,
+                onPressed: () => Navigator.of(context).pushNamed(
+                  RequestsManagementScreen.routeName,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ProfileActionButton(
+                label: 'Reports Management',
+                numberToCheck: 5,
+                icon: Icons.manage_search,
+                onPressed: () {},
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ProfileActionButton(
+                label: 'Manage ',
                 icon: Icons.manage_accounts,
                 onPressed: () {},
               ),

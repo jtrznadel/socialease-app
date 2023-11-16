@@ -5,7 +5,6 @@ import 'package:social_ease_app/core/enums/activity_category.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
-import 'package:social_ease_app/features/activity_category/category_info_mapper.dart';
 import 'package:social_ease_app/features/activity_category/presentation/widgets/category_tile.dart';
 
 class AllCategoriesView extends StatelessWidget {
@@ -60,7 +59,9 @@ class AllCategoriesView extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) {
                       final category = categories[index];
                       return CategoryTile(
-                        category: CategoryInfoMapper.categoryInfo[category]!,
+                        primaryColor: AppColors.primaryColor,
+                        secondaryColor: AppColors.bgColor,
+                        category: category,
                         onTap: () => Navigator.of(context)
                             .pushNamed('/unknown', arguments: category),
                       );

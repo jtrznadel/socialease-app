@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:social_ease_app/features/activity_category/category_info_mapper.dart';
 import 'package:social_ease_app/features/activity_category/presentation/widgets/category_tile.dart';
 import 'package:social_ease_app/core/enums/activity_category.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
@@ -40,8 +39,14 @@ class HomeCategories extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: categories
               .take(3)
+              .toList()
+              .asMap()
+              .entries
               .map((category) => CategoryTile(
-                    category: CategoryInfoMapper.categoryInfo[category]!,
+                    primaryColor: AppColors.primaryColor,
+                    secondaryColor:
+                        category.key == 0 ? Colors.white : AppColors.bgColor,
+                    category: category.value,
                     onTap: (() => context.push(const ActivitiesListView())),
                   ))
               .toList(),

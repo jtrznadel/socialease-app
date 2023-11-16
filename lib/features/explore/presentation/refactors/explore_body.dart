@@ -5,8 +5,8 @@ import 'package:social_ease_app/core/common/app/providers/explore_activities_typ
 import 'package:social_ease_app/core/common/views/loading_view.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
-import 'package:social_ease_app/features/explore/presentation/refactors/explore_list.dart';
-import 'package:social_ease_app/features/explore/presentation/refactors/explore_map.dart';
+import 'package:social_ease_app/features/activity/presentation/refactors/activities_list.dart';
+import 'package:social_ease_app/features/activity/presentation/refactors/activities_map.dart';
 
 class ExploreBody extends StatefulWidget {
   const ExploreBody({super.key});

@@ -41,10 +41,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               ),
           settings: settings);
     case Dashboard.routeName:
+      return _pageBuilder((_) => const Dashboard(), settings: settings);
+    case RequestsManagementScreen.routeName:
+      return _pageBuilder((_) => const RequestsManagementScreen(),
+          settings: settings);
+    case ActivityDetailsScreen.routeName:
       return _pageBuilder(
-        (_) => const Dashboard(),
-        settings: settings,
-      );
+          (_) => ActivityDetailsScreen(settings.arguments as Activity),
+          settings: settings);
     case '/forgot-password':
       return _pageBuilder((_) => const fui.ForgotPasswordScreen(),
           settings: settings);

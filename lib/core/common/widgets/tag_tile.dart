@@ -18,7 +18,10 @@ class TagTile extends StatelessWidget {
             color: Colors.black,
             width: 1,
           )),
-      child: Text(tag),
+      child: Text(
+        tag,
+        style: const TextStyle(fontSize: 12),
+      ),
     );
   }
 }

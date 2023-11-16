@@ -11,7 +11,7 @@ class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 240,
+      height: 210,
       child: Stack(
         children: [
           RichText(

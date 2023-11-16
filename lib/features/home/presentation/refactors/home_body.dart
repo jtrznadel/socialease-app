@@ -6,6 +6,7 @@ import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/utils/core_utils.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/home/presentation/refactors/home_categories.dart';
+import 'package:social_ease_app/features/home/presentation/refactors/home_favorites.dart';
 import 'package:social_ease_app/features/home/presentation/refactors/home_header.dart';
 
 class HomeBody extends StatefulWidget {
@@ -65,6 +66,7 @@ class _HomeBodyState extends State<HomeBody> {
             children: const [
               HomeHeader(),
               HomeCategories(),
+              HomeFavorites(),
             ],
           );
         }
