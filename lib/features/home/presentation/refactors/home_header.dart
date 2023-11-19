@@ -14,24 +14,25 @@ class HomeHeader extends StatelessWidget {
       height: 210,
       child: Stack(
         children: [
-          RichText(
-            text: TextSpan(
-                text: 'Hello, ',
-                style: const TextStyle(
-                    fontSize: 26,
-                    color: AppColors.primaryTextColor,
-                    fontWeight: FontWeight.w400),
-                children: [
-                  TextSpan(
-                    text: (context.watch<UserProvider>().user!.fullName)
-                        .split(' ')[0],
-                    style: const TextStyle(
-                      fontSize: 38,
-                      color: AppColors.primaryColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  )
-                ]),
+          const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Activity on FIRE!',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Text(
+                'Check out trending activity',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.secondaryTextColor,
+                ),
+              ),
+            ],
           ),
           Positioned(
             top: context.height >= 926

@@ -119,11 +119,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         case UpdateUserAction.profileAvatar:
           final ref = _dbClient
               .ref()
-              .child('profile_pics/${_authClient.currentUser?.uid}');
+              .child('profile_avatars/${_authClient.currentUser?.uid}');
           await ref.putFile(userData as File);
           final url = await ref.getDownloadURL();
           await _authClient.currentUser?.updatePhotoURL(url);
-          await _updateUserData({'profilePic': url});
+          await _updateUserData({'profileAvatar': url});
         case UpdateUserAction.password:
           if (_authClient.currentUser?.email == null) {
             throw const ServerException(

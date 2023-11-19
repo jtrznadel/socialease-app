@@ -8,4 +8,5 @@ class AppColors {
   static const bgColor = Color(0xFFF7FBFC);
   static const primaryTextColor = Colors.black;
   static const secondaryTextColor = Color(0xFF808080);
+  static const fieldInputColor = Color(0xFFe8eced);
 }

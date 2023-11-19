@@ -6,6 +6,31 @@ Future<void> init() async {
   await _initAuth();
   await _initOnBoarding();
   await _initActivity();
+  await _initChat();
+}
+
+Future<void> _initChat() async {
+  sl
+    ..registerFactory(
+      () => ChatCubit(
+        getGroups: sl(),
+        getMessages: sl(),
+        getUserById: sl(),
+        joinGroup: sl(),
+        leaveGroup: sl(),
+        sendMessage: sl(),
+      ),
+    )
+    ..registerLazySingleton(() => GetGroups(sl()))
+    ..registerLazySingleton(() => GetMessages(sl()))
+    ..registerLazySingleton(() => GetUserById(sl()))
+    ..registerLazySingleton(() => JoinGroup(sl()))
+    ..registerLazySingleton(() => LeaveGroup(sl()))
+    ..registerLazySingleton(() => SendMessage(sl()))
+    ..registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(sl()))
+    ..registerLazySingleton<ChatRemoteDataSource>(
+      () => ChatRemoteDataSourceImpl(firestore: sl(), auth: sl()),
+    );
 }
 
 Future<void> _initActivity() async {

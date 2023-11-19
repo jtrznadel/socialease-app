@@ -5,6 +5,8 @@ import 'package:social_ease_app/core/common/app/providers/tab_navigator.dart';
 import 'package:social_ease_app/core/common/views/persistent_view.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
+import 'package:social_ease_app/features/chat/presentation/cubit/chat_cubit.dart';
+import 'package:social_ease_app/features/chat/presentation/views/chats_view.dart';
 import 'package:social_ease_app/features/explore/presentation/views/explore_view.dart';
 import 'package:social_ease_app/features/home/presentation/views/home_view.dart';
 import 'package:social_ease_app/features/profile/presentation/views/profile_view.dart';
@@ -29,7 +31,11 @@ class DashboardController extends ChangeNotifier {
       child: const PersistentView(),
     ),
     ChangeNotifierProvider(
-      create: (_) => TabNavigator(TabItem(child: const Text('View 3'))),
+      create: (_) => TabNavigator(TabItem(
+          child: BlocProvider(
+        create: (_) => sl<ChatCubit>(),
+        child: const ChatsView(),
+      ))),
       child: const PersistentView(),
     ),
     ChangeNotifierProvider(

@@ -16,7 +16,6 @@ class HomeCategories extends StatelessWidget {
     const List<ActivityCategory> categories = ActivityCategory.values;
 
     return Column(
-      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionHeader(

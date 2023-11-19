@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_ease_app/core/common/views/loading_view.dart';
 import 'package:social_ease_app/core/common/widgets/expandable_text.dart';
 import 'package:social_ease_app/core/common/widgets/gradient_background.dart';
 import 'package:social_ease_app/core/common/widgets/tag_tile.dart';
@@ -6,7 +8,10 @@ import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
+import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
+import 'package:social_ease_app/features/activity/presentation/widgets/activity_action_button.dart';
+import 'package:social_ease_app/features/chat/presentation/cubit/chat_cubit.dart';
 
 class ActivityDetailsScreen extends StatelessWidget {
   const ActivityDetailsScreen(this.activity, {super.key});
@@ -174,17 +179,9 @@ class ActivityDetailsScreen extends StatelessWidget {
             left: 20,
             child: SizedBox(
               width: context.width,
-              child: FloatingActionButton(
-                  backgroundColor: AppColors.primaryColor,
-                  onPressed: () {
-                    // Handle Join Activity button press
-                  },
-                  child: Text('Join Activity',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: Fonts.montserrat,
-                      ))),
+              child: ActivityActionButton(
+                activity: activity,
+              ),
             ),
           ),
         ],
