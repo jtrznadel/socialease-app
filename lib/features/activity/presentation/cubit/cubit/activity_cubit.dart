@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/add_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/get_activities.dart';
+import 'package:social_ease_app/features/auth/domain/entites/user.dart';
 
 part 'activity_state.dart';
 

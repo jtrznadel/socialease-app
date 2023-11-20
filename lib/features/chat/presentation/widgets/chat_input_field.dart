@@ -68,7 +68,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
                     );
               },
               icon: const Icon(
-                Icons.message_outlined,
+                Icons.send,
               ),
               padding: EdgeInsets.zero,
             ),

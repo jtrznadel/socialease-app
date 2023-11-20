@@ -43,4 +43,7 @@ class MediaRes {
   static const environment = '$_categories/environment.png';
   static const foodAndHunger = '$_categories/food_and_hunger.png';
   static const homelessness = '$_categories/homelessness.png';
+
+  //TEMP
+  static const testMap = '$_baseImage/map_temp.jpg';
 }

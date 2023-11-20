@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_ease_app/core/common/app/providers/favorite_activities_notifier.dart';
-import 'package:social_ease_app/core/common/widgets/tag_tile.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
@@ -34,7 +33,7 @@ class ActivityTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: context.width,
-        height: context.height * .26,
+        height: context.height * .25,
         decoration: BoxDecoration(
           color: AppColors.thirdColor,
           borderRadius: BorderRadius.circular(20),
@@ -42,6 +41,12 @@ class ActivityTile extends StatelessWidget {
             image: image,
             fit: BoxFit.cover,
           ),
+          boxShadow: const [
+            BoxShadow(
+              offset: Offset(0, 2),
+              blurRadius: 2,
+            ),
+          ],
         ),
         child: Column(
           children: [
@@ -76,13 +81,21 @@ class ActivityTile extends StatelessWidget {
                             const SizedBox(
                               width: 5,
                             ),
-                            Text(
-                              name,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: Fonts.montserrat,
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 3, horizontal: 5),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(.8),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text(
+                                name,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: Fonts.montserrat,
+                                ),
                               ),
                             ),
                           ],

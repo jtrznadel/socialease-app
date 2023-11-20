@@ -4,6 +4,7 @@ import 'package:social_ease_app/core/common/app/providers/activity_of_the_day_no
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
+import 'package:social_ease_app/core/utils/constants.dart';
 
 class TinderCard extends StatelessWidget {
   const TinderCard({super.key, required this.isFirst, this.color});
@@ -18,14 +19,19 @@ class TinderCard extends StatelessWidget {
       height: 137,
       padding: const EdgeInsets.only(left: 20),
       decoration: BoxDecoration(
-        gradient: isFirst
-            ? const LinearGradient(
-                colors: [
-                  AppColors.primaryColor,
-                  AppColors.secondaryColor,
-                ],
-              )
-            : null,
+        image: DecorationImage(
+          image: context
+                      .read<ActivityOfTheDayNotifier>()
+                      .activityOfTheDay
+                      ?.image !=
+                  null
+              ? NetworkImage(context
+                  .read<ActivityOfTheDayNotifier>()
+                  .activityOfTheDay!
+                  .image!) as ImageProvider
+              : const AssetImage(MediaRes.defaultActivityBackground),
+          fit: BoxFit.cover,
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(.3),
@@ -36,21 +42,46 @@ class TinderCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(25),
       ),
       child: isFirst
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  '${context.read<ActivityOfTheDayNotifier>().activityOfTheDay?.title}',
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
+          ? Container(
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(.8),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    '${context.read<ActivityOfTheDayNotifier>().activityOfTheDay?.title}',
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                    ),
                   ),
-                ),
-                const Text('SDS')
-              ],
+                  Text(
+                    '${context.read<ActivityOfTheDayNotifier>().activityOfTheDay?.category.label}',
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    '${context.read<ActivityOfTheDayNotifier>().activityOfTheDay?.description.substring(0, 25)}...',
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
             )
           : null,
     );

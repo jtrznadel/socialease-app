@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:social_ease_app/core/enums/activity_category.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
-import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 
 class CategoryTile extends StatelessWidget {
@@ -47,9 +46,9 @@ class CategoryTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset(
-              category.image ?? MediaRes.charity,
-              width: 60, // Adjusted width to stick out
-              height: 70, // Adjusted height to stick out
+              category.image,
+              width: 60,
+              height: 70,
             ),
             Text(
               category.label,

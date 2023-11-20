@@ -4,8 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:social_ease_app/core/errors/exceptions.dart';
+import 'package:social_ease_app/core/utils/datasource_utils.dart';
 import 'package:social_ease_app/features/activity/data/models/activity_model.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
+import 'package:social_ease_app/features/auth/data/models/user_model.dart';
 import 'package:social_ease_app/features/chat/data/models/group_model.dart';
 
 abstract class ActivityRemoteDataSource {

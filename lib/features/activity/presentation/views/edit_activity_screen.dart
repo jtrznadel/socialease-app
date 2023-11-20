@@ -8,10 +8,10 @@ import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/presentation/widgets/activity_action_button.dart';
 
-class ActivityDetailsScreen extends StatelessWidget {
-  const ActivityDetailsScreen(this.activity, {super.key});
+class EditActivityScreen extends StatelessWidget {
+  const EditActivityScreen(this.activity, {super.key});
 
-  static const routeName = '/activity-details';
+  static const routeName = '/edit-activity';
 
   final Activity activity;
 
@@ -20,7 +20,7 @@ class ActivityDetailsScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Activity Details'),
+        title: const Text('Edit Activity'),
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -173,11 +173,51 @@ class ActivityDetailsScreen extends StatelessWidget {
             right: 20,
             left: 20,
             child: SizedBox(
-              width: context.width,
-              child: ActivityActionButton(
-                activity: activity,
-              ),
-            ),
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Row(
+                    children: [
+                      Icon(
+                        Icons.edit_document,
+                        color: Colors.blue,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        'Edit',
+                        style: TextStyle(
+                          color: Colors.blue,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Row(
+                    children: [
+                      Icon(
+                        Icons.remove_circle_outline,
+                        color: Colors.red,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        'Remove',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            )),
           ),
         ],
       ),

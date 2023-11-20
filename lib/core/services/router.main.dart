@@ -50,9 +50,21 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         ),
         settings: settings,
       );
+    case ActivitiesManagementScreen.routeName:
+      return _pageBuilder(
+        (_) => BlocProvider(
+          create: (_) => sl<ActivityCubit>(),
+          child: const ActivitiesManagementScreen(),
+        ),
+        settings: settings,
+      );
     case ActivityDetailsScreen.routeName:
       return _pageBuilder(
           (_) => ActivityDetailsScreen(settings.arguments as Activity),
+          settings: settings);
+    case EditActivityScreen.routeName:
+      return _pageBuilder(
+          (_) => EditActivityScreen(settings.arguments as Activity),
           settings: settings);
     case '/forgot-password':
       return _pageBuilder((_) => const fui.ForgotPasswordScreen(),

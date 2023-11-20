@@ -33,5 +33,4 @@ import 'package:social_ease_app/features/on_boarding/domain/repositories/on_boar
 import 'package:social_ease_app/features/on_boarding/domain/usecases/cache_first_timer.dart';
 import 'package:social_ease_app/features/on_boarding/domain/usecases/check_if_user_is_first_timer.dart';
 import 'package:social_ease_app/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
-
 part 'injection_container.main.dart';

@@ -28,11 +28,14 @@ class ExploreAppBar extends StatelessWidget implements PreferredSizeWidget {
             width: 80,
             showOnOff: true,
             value: context.watch<ExploreActivitiesTypeNotifier>().exploreType,
-            activeIcon: const Icon(Icons.map),
+            activeIcon: const Icon(
+              Icons.explore_outlined,
+            ),
             activeText: "MAP",
-            inactiveIcon: const Icon(Icons.list),
+            inactiveIcon: const Icon(Icons.format_list_bulleted),
             inactiveText: "LIST",
-            inactiveColor: Colors.blue,
+            inactiveColor: Colors.grey,
+            activeColor: AppColors.primaryColor,
             activeTextFontWeight: FontWeight.normal,
             inactiveTextFontWeight: FontWeight.normal,
             onToggle: (val) {

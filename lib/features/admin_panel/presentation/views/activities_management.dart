@@ -1,24 +1,28 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/common/views/loading_view.dart';
 import 'package:social_ease_app/core/common/widgets/gradient_background.dart';
+import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
-
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
-import 'package:social_ease_app/features/admin_panel/presentation/widgets/request_viewer.dart';
+import 'package:social_ease_app/features/activity/presentation/views/activity_details_screen.dart';
+import 'package:social_ease_app/features/activity/presentation/views/edit_activity_screen.dart';
+import 'package:social_ease_app/features/activity/presentation/widgets/activity_tile.dart';
 
-class RequestsManagementScreen extends StatefulWidget {
-  const RequestsManagementScreen({super.key});
+class ActivitiesManagementScreen extends StatefulWidget {
+  const ActivitiesManagementScreen({super.key});
 
-  static const routeName = '/request-management';
+  static const routeName = "/activities-management";
 
   @override
-  State<RequestsManagementScreen> createState() =>
-      _RequestsManagementScreenState();
+  State<ActivitiesManagementScreen> createState() =>
+      _ActivitiesManagementScreenState();
 }
 
-class _RequestsManagementScreenState extends State<RequestsManagementScreen> {
+class _ActivitiesManagementScreenState
+    extends State<ActivitiesManagementScreen> {
   void getActivities() {
     context.read<ActivityCubit>().getActivities();
   }
@@ -34,7 +38,7 @@ class _RequestsManagementScreenState extends State<RequestsManagementScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Requests Management'),
+        title: const Text('Activity Management'),
       ),
       body: GradientBackground(
         image: MediaRes.dashboardGradient,
@@ -59,11 +63,31 @@ class _RequestsManagementScreenState extends State<RequestsManagementScreen> {
                 ),
               );
             } else if (state is ActivitiesLoaded) {
-              final requests = state.activities
-                  .where((element) => element.status == "new")
+              final userActivities = state.activities
+                  .where((element) =>
+                      element.createdBy == context.currentUser!.uid)
                   .toList();
 
-              return RequestViewer(requests: requests);
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        height: 10,
+                      );
+                    },
+                    itemCount: userActivities.length,
+                    itemBuilder: (context, index) {
+                      final activity = userActivities[index];
+                      return ActivityTile(
+                        activity: activity,
+                        onTap: () => Navigator.of(context).pushNamed(
+                          EditActivityScreen.routeName,
+                          arguments: activity,
+                        ),
+                      );
+                    }),
+              );
             }
             return const SizedBox.shrink();
           },

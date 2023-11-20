@@ -10,6 +10,7 @@ import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/activity/presentation/widgets/add_activity_sheet.dart';
+import 'package:social_ease_app/features/admin_panel/presentation/views/activities_management.dart';
 import 'package:social_ease_app/features/admin_panel/presentation/views/requests_management.dart';
 import 'package:social_ease_app/features/profile/presentation/widgets/account_stats.dart';
 import 'package:social_ease_app/features/profile/presentation/widgets/profile_action_button.dart';
@@ -98,7 +99,9 @@ class ProfileHeader extends StatelessWidget {
               ProfileActionButton(
                 label: 'Manage Activities',
                 icon: Icons.assignment_outlined,
-                onPressed: () {},
+                onPressed: () => Navigator.of(context).pushNamed(
+                  ActivitiesManagementScreen.routeName,
+                ),
               ),
               ProfileActionButton(
                 label: 'Register an Organization',

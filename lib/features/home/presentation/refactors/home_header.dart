@@ -18,14 +18,14 @@ class HomeHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Activity on FIRE!',
+                'Activity of the day',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
               ),
               Text(
-                'Check out trending activity',
+                'Check out the trending activity',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
