@@ -40,7 +40,7 @@ class HomeHeader extends StatelessWidget {
                 : context.height >= 844
                     ? -60
                     : context.height <= 800
-                        ? 70
+                        ? -60
                         : 70,
             right: -14,
             child: const TinderCards(),

@@ -122,9 +122,11 @@ class ActivityTile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      activity.title,
+                      activity.title.length <= 30
+                          ? activity.title
+                          : '${activity.title.substring(0, 31)}...',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         fontFamily: Fonts.montserrat,
                         fontWeight: FontWeight.w600,
                       ),

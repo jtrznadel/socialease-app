@@ -79,7 +79,7 @@ class ProfileHeader extends StatelessWidget {
               ),
               ProfileActionButton(
                 label: 'Request an Activity',
-                icon: Icons.post_add,
+                icon: Icons.volunteer_activism_outlined,
                 onPressed: () {
                   showModalBottomSheet(
                     context: context,
@@ -96,8 +96,13 @@ class ProfileHeader extends StatelessWidget {
                 },
               ),
               ProfileActionButton(
+                label: 'Manage Activities',
+                icon: Icons.assignment_outlined,
+                onPressed: () {},
+              ),
+              ProfileActionButton(
                 label: 'Register an Organization',
-                icon: Icons.diversity_3_outlined,
+                icon: Icons.account_balance,
                 onPressed: () {},
               ),
             ] else ...[
