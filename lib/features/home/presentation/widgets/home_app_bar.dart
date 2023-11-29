@@ -44,8 +44,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             return Padding(
               padding: const EdgeInsets.only(right: 15),
               child: CircleAvatar(
-                backgroundImage: provider.user!.profileAvatar != null
-                    ? NetworkImage(provider.user!.profileAvatar!)
+                backgroundImage: provider.user!.profilePic != null
+                    ? NetworkImage(provider.user!.profilePic!)
                     : const AssetImage(MediaRes.defaultAvatarImage)
                         as ImageProvider,
               ),

@@ -3,7 +3,15 @@
     "email": "",
     "points": 0,
     "fullName": "",
-    "profileAvatar": null,
+    "accountLevel": "rookie",
+    "socialMediaLinks": {
+        "instagram": "",
+        "twitter": "",
+        "facebook": "",
+        "linkedin": ""
+    },
+    "profilePic": null,
     "bio": null,
-    "groupIds": []
+    "groups": []
+   
 }

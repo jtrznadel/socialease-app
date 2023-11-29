@@ -21,8 +21,8 @@ class ActivityTile extends StatelessWidget {
         : const AssetImage(MediaRes.defaultActivityBackground);
 
     final ImageProvider<Object> userAvatar =
-        context.currentUser?.profileAvatar != null
-            ? NetworkImage(context.currentUser!.profileAvatar!) as ImageProvider
+        context.currentUser?.profilePic != null
+            ? NetworkImage(context.currentUser!.profilePic!) as ImageProvider
             : const AssetImage(MediaRes.defaultAvatarImage);
     final fullName = context.currentUser?.fullName ?? 'Unknown';
     final name =

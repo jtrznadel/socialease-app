@@ -172,10 +172,10 @@ class _EditProfileViewState extends State<EditProfileView> {
                 children: [
                   Builder(builder: (context) {
                     final user = context.currentUser!;
-                    final userImage = user.profileAvatar == null ||
-                            user.profileAvatar!.isEmpty
-                        ? null
-                        : user.profileAvatar;
+                    final userImage =
+                        user.profilePic == null || user.profilePic!.isEmpty
+                            ? null
+                            : user.profilePic;
                     return Container(
                       height: 100,
                       width: 100,
@@ -204,10 +204,10 @@ class _EditProfileViewState extends State<EditProfileView> {
                             ),
                             IconButton(
                               onPressed: pickImage,
-                              icon: Icon(pickedImage != null ||
-                                      user.profileAvatar != null
-                                  ? Icons.edit
-                                  : Icons.add_a_photo),
+                              icon: Icon(
+                                  pickedImage != null || user.profilePic != null
+                                      ? Icons.edit
+                                      : Icons.add_a_photo),
                               color: Colors.white,
                             )
                           ]),

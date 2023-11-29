@@ -1,4 +1,6 @@
+import 'package:social_ease_app/core/enums/account_level.dart';
 import 'package:social_ease_app/core/utils/typedefs.dart';
+import 'package:social_ease_app/features/auth/domain/entites/social_media_links.dart';
 import 'package:social_ease_app/features/auth/domain/entites/user.dart';
 
 class LocalUserModel extends LocalUser {
@@ -7,12 +9,21 @@ class LocalUserModel extends LocalUser {
       required super.email,
       required super.points,
       required super.fullName,
-      super.profileAvatar,
+      required super.accountLevel,
+      required super.socialMediaLinks,
+      super.profilePic,
       super.bio,
-      super.groupIds});
+      super.groups});
 
   factory LocalUserModel.empty() {
-    return const LocalUserModel(uid: '', email: '', points: 0, fullName: '');
+    return LocalUserModel(
+      uid: '',
+      email: '',
+      accountLevel: AccountLevel.rookie,
+      socialMediaLinks: SocialMediaLinks.empty(),
+      points: 0,
+      fullName: '',
+    );
   }
 
   factory LocalUserModel.fromMap(DataMap map) {
@@ -20,10 +31,13 @@ class LocalUserModel extends LocalUser {
         uid: map['uid'] as String,
         email: map['email'] as String,
         points: (map['points'] as num).toInt(),
+        accountLevel: AccountLevel.values.byName(map['accountLevel']),
+        socialMediaLinks:
+            SocialMediaLinks.fromMap(map['socialMediaLinks'] ?? {}),
         fullName: map['fullName'] as String,
-        profileAvatar: map['profileAvatar'] as String?,
+        profilePic: map['profilePic'] as String?,
         bio: map['bio'] as String?,
-        groupIds: (map['groupIds'] as List<dynamic>).cast<String>());
+        groups: (map['groups'] as List<dynamic>).cast<String>());
   }
 
   LocalUserModel copyWith(
@@ -31,17 +45,21 @@ class LocalUserModel extends LocalUser {
       String? email,
       int? points,
       String? fullName,
-      String? profileAvatar,
+      String? profilePic,
+      AccountLevel? accountLevel,
+      SocialMediaLinks? socialMediaLinks,
       String? bio,
-      List<String>? groupIds}) {
+      List<String>? groups}) {
     return LocalUserModel(
         uid: uid ?? this.uid,
         email: email ?? this.email,
         points: points ?? this.points,
+        accountLevel: accountLevel ?? this.accountLevel,
+        socialMediaLinks: socialMediaLinks ?? this.socialMediaLinks,
         fullName: fullName ?? this.fullName,
-        profileAvatar: profileAvatar ?? this.profileAvatar,
+        profilePic: profilePic ?? this.profilePic,
         bio: bio ?? this.bio,
-        groupIds: groupIds ?? this.groupIds);
+        groups: groups ?? this.groups);
   }
 
   DataMap toMap() {
@@ -50,9 +68,11 @@ class LocalUserModel extends LocalUser {
       'email': email,
       'points': points,
       'fullName': fullName,
-      'profileAvatar': profileAvatar,
+      'accountLevel': accountLevel.name,
+      'socialMediaLinks': socialMediaLinks.toMap(),
+      'profilePic': profilePic,
       'bio': bio,
-      'groupIds': groupIds
+      'groups': groups
     };
   }
 }

@@ -25,7 +25,7 @@ class ProfileActionButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
-          backgroundColor: AppColors.primaryColor,
+          backgroundColor: Colors.black.withOpacity(.6),
         ),
         onPressed: onPressed,
         child: Row(

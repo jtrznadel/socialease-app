@@ -15,6 +15,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
             uid: user.uid,
             email: user.email ?? '',
             points: 0,
+            accountLevel: AccountLevel.rookie,
+            socialMediaLinks: SocialMediaLinks.empty(),
             fullName: user.displayName ?? '',
           );
           context.userProvider.initUser(localUser);

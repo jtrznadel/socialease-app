@@ -1,17 +1,18 @@
+import 'package:dashed_circular_progress_bar/dashed_circular_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:social_ease_app/core/common/app/providers/user_provider.dart';
+import 'package:social_ease_app/core/enums/account_level.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
-import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/activity/presentation/widgets/add_activity_sheet.dart';
 import 'package:social_ease_app/features/admin_panel/presentation/views/activities_management.dart';
 import 'package:social_ease_app/features/admin_panel/presentation/views/requests_management.dart';
+import 'package:social_ease_app/features/auth/domain/entites/social_media_links.dart';
 import 'package:social_ease_app/features/profile/presentation/widgets/account_stats.dart';
 import 'package:social_ease_app/features/profile/presentation/widgets/profile_action_button.dart';
 import 'package:social_ease_app/features/profile/presentation/widgets/social_buttons.dart';
@@ -24,35 +25,81 @@ class ProfileHeader extends StatelessWidget {
     return Consumer<UserProvider>(
       builder: (_, provider, __) {
         final user = provider.user;
-        final image =
-            user?.profileAvatar == null || user!.profileAvatar!.isEmpty
-                ? null
-                : user.profileAvatar;
+        final image = user?.profilePic == null || user!.profilePic!.isEmpty
+            ? null
+            : user.profilePic;
+        final points = user?.points ?? 0;
+        final level = user?.accountLevel ?? AccountLevel.rookie;
+        final mediaLinks = user?.socialMediaLinks ?? SocialMediaLinks.empty();
         return Column(
           children: [
-            image != null
-                ? CircleAvatar(
-                    radius: 50,
-                    backgroundImage: NetworkImage(image),
-                  )
-                : const Image(
-                    height: 120,
-                    image: AssetImage(
-                      MediaRes.defaultAvatarImage,
-                    ),
-                  ),
+            SizedBox(
+              height: context.width * .45,
+              width: context.width * .45,
+              child: DashedCircularProgressBar.square(
+                dimensions: 350,
+                progress: points.toDouble(),
+                maxProgress: user!.accountLevel.maxRange.toDouble(),
+                startAngle: 0,
+                foregroundColor: level.color,
+                backgroundColor: AppColors.secondaryTextColor.withOpacity(.6),
+                foregroundStrokeWidth: 7,
+                backgroundStrokeWidth: 7,
+                foregroundGapSize: 8,
+                foregroundDashSize: 32,
+                backgroundGapSize: 8,
+                backgroundDashSize: 32,
+                animation: true,
+                child: Container(
+                  margin: const EdgeInsets.all(15),
+                  child: image != null
+                      ? CircleAvatar(
+                          radius: 50,
+                          backgroundImage: NetworkImage(
+                            image,
+                          ),
+                        )
+                      : const Image(
+                          height: 120,
+                          image: AssetImage(
+                            MediaRes.defaultAvatarImage,
+                          ),
+                        ),
+                ),
+              ),
+            ),
             const SizedBox(
               height: 20,
             ),
             Text(
-              user?.fullName ?? 'Hey, Stranger',
+              user.fullName ?? 'Hey, Stranger',
               textAlign: TextAlign.center,
               style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: AppColors.primaryTextColor),
             ),
-            if (user?.bio != null && user!.bio!.isNotEmpty) ...[
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: level.color,
+                ),
+                children: [
+                  TextSpan(text: level.label),
+                  TextSpan(
+                    text: ' ($points/${level.maxRange})',
+                    style: const TextStyle(
+                      color: AppColors.secondaryTextColor,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (user.bio != null && user.bio!.isNotEmpty) ...[
               const SizedBox(
                 height: 10,
               ),
@@ -70,11 +117,16 @@ class ProfileHeader extends StatelessWidget {
               height: 15,
             ),
             if (!context.currentUser!.isAdmin) ...[
-              const SocialButtons(),
+              SocialButtons(
+                mediaLinks: mediaLinks,
+              ),
               const SizedBox(
                 height: 15,
               ),
-              const AccountStats(),
+              AccountStats(
+                points: points,
+                activityCounter: user.groups.length,
+              ),
               const SizedBox(
                 height: 15,
               ),

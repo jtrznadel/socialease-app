@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_ease_app/core/common/views/page_under_construction.dart';
+import 'package:social_ease_app/core/enums/account_level.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
@@ -13,6 +14,7 @@ import 'package:social_ease_app/features/activity/presentation/views/edit_activi
 import 'package:social_ease_app/features/admin_panel/presentation/views/activities_management.dart';
 import 'package:social_ease_app/features/admin_panel/presentation/views/requests_management.dart';
 import 'package:social_ease_app/features/auth/data/models/user_model.dart';
+import 'package:social_ease_app/features/auth/domain/entites/social_media_links.dart';
 import 'package:social_ease_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:social_ease_app/features/auth/presentation/views/sign_in_screen.dart';
 import 'package:social_ease_app/features/auth/presentation/views/sign_up_screen.dart';

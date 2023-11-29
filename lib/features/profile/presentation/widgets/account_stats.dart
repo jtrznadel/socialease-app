@@ -4,7 +4,12 @@ import 'package:social_ease_app/core/res/fonts.dart';
 class AccountStats extends StatelessWidget {
   const AccountStats({
     super.key,
+    required this.points,
+    required this.activityCounter,
   });
+
+  final int points;
+  final int activityCounter;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +19,7 @@ class AccountStats extends StatelessWidget {
         borderRadius: const BorderRadius.all(
           Radius.circular(10.0),
         ),
-        border: Border.all(color: Colors.black, width: 2),
+        border: Border.all(color: Colors.black.withOpacity(.6), width: 2),
         color: Colors.transparent,
       ),
       child: IntrinsicHeight(
@@ -40,12 +45,12 @@ class AccountStats extends StatelessWidget {
               ],
             ),
             const VerticalDivider(
-              color: Colors.black,
+              color: Colors.grey,
             ),
             Column(
               children: [
                 Text(
-                  '539',
+                  '$points',
                   style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
@@ -61,12 +66,12 @@ class AccountStats extends StatelessWidget {
               ],
             ),
             const VerticalDivider(
-              color: Colors.black,
+              color: Colors.grey,
             ),
             Column(
               children: [
                 Text(
-                  '38',
+                  '$activityCounter',
                   style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,

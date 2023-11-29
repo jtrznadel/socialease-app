@@ -60,9 +60,9 @@ class _MessageBubbleState extends State<MessageBubble> {
                   CircleAvatar(
                     radius: 16,
                     backgroundImage: NetworkImage(
-                      user == null || user!.profileAvatar == null
+                      user == null || user!.profilePic == null
                           ? kDefaultAvatar
-                          : user!.profileAvatar!,
+                          : user!.profilePic!,
                     ),
                   ),
                   const SizedBox(

@@ -5,11 +5,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
+import 'package:social_ease_app/core/enums/account_level.dart';
 import 'package:social_ease_app/core/enums/update_user.dart';
 import 'package:social_ease_app/core/errors/exceptions.dart';
 import 'package:social_ease_app/core/utils/constants.dart';
 import 'package:social_ease_app/core/utils/typedefs.dart';
 import 'package:social_ease_app/features/auth/data/models/user_model.dart';
+import 'package:social_ease_app/features/auth/domain/entites/social_media_links.dart';
 
 abstract class AuthRemoteDataSource {
   const AuthRemoteDataSource();
@@ -123,7 +125,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           await ref.putFile(userData as File);
           final url = await ref.getDownloadURL();
           await _authClient.currentUser?.updatePhotoURL(url);
-          await _updateUserData({'profileAvatar': url});
+          await _updateUserData({'profilePic': url});
         case UpdateUserAction.password:
           if (_authClient.currentUser?.email == null) {
             throw const ServerException(
@@ -159,8 +161,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
                 uid: user.uid,
                 email: user.email ?? fallbackEmail,
                 points: 0,
+                accountLevel: AccountLevel.rookie,
+                socialMediaLinks: SocialMediaLinks.empty(),
                 fullName: user.displayName ?? '',
-                profileAvatar: user.photoURL ?? '')
+                profilePic: user.photoURL ?? '')
             .toMap());
   }
 
