@@ -7,4 +7,5 @@ abstract class ActivityRepository {
 
   ResultFuture<List<Activity>> getActivities();
   ResultFuture<void> addActivity(Activity activity);
+  ResultFuture<LocalUser> getUserById(String userId);
 }

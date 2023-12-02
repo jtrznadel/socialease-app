@@ -32,3 +32,16 @@ class ActivityError extends ActivityState {
   @override
   List<Object> get props => [message];
 }
+
+final class GettingUser extends ActivityState {
+  const GettingUser();
+}
+
+final class UserLoaded extends ActivityState {
+  const UserLoaded(this.user);
+
+  final LocalUser user;
+
+  @override
+  List<Object> get props => [user];
+}

@@ -18,8 +18,7 @@ class SocialButtons extends StatelessWidget {
       children: [
         IconButton(
           onPressed: () async {
-            final Uri url = Uri.parse(
-                'https://stackoverflow.com/questions/63026234/url-launcher-canlaunch-launch-dont-work-on-ios-for-simple-url-scheme');
+            final Uri url = Uri.parse(mediaLinks.instagram);
             if (await canLaunchUrl(url)) {
               await launchUrl(url);
             } else {

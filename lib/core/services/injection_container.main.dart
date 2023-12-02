@@ -39,10 +39,12 @@ Future<void> _initActivity() async {
       () => ActivityCubit(
         addActivity: sl(),
         getActivities: sl(),
+        getUserById: sl(),
       ),
     )
     ..registerLazySingleton(() => AddActivity(sl()))
     ..registerLazySingleton(() => GetActivities(sl()))
+    ..registerLazySingleton(() => ac.GetUserById(sl()))
     ..registerLazySingleton<ActivityRepository>(
         () => ActivityRepositoryImpl(sl()))
     ..registerLazySingleton<ActivityRemoteDataSource>(

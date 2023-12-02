@@ -11,6 +11,7 @@ import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/core/utils/core_utils.dart';
 import 'package:social_ease_app/features/activity/data/models/activity_model.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
+import 'package:textfield_tags/textfield_tags.dart';
 
 class AddActivitySheet extends StatefulWidget {
   const AddActivitySheet({super.key});
@@ -24,6 +25,8 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final imageController = TextEditingController();
+  final tagController = TextfieldTagsController();
+  late double distanceToField;
 
   final formKey = GlobalKey<FormState>();
 
@@ -45,10 +48,17 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    distanceToField = MediaQuery.of(context).size.width;
+  }
+
+  @override
   void dispose() {
     titleController.dispose();
     descriptionController.dispose();
     imageController.dispose();
+    tagController.dispose();
     super.dispose();
   }
 
@@ -154,33 +164,151 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                     ),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
-                  DropdownButton<ActivityCategory>(
-                    value: selectedCategory,
-                    onChanged: (ActivityCategory? newValue) {
-                      setState(() {
-                        selectedCategory = newValue ?? ActivityCategory.charity;
+                  Container(
+                    margin: const EdgeInsets.only(right: 5),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: DropdownButton<ActivityCategory>(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      borderRadius: BorderRadius.circular(25),
+                      hint: const Text("Select a Category"),
+                      value: selectedCategory,
+                      onChanged: (ActivityCategory? newValue) {
+                        setState(() {
+                          selectedCategory =
+                              newValue ?? ActivityCategory.charity;
+                        });
+                      },
+                      items: ActivityCategory.values.map((category) {
+                        return DropdownMenuItem<ActivityCategory>(
+                          value: category,
+                          child: Text(category.label),
+                        );
+                      }).toList(),
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: AppColors.primaryTextColor,
+                          fontFamily: Fonts.lato),
+                      underline: Container(
+                        height: 0,
+                      ),
+                      dropdownColor: AppColors.bgColor,
+                      icon: const Icon(Icons.arrow_drop_down),
+                      iconSize: 36,
+                      isExpanded: true,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFieldTags(
+                    textfieldTagsController: tagController,
+                    initialTags: const [
+                      'pick',
+                      'your',
+                      'tags',
+                    ],
+                    textSeparators: const [' ', ','],
+                    letterCase: LetterCase.normal,
+                    validator: (String tag) {
+                      if (tag == 'php') {
+                        return 'No, please just no';
+                      } else if (tagController.getTags!.contains(tag)) {
+                        return 'You havel entered that already';
+                      }
+                      return null;
+                    },
+                    inputfieldBuilder:
+                        (context, tec, fn, error, onChanged, onSubmitted) {
+                      return ((context, sc, tags, onTagDelete) {
+                        return TextField(
+                          controller: tec,
+                          focusNode: fn,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppColors.primaryColor,
+                                width: 2.0,
+                              ),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppColors.primaryColor,
+                                width: 2.0,
+                              ),
+                            ),
+                            helperText: 'Enter language...',
+                            helperStyle: const TextStyle(
+                              color: AppColors.primaryColor,
+                            ),
+                            hintText:
+                                tagController.hasTags ? '' : "Enter tag...",
+                            errorText: error,
+                            prefixIconConstraints: BoxConstraints(
+                                maxWidth: distanceToField * 0.74),
+                            prefixIcon: tags.isNotEmpty
+                                ? SingleChildScrollView(
+                                    controller: sc,
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                        children: tags.map((String tag) {
+                                      return Container(
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(20.0),
+                                          ),
+                                          color: AppColors.primaryColor,
+                                        ),
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 5.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0, vertical: 5.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            InkWell(
+                                              child: Text(
+                                                '#$tag',
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                              onTap: () {
+                                                print("$tag selected");
+                                              },
+                                            ),
+                                            const SizedBox(width: 4.0),
+                                            InkWell(
+                                              child: const Icon(
+                                                Icons.cancel,
+                                                size: 14.0,
+                                                color: Color.fromARGB(
+                                                    255, 233, 233, 233),
+                                              ),
+                                              onTap: () {
+                                                onTagDelete(tag);
+                                              },
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    }).toList()),
+                                  )
+                                : null,
+                          ),
+                          onChanged: onChanged,
+                          onSubmitted: onSubmitted,
+                        );
                       });
                     },
-                    items: ActivityCategory.values.map((category) {
-                      return DropdownMenuItem<ActivityCategory>(
-                        value: category,
-                        child: Text(category.label),
-                      );
-                    }).toList(),
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontFamily: Fonts.montserrat),
-                    underline: Container(
-                      height: 2,
-                      color: AppColors.primaryColor,
-                    ),
-                    dropdownColor: AppColors.bgColor,
-                    icon: const Icon(Icons.arrow_drop_down),
-                    iconSize: 36,
-                    isExpanded: true,
                   ),
                   const SizedBox(
                     height: 30,
@@ -205,6 +333,7 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                                 updatedAt: now,
                                 imageIsFile: isFile,
                                 createdBy: context.currentUser!.uid,
+                                tags: tagController.getTags,
                               );
                               context
                                   .read<ActivityCubit>()

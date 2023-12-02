@@ -7,15 +7,19 @@ import 'package:social_ease_app/features/activity/data/models/activity_model.dar
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/add_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/get_activities.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/get_user_by_id.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 
 class MockAddActivity extends Mock implements AddActivity {}
 
 class MockGetActivities extends Mock implements GetActivities {}
 
+class MockGetUser extends Mock implements GetUserById {}
+
 void main() {
   late AddActivity addActivity;
   late GetActivities getActivities;
+  late GetUserById getUserById;
   late ActivityCubit activityCubit;
 
   final tActivity = ActivityModel.empty();
@@ -23,9 +27,11 @@ void main() {
   setUp(() {
     addActivity = MockAddActivity();
     getActivities = MockGetActivities();
+    getUserById = MockGetUser();
     activityCubit = ActivityCubit(
       addActivity: addActivity,
       getActivities: getActivities,
+      getUserById: getUserById,
     );
     registerFallbackValue(tActivity);
   });

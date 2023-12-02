@@ -23,6 +23,8 @@ import 'package:social_ease_app/features/chat/domain/repositories/chat_repositor
 import 'package:social_ease_app/features/chat/domain/usecases/get_groups.dart';
 import 'package:social_ease_app/features/chat/domain/usecases/get_messages.dart';
 import 'package:social_ease_app/features/chat/domain/usecases/get_user_by_id.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/get_user_by_id.dart'
+    as ac;
 import 'package:social_ease_app/features/chat/domain/usecases/join_group.dart';
 import 'package:social_ease_app/features/chat/domain/usecases/leave_group.dart';
 import 'package:social_ease_app/features/chat/domain/usecases/send_message.dart';

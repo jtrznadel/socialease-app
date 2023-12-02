@@ -14,6 +14,7 @@ abstract class ActivityRemoteDataSource {
   const ActivityRemoteDataSource();
   Future<List<ActivityModel>> getActivities();
   Future<void> addActivity(Activity activity);
+  Future<LocalUserModel> getUserById(String userId);
 }
 
 class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
@@ -94,6 +95,33 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
       rethrow;
     } catch (e) {
       throw ServerException(message: e.toString(), statusCode: '505');
+    }
+  }
+
+  @override
+  Future<LocalUserModel> getUserById(String userId) async {
+    try {
+      await DataSourceUtils.authorizeUser(_auth);
+      final userDoc = await _firestore.collection('users').doc(userId).get();
+      if (!userDoc.exists) {
+        throw const ServerException(
+          message: 'UserNotFound',
+          statusCode: '404',
+        );
+      }
+      return LocalUserModel.fromMap(userDoc.data()!);
+    } on FirebaseException catch (e) {
+      throw ServerException(
+        message: e.message ?? 'Unknown error occurred',
+        statusCode: e.code,
+      );
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw ServerException(
+        message: e.toString(),
+        statusCode: '505',
+      );
     }
   }
 }
