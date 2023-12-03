@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_ease_app/core/common/views/page_under_construction.dart';
+import 'package:social_ease_app/core/entities/activity_details_arguments.dart';
 import 'package:social_ease_app/core/enums/account_level.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';

@@ -21,6 +21,7 @@ class _ExploreListState extends State<ExploreList> {
   Widget build(BuildContext context) {
     final allActivities = widget.activities
         .where(((element) => element.createdBy != context.currentUser!.uid))
+        .where((element) => element.status == 'verified')
         .toList();
     return Padding(
       padding: const EdgeInsets.all(15.0),
@@ -37,10 +38,7 @@ class _ExploreListState extends State<ExploreList> {
             create: (_) => sl<ActivityCubit>(),
             child: ActivityTile(
               activity: activity,
-              onTap: () => Navigator.of(context).pushNamed(
-                ActivityDetailsScreen.routeName,
-                arguments: activity,
-              ),
+              onTap: () {},
             ),
           );
         },

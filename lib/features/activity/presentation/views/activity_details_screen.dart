@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social_ease_app/core/common/widgets/expandable_text.dart';
 import 'package:social_ease_app/core/common/widgets/tag_tile.dart';
+import 'package:social_ease_app/core/entities/activity_details_arguments.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
@@ -9,61 +10,38 @@ import 'package:social_ease_app/features/activity/domain/entities/activity.dart'
 import 'package:social_ease_app/features/activity/presentation/widgets/activity_action_button.dart';
 
 class ActivityDetailsScreen extends StatelessWidget {
-  const ActivityDetailsScreen(this.activity, {super.key});
+  const ActivityDetailsScreen(this.arguments, {super.key});
 
   static const routeName = '/activity-details';
 
-  final Activity activity;
+  final ActivityDetailsArguments arguments;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Activity Details'),
+        title: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          decoration: BoxDecoration(
+            color: AppColors.bgColor.withOpacity(.8),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: const Text('Activity Details'),
+        ),
       ),
       body: Stack(
         fit: StackFit.expand,
         children: [
-          activity.image != null
+          arguments.activity.image != null
               ? Image.network(
-                  activity.image!,
+                  arguments.activity.image!,
                   fit: BoxFit.cover,
                 )
               : Image.asset(
                   MediaRes.defaultActivityBackground,
                   fit: BoxFit.cover,
                 ),
-          Positioned(
-            top: context.height * 0.14,
-            left: 20,
-            right: 20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  activity.title,
-                  style: TextStyle(
-                    fontSize: 26,
-                    fontFamily: Fonts.lato,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  activity.category.label,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: AppColors.secondaryTextColor,
-                    fontFamily: Fonts.lato,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
-          ),
           Positioned(
             bottom: 0,
             left: 0,
@@ -93,6 +71,59 @@ class ActivityDetailsScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              arguments.user.fullName,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            CircleAvatar(
+                              backgroundImage: arguments.user.profilePic != null
+                                  ? NetworkImage(arguments.user.profilePic!)
+                                      as ImageProvider
+                                  : const AssetImage(
+                                      MediaRes.defaultAvatarImage),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          arguments.activity.title,
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: Fonts.lato,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Icon(arguments.activity.category.icon),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              arguments.activity.category.label,
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: AppColors.secondaryTextColor,
+                                fontFamily: Fonts.lato,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
                         const Text(
                           'Description',
                           style: TextStyle(
@@ -105,7 +136,7 @@ class ActivityDetailsScreen extends StatelessWidget {
                         ),
                         ExpandableText(
                           context,
-                          text: activity.description,
+                          text: arguments.activity.description,
                         ),
                         const SizedBox(
                           height: 10,
@@ -114,9 +145,11 @@ class ActivityDetailsScreen extends StatelessWidget {
                           spacing: 5.0,
                           runSpacing: 8.0,
                           children: [
-                            ...activity.tags.take(3).map((tag) => TagTile(
-                                  tag: tag,
-                                )),
+                            ...arguments.activity.tags
+                                .take(3)
+                                .map((tag) => TagTile(
+                                      tag: tag,
+                                    )),
                           ],
                         ),
                         const SizedBox(
@@ -175,7 +208,7 @@ class ActivityDetailsScreen extends StatelessWidget {
             child: SizedBox(
               width: context.width,
               child: ActivityActionButton(
-                activity: activity,
+                activity: arguments.activity,
               ),
             ),
           ),

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:social_ease_app/core/common/app/providers/favorite_activities_notifier.dart';
+import 'package:social_ease_app/core/entities/activity_details_arguments.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
+import 'package:social_ease_app/features/activity/presentation/views/activity_details_screen.dart';
 import 'package:social_ease_app/features/auth/domain/entites/user.dart';
 
 class ActivityTile extends StatefulWidget {
@@ -53,7 +55,16 @@ class _ActivityTileState extends State<ActivityTile> {
         }
       },
       child: GestureDetector(
-        onTap: widget.onTap,
+        onTap: () {
+          final arguments = ActivityDetailsArguments(
+            activity: widget.activity,
+            user: user!,
+          );
+          Navigator.of(context).pushNamed(
+            ActivityDetailsScreen.routeName,
+            arguments: arguments,
+          );
+        },
         child: Container(
           width: context.width,
           height: context.height * .25,
@@ -106,9 +117,9 @@ class _ActivityTileState extends State<ActivityTile> {
                               ),
                               Container(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 3, horizontal: 5),
+                                    vertical: 5, horizontal: 10),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(.8),
+                                  color: AppColors.bgColor,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Text(
@@ -124,17 +135,29 @@ class _ActivityTileState extends State<ActivityTile> {
                             ],
                           ),
                           Container(
-                            padding: const EdgeInsets.all(5),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
                             decoration: BoxDecoration(
                                 color: AppColors.bgColor,
                                 borderRadius: BorderRadius.circular(20)),
                             child: Row(
                               children: [
-                                Icon(widget.activity.category.icon),
+                                Icon(
+                                  widget.activity.category.icon,
+                                  size: 20,
+                                ),
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                Text(widget.activity.category.label),
+                                Text(
+                                  widget.activity.category.label,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: Fonts.montserrat,
+                                  ),
+                                ),
                               ],
                             ),
                           )
