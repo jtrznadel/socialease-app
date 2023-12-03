@@ -5,12 +5,15 @@ import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/core/utils/constants.dart';
+import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 
 class TinderCard extends StatelessWidget {
-  const TinderCard({super.key, required this.isFirst, this.color});
+  const TinderCard(
+      {super.key, required this.isFirst, this.color, required this.activity});
 
   final bool isFirst;
   final Color? color;
+  final Activity activity;
 
   @override
   Widget build(BuildContext context) {
@@ -20,15 +23,8 @@ class TinderCard extends StatelessWidget {
       padding: const EdgeInsets.only(left: 20),
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: context
-                      .read<ActivityOfTheDayNotifier>()
-                      .activityOfTheDay
-                      ?.image !=
-                  null
-              ? NetworkImage(context
-                  .read<ActivityOfTheDayNotifier>()
-                  .activityOfTheDay!
-                  .image!) as ImageProvider
+          image: activity.image != null
+              ? NetworkImage(activity.image!) as ImageProvider
               : const AssetImage(MediaRes.defaultActivityBackground),
           fit: BoxFit.cover,
         ),
@@ -54,7 +50,9 @@ class TinderCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    '${context.read<ActivityOfTheDayNotifier>().activityOfTheDay?.title}',
+                    activity.title.length < 20
+                        ? activity.title
+                        : '${activity.title.substring(0, 20)}...',
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       color: Colors.black,
@@ -63,7 +61,9 @@ class TinderCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${context.read<ActivityOfTheDayNotifier>().activityOfTheDay?.category.label}',
+                    activity.category.label.length < 20
+                        ? activity.category.label
+                        : '${activity.category.label.substring(0, 20)}...',
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       color: Colors.black,
@@ -72,7 +72,9 @@ class TinderCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${context.read<ActivityOfTheDayNotifier>().activityOfTheDay?.description.substring(0, 25)}...',
+                    activity.description.length < 20
+                        ? activity.description
+                        : '${activity.description.substring(0, 20)}...',
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       color: Colors.black,

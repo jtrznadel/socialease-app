@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/common/app/providers/activity_of_the_day_notifier.dart';
 import 'package:social_ease_app/core/common/views/loading_view.dart';
+import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/utils/core_utils.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
@@ -35,10 +36,18 @@ class _HomeBodyState extends State<HomeBody> {
           CoreUtils.showSnackBar(context, state.message);
         } else if (state is ActivitiesLoaded && state.activities.isNotEmpty) {
           final activities = state.activities..shuffle();
+          final activitiesOfTheDay = state.activities
+              .where((activity) =>
+                  activity.createdBy != context.currentUser!.uid &&
+                  activity.status == 'verified')
+              .toList();
           final activityOfTheDay = activities.first;
           context
               .read<ActivityOfTheDayNotifier>()
               .setActivityOfTheDay(activityOfTheDay);
+          context
+              .read<ActivityOfTheDayNotifier>()
+              .setActivitiesOfTheDay(activitiesOfTheDay);
         }
       },
       builder: ((context, state) {
