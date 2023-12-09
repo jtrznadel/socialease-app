@@ -7,6 +7,28 @@ Future<void> init() async {
   await _initOnBoarding();
   await _initActivity();
   await _initChat();
+  await _initNotifications();
+}
+
+Future<void> _initNotifications() async {
+  sl
+    ..registerFactory(() => NotificationCubit(
+          clear: sl(),
+          clearAll: sl(),
+          sendNotification: sl(),
+          getNotifications: sl(),
+          markAsRead: sl(),
+        ))
+    ..registerLazySingleton(() => Clear(sl()))
+    ..registerLazySingleton(() => ClearAll(sl()))
+    ..registerLazySingleton(() => SendNotification(sl()))
+    ..registerLazySingleton(() => GetNotifications(sl()))
+    ..registerLazySingleton(() => MarkAsRead(sl()))
+    ..registerLazySingleton<NotificationRepository>(
+        () => NotificationRepoImpl(sl()))
+    ..registerLazySingleton<NotificationRemoteDataSource>(
+      () => NotificationRemoteDataSourceImpl(firestore: sl(), auth: sl()),
+    );
 }
 
 Future<void> _initChat() async {
