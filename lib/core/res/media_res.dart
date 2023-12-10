@@ -33,6 +33,7 @@ class MediaRes {
 
   //lotties
   static const underConstruction = '$_baseLottie/under_construction.json';
+  static const noNotifications = '$_baseLottie/no_notifications.json';
 
   //categories
   static const animalWelfare = '$_categories/animal_welfare.png';

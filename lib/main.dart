@@ -3,9 +3,11 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_ease_app/core/common/app/providers/activity_of_the_day_notifier.dart';
 import 'package:social_ease_app/core/common/app/providers/explore_activities_type_notifier.dart';
 import 'package:social_ease_app/core/common/app/providers/favorite_activities_notifier.dart';
+import 'package:social_ease_app/core/common/app/providers/notification_notifier.dart';
 import 'package:social_ease_app/core/common/app/providers/user_provider.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
@@ -37,7 +39,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DashboardController()),
         ChangeNotifierProvider(create: (_) => ActivityOfTheDayNotifier()),
         ChangeNotifierProvider(create: (_) => ExploreActivitiesTypeNotifier()),
-        ChangeNotifierProvider(create: (_) => FavoriteActivitiesNotifier())
+        ChangeNotifierProvider(create: (_) => FavoriteActivitiesNotifier()),
+        ChangeNotifierProvider(
+            create: (_) => NotificationsNotifier(sl<SharedPreferences>())),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

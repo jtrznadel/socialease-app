@@ -9,6 +9,7 @@ import 'package:social_ease_app/features/chat/presentation/cubit/chat_cubit.dart
 import 'package:social_ease_app/features/chat/presentation/views/chats_view.dart';
 import 'package:social_ease_app/features/explore/presentation/views/explore_view.dart';
 import 'package:social_ease_app/features/home/presentation/views/home_view.dart';
+import 'package:social_ease_app/features/notifications/presentation/cubit/notification_cubit.dart';
 import 'package:social_ease_app/features/profile/presentation/views/profile_view.dart';
 
 class DashboardController extends ChangeNotifier {
@@ -16,8 +17,15 @@ class DashboardController extends ChangeNotifier {
   final List<Widget> _screens = [
     ChangeNotifierProvider(
       create: (_) => TabNavigator(TabItem(
-          child: BlocProvider(
-        create: (_) => sl<ActivityCubit>(),
+          child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => sl<ActivityCubit>(),
+          ),
+          BlocProvider(
+            create: (_) => sl<NotificationCubit>(),
+          ),
+        ],
         child: const HomeView(),
       ))),
       child: const PersistentView(),

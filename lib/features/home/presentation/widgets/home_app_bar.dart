@@ -4,6 +4,7 @@ import 'package:social_ease_app/core/common/app/providers/user_provider.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
+import 'package:social_ease_app/features/home/presentation/widgets/notification_bell.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({super.key});
@@ -32,12 +33,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             ]),
       ),
       actions: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
         IconButton(
           onPressed: () {},
-          icon: const Icon(
-            Icons.notifications,
-          ),
+          icon: const Icon(Icons.search),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(right: 10.0),
+          child: NotificationBell(),
         ),
         Consumer<UserProvider>(
           builder: (_, provider, __) {
