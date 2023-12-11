@@ -41,10 +41,6 @@ class _ActivityTileState extends State<ActivityTile> {
         ? NetworkImage(widget.activity.image!) as ImageProvider
         : const AssetImage(MediaRes.defaultActivityBackground);
 
-    final ImageProvider<Object> userAvatar = user?.profilePic != null
-        ? NetworkImage(user!.profilePic!) as ImageProvider
-        : const AssetImage(MediaRes.defaultAvatarImage);
-
     widget.activity.tags.sort((a, b) => b.length.compareTo(a.length));
     return BlocListener<ActivityCubit, ActivityState>(
       listener: (context, state) {
@@ -60,6 +56,7 @@ class _ActivityTileState extends State<ActivityTile> {
             activity: widget.activity,
             user: user!,
           );
+
           Navigator.of(context).pushNamed(
             ActivityDetailsScreen.routeName,
             arguments: arguments,
@@ -110,7 +107,11 @@ class _ActivityTileState extends State<ActivityTile> {
                           Row(
                             children: [
                               CircleAvatar(
-                                backgroundImage: userAvatar,
+                                backgroundImage: user?.profilePic != null
+                                    ? NetworkImage(user!.profilePic!)
+                                        as ImageProvider
+                                    : const AssetImage(
+                                        MediaRes.defaultAvatarImage),
                               ),
                               const SizedBox(
                                 width: 5,

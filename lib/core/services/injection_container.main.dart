@@ -62,11 +62,15 @@ Future<void> _initActivity() async {
         addActivity: sl(),
         getActivities: sl(),
         getUserById: sl(),
+        joinActivity: sl(),
+        leaveActivity: sl(),
       ),
     )
     ..registerLazySingleton(() => AddActivity(sl()))
     ..registerLazySingleton(() => GetActivities(sl()))
     ..registerLazySingleton(() => ac.GetUserById(sl()))
+    ..registerLazySingleton(() => JoinActivity(sl()))
+    ..registerLazySingleton(() => LeaveActivity(sl()))
     ..registerLazySingleton<ActivityRepository>(
         () => ActivityRepositoryImpl(sl()))
     ..registerLazySingleton<ActivityRemoteDataSource>(

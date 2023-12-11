@@ -41,4 +41,28 @@ class ActivityRepositoryImpl implements ActivityRepository {
       return Left(ServerFailure.fromException(e));
     }
   }
+
+  @override
+  ResultFuture<void> joinActivity(
+      {required String activityId, required String userId}) async {
+    try {
+      await _remoteDataSource.joinActivity(
+          activityId: activityId, userId: userId);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> leaveActivity(
+      {required String activityId, required String userId}) async {
+    try {
+      await _remoteDataSource.leaveActivity(
+          activityId: activityId, userId: userId);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
 }

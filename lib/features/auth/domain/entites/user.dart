@@ -3,28 +3,34 @@ import 'package:social_ease_app/core/enums/account_level.dart';
 import 'package:social_ease_app/features/auth/domain/entites/social_media_links.dart';
 
 class LocalUser extends Equatable {
-  const LocalUser(
-      {required this.uid,
-      required this.email,
-      required this.points,
-      required this.fullName,
-      required this.accountLevel,
-      required this.socialMediaLinks,
-      this.profilePic,
-      this.bio,
-      this.groups = const []});
+  const LocalUser({
+    required this.uid,
+    required this.email,
+    required this.points,
+    required this.fullName,
+    required this.accountLevel,
+    required this.socialMediaLinks,
+    this.profilePic,
+    this.bio,
+    this.groups = const [],
+    this.ongoingActivities = const [],
+    this.doneActivities = const [],
+  });
 
   factory LocalUser.empty() {
     return LocalUser(
-        uid: '',
-        email: '',
-        profilePic: '',
-        bio: '',
-        fullName: '',
-        groups: const [],
-        accountLevel: AccountLevel.rookie,
-        socialMediaLinks: SocialMediaLinks.empty(),
-        points: 0);
+      uid: '',
+      email: '',
+      profilePic: '',
+      bio: '',
+      fullName: '',
+      groups: const [],
+      doneActivities: const [],
+      ongoingActivities: const [],
+      accountLevel: AccountLevel.rookie,
+      socialMediaLinks: SocialMediaLinks.empty(),
+      points: 0,
+    );
   }
 
   final String uid;
@@ -35,6 +41,8 @@ class LocalUser extends Equatable {
   final String fullName;
   final AccountLevel accountLevel;
   final List<String> groups;
+  final List<String> ongoingActivities;
+  final List<String> doneActivities;
   final SocialMediaLinks socialMediaLinks;
 
   bool get isAdmin => email == 'admin@socialease.com';
@@ -49,6 +57,8 @@ class LocalUser extends Equatable {
         fullName,
         accountLevel,
         groups.length,
+        ongoingActivities.length,
+        doneActivities,
         socialMediaLinks,
       ];
 

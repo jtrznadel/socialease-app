@@ -8,6 +8,8 @@ import 'package:social_ease_app/features/activity/data/repositories/activity_rep
 import 'package:social_ease_app/features/activity/domain/repositories/activity_repository.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/add_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/get_activities.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/join_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/leave_activity.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:social_ease_app/features/auth/data/repositories/auth_repository_impl.dart';

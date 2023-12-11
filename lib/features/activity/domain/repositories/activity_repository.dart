@@ -8,4 +8,8 @@ abstract class ActivityRepository {
   ResultFuture<List<Activity>> getActivities();
   ResultFuture<void> addActivity(Activity activity);
   ResultFuture<LocalUser> getUserById(String userId);
+  ResultFuture<void> joinActivity(
+      {required String activityId, required String userId});
+  ResultFuture<void> leaveActivity(
+      {required String activityId, required String userId});
 }

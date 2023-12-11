@@ -45,3 +45,19 @@ final class UserLoaded extends ActivityState {
   @override
   List<Object> get props => [user];
 }
+
+final class JoiningActivity extends ActivityState {
+  const JoiningActivity();
+}
+
+final class JoinedActivity extends ActivityState {
+  const JoinedActivity();
+}
+
+final class LeavingActivity extends ActivityState {
+  const LeavingActivity();
+}
+
+final class LeftActivity extends ActivityState {
+  const LeftActivity();
+}

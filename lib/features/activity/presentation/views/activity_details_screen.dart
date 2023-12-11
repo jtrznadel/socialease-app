@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/common/widgets/expandable_text.dart';
 import 'package:social_ease_app/core/common/widgets/tag_tile.dart';
 import 'package:social_ease_app/core/entities/activity_details_arguments.dart';
@@ -6,18 +7,29 @@ import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
+import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
+import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/activity/presentation/widgets/activity_action_button.dart';
+import 'package:social_ease_app/features/chat/presentation/cubit/chat_cubit.dart';
 
-class ActivityDetailsScreen extends StatelessWidget {
-  const ActivityDetailsScreen(this.arguments, {super.key});
+class ActivityDetailsScreen extends StatefulWidget {
+  const ActivityDetailsScreen(this.arguments, {Key? key}) : super(key: key);
 
   static const routeName = '/activity-details';
 
   final ActivityDetailsArguments arguments;
 
   @override
+  State<ActivityDetailsScreen> createState() => _ActivityDetailsScreenState();
+}
+
+class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
+  @override
   Widget build(BuildContext context) {
+    bool isCurrentUserMember =
+        widget.arguments.activity.members.contains(context.currentUser!.uid);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -33,9 +45,9 @@ class ActivityDetailsScreen extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          arguments.activity.image != null
+          widget.arguments.activity.image != null
               ? Image.network(
-                  arguments.activity.image!,
+                  widget.arguments.activity.image!,
                   fit: BoxFit.cover,
                 )
               : Image.asset(
@@ -75,7 +87,7 @@ class ActivityDetailsScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              arguments.user.fullName,
+                              widget.arguments.user.fullName,
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
@@ -85,16 +97,18 @@ class ActivityDetailsScreen extends StatelessWidget {
                               width: 5,
                             ),
                             CircleAvatar(
-                              backgroundImage: arguments.user.profilePic != null
-                                  ? NetworkImage(arguments.user.profilePic!)
-                                      as ImageProvider
-                                  : const AssetImage(
-                                      MediaRes.defaultAvatarImage),
+                              backgroundImage:
+                                  widget.arguments.user.profilePic != null
+                                      ? NetworkImage(
+                                              widget.arguments.user.profilePic!)
+                                          as ImageProvider
+                                      : const AssetImage(
+                                          MediaRes.defaultAvatarImage),
                             ),
                           ],
                         ),
                         Text(
-                          arguments.activity.title,
+                          widget.arguments.activity.title,
                           style: TextStyle(
                             fontSize: 26,
                             fontFamily: Fonts.lato,
@@ -106,12 +120,12 @@ class ActivityDetailsScreen extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Icon(arguments.activity.category.icon),
+                            Icon(widget.arguments.activity.category.icon),
                             const SizedBox(
                               width: 5,
                             ),
                             Text(
-                              arguments.activity.category.label,
+                              widget.arguments.activity.category.label,
                               style: TextStyle(
                                 fontSize: 20,
                                 color: AppColors.secondaryTextColor,
@@ -136,7 +150,7 @@ class ActivityDetailsScreen extends StatelessWidget {
                         ),
                         ExpandableText(
                           context,
-                          text: arguments.activity.description,
+                          text: widget.arguments.activity.description,
                         ),
                         const SizedBox(
                           height: 10,
@@ -145,7 +159,7 @@ class ActivityDetailsScreen extends StatelessWidget {
                           spacing: 5.0,
                           runSpacing: 8.0,
                           children: [
-                            ...arguments.activity.tags
+                            ...widget.arguments.activity.tags
                                 .take(3)
                                 .map((tag) => TagTile(
                                       tag: tag,
@@ -207,8 +221,18 @@ class ActivityDetailsScreen extends StatelessWidget {
             left: 20,
             child: SizedBox(
               width: context.width,
-              child: ActivityActionButton(
-                activity: arguments.activity,
+              child: MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (_) => sl<ActivityCubit>(),
+                  ),
+                  BlocProvider(
+                    create: (_) => sl<ChatCubit>(),
+                  ),
+                ],
+                child: ActivityActionButton(
+                  activity: widget.arguments.activity,
+                ),
               ),
             ),
           ),

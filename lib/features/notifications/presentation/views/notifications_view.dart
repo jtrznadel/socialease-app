@@ -57,7 +57,6 @@ class _NotificationsViewState extends State<NotificationsView> {
               itemCount: state.notifications.length,
               itemBuilder: (_, index) {
                 final notification = state.notifications[index];
-
                 return Badge(
                   showBadge: !notification.seen,
                   position: BadgePosition.topEnd(top: 30, end: 30),

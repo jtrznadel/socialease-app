@@ -8,6 +8,8 @@ import 'package:social_ease_app/features/activity/domain/entities/activity.dart'
 import 'package:social_ease_app/features/activity/domain/usecases/add_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/get_activities.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/get_user_by_id.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/join_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/leave_activity.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 
 class MockAddActivity extends Mock implements AddActivity {}
@@ -16,11 +18,17 @@ class MockGetActivities extends Mock implements GetActivities {}
 
 class MockGetUser extends Mock implements GetUserById {}
 
+class MockJoinActivity extends Mock implements JoinActivity {}
+
+class MockLeaveActivity extends Mock implements LeaveActivity {}
+
 void main() {
   late AddActivity addActivity;
   late GetActivities getActivities;
   late GetUserById getUserById;
   late ActivityCubit activityCubit;
+  late JoinActivity joinActivity;
+  late LeaveActivity leaveActivity;
 
   final tActivity = ActivityModel.empty();
 
@@ -28,10 +36,14 @@ void main() {
     addActivity = MockAddActivity();
     getActivities = MockGetActivities();
     getUserById = MockGetUser();
+    joinActivity = MockJoinActivity();
+    leaveActivity = MockLeaveActivity();
     activityCubit = ActivityCubit(
       addActivity: addActivity,
       getActivities: getActivities,
       getUserById: getUserById,
+      joinActivity: joinActivity,
+      leaveActivity: leaveActivity,
     );
     registerFallbackValue(tActivity);
   });

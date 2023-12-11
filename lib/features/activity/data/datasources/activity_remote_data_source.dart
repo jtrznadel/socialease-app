@@ -15,6 +15,8 @@ abstract class ActivityRemoteDataSource {
   Future<List<ActivityModel>> getActivities();
   Future<void> addActivity(Activity activity);
   Future<LocalUserModel> getUserById(String userId);
+  Future<void> joinActivity({required activityId, required userId});
+  Future<void> leaveActivity({required activityId, required userId});
 }
 
 class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
@@ -42,9 +44,7 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
       final groupRef = _firestore.collection('groups').doc();
 
       var activityModel = (activity as ActivityModel).copyWith(
-        id: activityRef.id,
-        groupId: groupRef.id,
-      );
+          id: activityRef.id, groupId: groupRef.id, members: [user.uid]);
       if (activityModel.imageIsFile) {
         final imageRef = _storage.ref().child(
             'activities/${activityModel.id}/profile_image/${activityModel.title}-pfp');
@@ -60,7 +60,7 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
         id: groupRef.id,
         name: activity.title,
         activityId: activityRef.id,
-        members: const [],
+        members: [user.uid],
         groupImageUrl: activityModel.image,
       );
 
@@ -110,6 +110,56 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
         );
       }
       return LocalUserModel.fromMap(userDoc.data()!);
+    } on FirebaseException catch (e) {
+      throw ServerException(
+        message: e.message ?? 'Unknown error occurred',
+        statusCode: e.code,
+      );
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw ServerException(
+        message: e.toString(),
+        statusCode: '505',
+      );
+    }
+  }
+
+  @override
+  Future<void> joinActivity({required activityId, required userId}) async {
+    try {
+      await DataSourceUtils.authorizeUser(_auth);
+      await _firestore.collection('activities').doc(activityId).update({
+        'members': FieldValue.arrayUnion([userId])
+      });
+      await _firestore.collection('users').doc(userId).update({
+        'ongoingActivities': FieldValue.arrayUnion([activityId])
+      });
+    } on FirebaseException catch (e) {
+      throw ServerException(
+        message: e.message ?? 'Unknown error occurred',
+        statusCode: e.code,
+      );
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw ServerException(
+        message: e.toString(),
+        statusCode: '505',
+      );
+    }
+  }
+
+  @override
+  Future<void> leaveActivity({required activityId, required userId}) async {
+    try {
+      await DataSourceUtils.authorizeUser(_auth);
+      await _firestore.collection('activities').doc(activityId).update({
+        'members': FieldValue.arrayRemove([userId])
+      });
+      await _firestore.collection('users').doc(userId).update({
+        'ongoingActivities': FieldValue.arrayRemove([activityId])
+      });
     } on FirebaseException catch (e) {
       throw ServerException(
         message: e.message ?? 'Unknown error occurred',

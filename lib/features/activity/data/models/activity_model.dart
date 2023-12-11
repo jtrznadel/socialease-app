@@ -15,6 +15,7 @@ class ActivityModel extends Activity {
     required super.updatedAt,
     required super.createdBy,
     required super.tags,
+    required super.members,
     super.status = "new",
     super.image,
     super.imageIsFile = false,
@@ -29,6 +30,7 @@ class ActivityModel extends Activity {
           category: ActivityCategory.charity,
           groupId: '_empty.groupId',
           tags: const [],
+          members: const [],
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
           createdBy: '_empty.createdBy',
@@ -46,6 +48,7 @@ class ActivityModel extends Activity {
             updatedAt: (map['updatedAt'] as Timestamp).toDate(),
             createdBy: map['createdBy'] as String,
             tags: (map['tags'] as List<dynamic>).cast<String>(),
+            members: (map['members'] as List<dynamic>).cast<String>(),
             image: map['image'] as String?,
             status: map['status'] as String);
 
@@ -60,6 +63,7 @@ class ActivityModel extends Activity {
     DateTime? updatedAt,
     String? createdBy,
     List<String>? tags,
+    List<String>? members,
     String? image,
     bool? imageIsFile,
     String? status,
@@ -75,6 +79,7 @@ class ActivityModel extends Activity {
       updatedAt: updatedAt ?? this.updatedAt,
       createdBy: createdBy ?? this.createdBy,
       tags: tags ?? this.tags,
+      members: members ?? this.members,
       image: image ?? this.image,
       imageIsFile: imageIsFile ?? this.imageIsFile,
       status: status ?? this.status,
@@ -92,6 +97,7 @@ class ActivityModel extends Activity {
         'updatedAt': FieldValue.serverTimestamp(),
         'createdBy': createdBy,
         'tags': tags,
+        'members': members,
         'image': image,
         'status': status,
       };

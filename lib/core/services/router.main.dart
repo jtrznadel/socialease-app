@@ -60,11 +60,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         ),
         settings: settings,
       );
-    case ActivityDetailsScreen.routeName:
-      return _pageBuilder(
-          (_) => ActivityDetailsScreen(
-              settings.arguments as ActivityDetailsArguments),
-          settings: settings);
+
     case EditActivityScreen.routeName:
       return _pageBuilder(
           (_) => EditActivityScreen(settings.arguments as Activity),

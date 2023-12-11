@@ -13,6 +13,7 @@ class Activity extends Equatable {
     required this.updatedAt,
     required this.createdBy,
     required this.tags,
+    required this.members,
     this.status = "new",
     this.image,
     this.imageIsFile = false,
@@ -27,6 +28,7 @@ class Activity extends Equatable {
           category: ActivityCategory.charity,
           groupId: '_empty.groupId',
           tags: const [],
+          members: const [],
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
           createdBy: '_empty.createdBy',
@@ -45,6 +47,7 @@ class Activity extends Equatable {
   final DateTime createdAt;
   final DateTime updatedAt;
   final String createdBy;
+  final List<String> members;
 
   @override
   List<Object?> get props => [id];
