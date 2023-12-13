@@ -46,4 +46,13 @@ import 'package:social_ease_app/features/on_boarding/domain/repositories/on_boar
 import 'package:social_ease_app/features/on_boarding/domain/usecases/cache_first_timer.dart';
 import 'package:social_ease_app/features/on_boarding/domain/usecases/check_if_user_is_first_timer.dart';
 import 'package:social_ease_app/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
+import 'package:social_ease_app/features/points/data/datasources/points_remote_data_source.dart';
+import 'package:social_ease_app/features/points/data/repositories/points_repo_impl.dart';
+import 'package:social_ease_app/features/points/domain/repositories/points_repository.dart';
+import 'package:social_ease_app/features/points/domain/usecases/add_points.dart';
+import 'package:social_ease_app/features/points/domain/usecases/get_level.dart';
+import 'package:social_ease_app/features/points/domain/usecases/get_points.dart';
+import 'package:social_ease_app/features/points/domain/usecases/subtract_points.dart';
+import 'package:social_ease_app/features/points/domain/usecases/update_level.dart';
+import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
 part 'injection_container.main.dart';

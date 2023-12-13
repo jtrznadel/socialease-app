@@ -8,6 +8,27 @@ Future<void> init() async {
   await _initActivity();
   await _initChat();
   await _initNotifications();
+  await _initPoints();
+}
+
+Future<void> _initPoints() async {
+  sl
+    ..registerFactory(() => PointsCubit(
+          addPoints: sl(),
+          subPoints: sl(),
+          updateLevel: sl(),
+          getPoints: sl(),
+          getLevel: sl(),
+        ))
+    ..registerLazySingleton(() => AddPoints(sl()))
+    ..registerLazySingleton(() => SubPoints(sl()))
+    ..registerLazySingleton(() => UpdateLevel(sl()))
+    ..registerLazySingleton(() => GetPoints(sl()))
+    ..registerLazySingleton(() => GetLevel(sl()))
+    ..registerLazySingleton<PointsRepo>(() => PointsRepoImpl(sl()))
+    ..registerLazySingleton<PointsRemoteDataSrc>(
+      () => PointsRemoteDataSrcImpl(firestore: sl(), auth: sl()),
+    );
 }
 
 Future<void> _initNotifications() async {
