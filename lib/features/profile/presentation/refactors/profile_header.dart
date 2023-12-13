@@ -13,12 +13,25 @@ import 'package:social_ease_app/features/activity/presentation/widgets/add_activ
 import 'package:social_ease_app/features/admin_panel/presentation/views/activities_management.dart';
 import 'package:social_ease_app/features/admin_panel/presentation/views/requests_management.dart';
 import 'package:social_ease_app/features/auth/domain/entites/social_media_links.dart';
+import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
 import 'package:social_ease_app/features/profile/presentation/widgets/account_stats.dart';
 import 'package:social_ease_app/features/profile/presentation/widgets/profile_action_button.dart';
 import 'package:social_ease_app/features/profile/presentation/widgets/social_buttons.dart';
 
-class ProfileHeader extends StatelessWidget {
+class ProfileHeader extends StatefulWidget {
   const ProfileHeader({super.key});
+
+  @override
+  State<ProfileHeader> createState() => _ProfileHeaderState();
+}
+
+class _ProfileHeaderState extends State<ProfileHeader> {
+  @override
+  void initState() {
+    context.read<PointsCubit>().getPoints(context.currentUser!.uid);
+    //context.read<PointsCubit>().getLevel(context.currentUser!.uid);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,9 +136,21 @@ class ProfileHeader extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              AccountStats(
-                points: points,
-                activityCounter: user.groups.length,
+              BlocBuilder<PointsCubit, PointsState>(
+                builder: (context, state) {
+                  if (state is PointsError) {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  } else if (state is PointsLoaded) {
+                    return AccountStats(
+                      points: state.points,
+                      activityCounter: user.groups.length,
+                    );
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                },
               ),
               const SizedBox(
                 height: 15,

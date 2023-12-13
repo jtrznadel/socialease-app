@@ -10,6 +10,7 @@ import 'package:social_ease_app/features/notifications/domain/usecases/clear_all
 import 'package:social_ease_app/features/notifications/domain/usecases/get_notifications.dart';
 import 'package:social_ease_app/features/notifications/domain/usecases/mark_as_read.dart';
 import 'package:social_ease_app/features/notifications/domain/usecases/send_notification.dart';
+import 'package:social_ease_app/features/notifications/domain/usecases/send_notification_to_user.dart';
 
 part 'notification_state.dart';
 
@@ -19,11 +20,13 @@ class NotificationCubit extends Cubit<NotificationState> {
     required Clear clear,
     required GetNotifications getNotifications,
     required SendNotification sendNotification,
+    required SendNotificationToUser sendNotificationToUser,
     required MarkAsRead markAsRead,
   })  : _clearAll = clearAll,
         _clear = clear,
         _getNotifications = getNotifications,
         _sendNotification = sendNotification,
+        _sendNotificationToUser = sendNotificationToUser,
         _markAsRead = markAsRead,
         super(NotificationInitial());
 
@@ -31,6 +34,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   final ClearAll _clearAll;
   final GetNotifications _getNotifications;
   final SendNotification _sendNotification;
+  final SendNotificationToUser _sendNotificationToUser;
   final MarkAsRead _markAsRead;
 
   Future<void> clear(String notificationId) async {
@@ -54,6 +58,17 @@ class NotificationCubit extends Cubit<NotificationState> {
   Future<void> sendNotification(Notification notification) async {
     emit(const SendingNotification());
     final result = await _sendNotification(notification);
+    result.fold(
+      (failure) => emit(NotificationError(failure.errorMessage)),
+      (_) => emit(const NotificationsSent()),
+    );
+  }
+
+  Future<void> sendNotificationToUser(
+      {required String userId, required Notification notification}) async {
+    emit(const SendingNotification());
+    final result = await _sendNotificationToUser(SendNotificationToUserParams(
+        userId: userId, notification: notification));
     result.fold(
       (failure) => emit(NotificationError(failure.errorMessage)),
       (_) => emit(const NotificationsSent()),

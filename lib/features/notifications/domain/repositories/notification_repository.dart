@@ -10,6 +10,8 @@ abstract class NotificationRepository {
   ResultFuture<void> clear(String notificationId);
 
   ResultFuture<void> sendNotification(Notification notification);
+  ResultFuture<void> sendNotificationToUser(
+      {required String userId, required Notification notification});
 
   ResultStream<List<Notification>> getNotifications();
 }

@@ -75,4 +75,16 @@ class NotificationRepoImpl implements NotificationRepository {
       return Left(ServerFailure.fromException(e));
     }
   }
+
+  @override
+  ResultFuture<void> sendNotificationToUser(
+      {required String userId, required Notification notification}) async {
+    try {
+      await _remoteDataSource.sendNotificationToUser(
+          userId: userId, notification: notification);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
 }

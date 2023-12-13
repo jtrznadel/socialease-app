@@ -16,6 +16,9 @@ abstract class NotificationRemoteDataSource {
 
   Future<void> sendNotification(Notification notification);
 
+  Future<void> sendNotificationToUser(
+      {required String userId, required Notification notification});
+
   Stream<List<NotificationModel>> getNotifications();
 }
 
@@ -173,6 +176,36 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
           );
         }
         await batch.commit();
+      }
+    } on FirebaseException catch (e) {
+      throw ServerException(
+        message: e.message ?? 'Unknown error occurred',
+        statusCode: e.code,
+      );
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw ServerException(message: e.toString(), statusCode: '505');
+    }
+  }
+
+  @override
+  Future<void> sendNotificationToUser(
+      {required String userId, required Notification notification}) async {
+    try {
+      DataSourceUtils.authorizeUser(_auth);
+      final userDoc = await _firestore.collection('users').doc(userId).get();
+      if (userDoc.exists) {
+        final notificationRef =
+            userDoc.reference.collection('notifications').doc();
+        await notificationRef.set(
+          (notification as NotificationModel)
+              .copyWith(id: notificationRef.id)
+              .toMap(),
+        );
+      } else {
+        throw const ServerException(
+            message: 'User not found', statusCode: '404');
       }
     } on FirebaseException catch (e) {
       throw ServerException(
