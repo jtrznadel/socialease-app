@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/errors/exceptions.dart';
 import 'package:social_ease_app/core/errors/failures.dart';
 import 'package:social_ease_app/core/utils/typedefs.dart';
@@ -60,6 +61,18 @@ class ActivityRepositoryImpl implements ActivityRepository {
     try {
       await _remoteDataSource.leaveActivity(
           activityId: activityId, userId: userId);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> updateActivityStatus(
+      {required String activityId, required ActivityStatus status}) async {
+    try {
+      await _remoteDataSource.updateActivityStatus(
+          status: status, activityId: activityId);
       return const Right(null);
     } on ServerException catch (e) {
       return Left(ServerFailure.fromException(e));

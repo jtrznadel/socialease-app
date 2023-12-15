@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/errors/exceptions.dart';
 import 'package:social_ease_app/core/utils/datasource_utils.dart';
 import 'package:social_ease_app/features/activity/data/models/activity_model.dart';
@@ -17,6 +18,8 @@ abstract class ActivityRemoteDataSource {
   Future<LocalUserModel> getUserById(String userId);
   Future<void> joinActivity({required activityId, required userId});
   Future<void> leaveActivity({required activityId, required userId});
+  Future<void> updateActivityStatus(
+      {required String activityId, required ActivityStatus status});
 }
 
 class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
@@ -160,6 +163,30 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
       await _firestore.collection('users').doc(userId).update({
         'ongoingActivities': FieldValue.arrayRemove([activityId])
       });
+    } on FirebaseException catch (e) {
+      throw ServerException(
+        message: e.message ?? 'Unknown error occurred',
+        statusCode: e.code,
+      );
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw ServerException(
+        message: e.toString(),
+        statusCode: '505',
+      );
+    }
+  }
+
+  @override
+  Future<void> updateActivityStatus(
+      {required String activityId, required ActivityStatus status}) async {
+    try {
+      await DataSourceUtils.authorizeUser(_auth);
+      await _firestore
+          .collection('activities')
+          .doc(activityId)
+          .update({'status': status.name});
     } on FirebaseException catch (e) {
       throw ServerException(
         message: e.message ?? 'Unknown error occurred',

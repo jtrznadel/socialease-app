@@ -88,6 +88,8 @@ class ChatCubit extends Cubit<ChatState> {
     StreamSubscription<Either<Failure, List<Group>>>? subscription;
     subscription = _getGroups().listen(
       (result) {
+        if (isClosed) return;
+
         result.fold(
           (failure) => emit(ChatError(failure.errorMessage)),
           (groups) => emit(GroupsLoaded(groups)),
@@ -95,6 +97,7 @@ class ChatCubit extends Cubit<ChatState> {
       },
       onError: (dynamic error) {
         emit(ChatError(error.toString()));
+        subscription?.cancel();
       },
       onDone: () => subscription?.cancel(),
     );
@@ -106,6 +109,8 @@ class ChatCubit extends Cubit<ChatState> {
 
     subscription = _getMessages(groupId).listen(
       (result) {
+        if (isClosed) return;
+
         result.fold(
           (failure) => emit(ChatError(failure.errorMessage)),
           (messages) => emit(MessagesLoaded(messages)),

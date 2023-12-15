@@ -12,6 +12,7 @@ import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activ
 import 'package:social_ease_app/features/activity/presentation/widgets/add_activity_sheet.dart';
 import 'package:social_ease_app/features/admin_panel/presentation/views/activities_management.dart';
 import 'package:social_ease_app/features/admin_panel/presentation/views/requests_management.dart';
+import 'package:social_ease_app/features/admin_panel/presentation/widgets/requests_management_button.dart';
 import 'package:social_ease_app/features/auth/domain/entites/social_media_links.dart';
 import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
 import 'package:social_ease_app/features/profile/presentation/widgets/account_stats.dart';
@@ -224,13 +225,9 @@ class _ProfileHeaderState extends State<ProfileHeader> {
               const SizedBox(
                 height: 10,
               ),
-              ProfileActionButton(
-                label: 'Requests Management',
-                numberToCheck: 2,
-                icon: Icons.manage_history,
-                onPressed: () => Navigator.of(context).pushNamed(
-                  RequestsManagementScreen.routeName,
-                ),
+              BlocProvider(
+                create: (context) => sl<ActivityCubit>(),
+                child: const RequestsManagementButton(),
               ),
               const SizedBox(
                 height: 10,

@@ -37,12 +37,14 @@ Future<void> _initNotifications() async {
           clear: sl(),
           clearAll: sl(),
           sendNotification: sl(),
+          sendNotificationToUser: sl(),
           getNotifications: sl(),
           markAsRead: sl(),
         ))
     ..registerLazySingleton(() => Clear(sl()))
     ..registerLazySingleton(() => ClearAll(sl()))
     ..registerLazySingleton(() => SendNotification(sl()))
+    ..registerLazySingleton(() => SendNotificationToUser(sl()))
     ..registerLazySingleton(() => GetNotifications(sl()))
     ..registerLazySingleton(() => MarkAsRead(sl()))
     ..registerLazySingleton<NotificationRepository>(
@@ -85,6 +87,7 @@ Future<void> _initActivity() async {
         getUserById: sl(),
         joinActivity: sl(),
         leaveActivity: sl(),
+        updateActivityStatus: sl(),
       ),
     )
     ..registerLazySingleton(() => AddActivity(sl()))
@@ -92,6 +95,7 @@ Future<void> _initActivity() async {
     ..registerLazySingleton(() => ac.GetUserById(sl()))
     ..registerLazySingleton(() => JoinActivity(sl()))
     ..registerLazySingleton(() => LeaveActivity(sl()))
+    ..registerLazySingleton(() => UpdateActivityStatus(sl()))
     ..registerLazySingleton<ActivityRepository>(
         () => ActivityRepositoryImpl(sl()))
     ..registerLazySingleton<ActivityRemoteDataSource>(

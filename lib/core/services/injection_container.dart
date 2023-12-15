@@ -10,6 +10,7 @@ import 'package:social_ease_app/features/activity/domain/usecases/add_activity.d
 import 'package:social_ease_app/features/activity/domain/usecases/get_activities.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/join_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/leave_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/update_activity_status.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:social_ease_app/features/auth/data/repositories/auth_repository_impl.dart';
@@ -39,6 +40,7 @@ import 'package:social_ease_app/features/notifications/domain/usecases/clear_all
 import 'package:social_ease_app/features/notifications/domain/usecases/get_notifications.dart';
 import 'package:social_ease_app/features/notifications/domain/usecases/mark_as_read.dart';
 import 'package:social_ease_app/features/notifications/domain/usecases/send_notification.dart';
+import 'package:social_ease_app/features/notifications/domain/usecases/send_notification_to_user.dart';
 import 'package:social_ease_app/features/notifications/presentation/cubit/notification_cubit.dart';
 import 'package:social_ease_app/features/on_boarding/data/datasources/on_boarding_local_data_source.dart';
 import 'package:social_ease_app/features/on_boarding/data/repositories/on_boarding_repository_impl.dart';

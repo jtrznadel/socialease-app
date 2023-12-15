@@ -14,7 +14,7 @@ class Activity extends Equatable {
     required this.createdBy,
     required this.tags,
     required this.members,
-    this.status = "new",
+    this.status = "toBeVerified",
     this.image,
     this.imageIsFile = false,
   });

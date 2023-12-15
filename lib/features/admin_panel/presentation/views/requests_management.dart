@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/common/views/loading_view.dart';
 import 'package:social_ease_app/core/common/widgets/gradient_background.dart';
+import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
+import 'package:social_ease_app/core/services/injection_container.dart';
 
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/admin_panel/presentation/widgets/request_viewer.dart';
+import 'package:social_ease_app/features/notifications/presentation/cubit/notification_cubit.dart';
 
 class RequestsManagementScreen extends StatefulWidget {
   const RequestsManagementScreen({super.key});
@@ -60,10 +63,21 @@ class _RequestsManagementScreenState extends State<RequestsManagementScreen> {
               );
             } else if (state is ActivitiesLoaded) {
               final requests = state.activities
-                  .where((element) => element.status == "new")
+                  .where((request) =>
+                      request.status == ActivityStatus.toBeVerified.name)
                   .toList();
 
-              return RequestViewer(requests: requests);
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) => sl<NotificationCubit>(),
+                  ),
+                  BlocProvider(
+                    create: (context) => sl<ActivityCubit>(),
+                  )
+                ],
+                child: RequestViewer(requests: requests),
+              );
             }
             return const SizedBox.shrink();
           },

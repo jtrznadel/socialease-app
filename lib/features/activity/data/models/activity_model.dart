@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:social_ease_app/core/enums/activity_category.dart';
+import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/utils/typedefs.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
+import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 
 class ActivityModel extends Activity {
   const ActivityModel({
@@ -16,7 +18,7 @@ class ActivityModel extends Activity {
     required super.createdBy,
     required super.tags,
     required super.members,
-    super.status = "new",
+    super.status = "toBeVerified",
     super.image,
     super.imageIsFile = false,
   });

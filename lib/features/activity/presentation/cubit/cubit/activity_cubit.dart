@@ -1,11 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/add_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/get_activities.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/get_user_by_id.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/join_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/leave_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/update_activity_status.dart';
 import 'package:social_ease_app/features/auth/domain/entites/user.dart';
 
 part 'activity_state.dart';
@@ -17,11 +19,13 @@ class ActivityCubit extends Cubit<ActivityState> {
     required GetUserById getUserById,
     required JoinActivity joinActivity,
     required LeaveActivity leaveActivity,
+    required UpdateActivityStatus updateActivityStatus,
   })  : _addActivity = addActivity,
         _getActivities = getActivities,
         _getUserById = getUserById,
         _joinActivity = joinActivity,
         _leaveActivity = leaveActivity,
+        _updateActivityStatus = updateActivityStatus,
         super(ActivityInitial());
 
   final AddActivity _addActivity;
@@ -29,6 +33,7 @@ class ActivityCubit extends Cubit<ActivityState> {
   final GetUserById _getUserById;
   final JoinActivity _joinActivity;
   final LeaveActivity _leaveActivity;
+  final UpdateActivityStatus _updateActivityStatus;
 
   Future<void> addActivity(Activity activity) async {
     emit(AddingActivity());
@@ -87,7 +92,16 @@ class ActivityCubit extends Cubit<ActivityState> {
     );
   }
 
-  void resetState() {
-    emit(ActivityInitial());
+  Future<void> updateActivityStatus({
+    required ActivityStatus status,
+    required String activityId,
+  }) async {
+    emit(const UpdatingActivityStatus());
+    final result = await _updateActivityStatus(
+        UpdateActivityStatusParams(activityId: activityId, status: status));
+    result.fold(
+      (failure) => emit(ActivityError(failure.errorMessage)),
+      (_) => emit(const ActivityStatusUpdated()),
+    );
   }
 }

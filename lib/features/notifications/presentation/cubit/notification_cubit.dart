@@ -88,6 +88,8 @@ class NotificationCubit extends Cubit<NotificationState> {
     StreamSubscription<Either<Failure, List<Notification>>>? subscription;
     subscription = _getNotifications().listen(
       (result) {
+        if (isClosed) return;
+
         result.fold(
           (failure) {
             emit(NotificationError(failure.errorMessage));

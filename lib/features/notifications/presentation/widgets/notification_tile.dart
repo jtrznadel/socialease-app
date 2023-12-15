@@ -33,16 +33,21 @@ class NotificationTile extends StatelessWidget {
           context.read<NotificationCubit>().clear(notification.id);
         },
         child: ListTile(
-          leading: Icon(notification.category.icon),
-          title: Text(
-            notification.title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
+            leading: Icon(notification.category.icon),
+            title: Text(
+              notification.title,
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+              ),
             ),
-          ),
-          subtitle: TimeText(time: notification.sentAt),
-        ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(notification.body),
+                TimeText(time: notification.sentAt),
+              ],
+            )),
       ),
     );
   }

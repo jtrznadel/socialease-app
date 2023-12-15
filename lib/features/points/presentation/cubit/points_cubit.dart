@@ -78,6 +78,7 @@ class PointsCubit extends Cubit<PointsState> {
 
     subscription = _getPoints(userId).listen(
       (result) {
+        if (isClosed) return;
         result.fold(
           (failure) => emit(PointsError(failure.errorMessage)),
           (points) => emit(PointsLoaded(points)),
@@ -97,6 +98,7 @@ class PointsCubit extends Cubit<PointsState> {
 
     subscription = _getLevel(userId).listen(
       (result) {
+        if (isClosed) return;
         result.fold(
           (failure) => emit(PointsError(failure.errorMessage)),
           (level) => emit(LevelLoaded(level)),
