@@ -46,8 +46,12 @@ class ActivityModel extends Activity {
             location: map['location'] as String,
             category: ActivityCategory.values.byName(map['category']),
             groupId: map['groupId'] as String,
-            createdAt: (map['createdAt'] as Timestamp).toDate(),
-            updatedAt: (map['updatedAt'] as Timestamp).toDate(),
+            createdAt: map['createdAt'] != null
+                ? (map['createdAt'] as Timestamp).toDate()
+                : DateTime.now(),
+            updatedAt: map['updatedAt'] != null
+                ? (map['updatedAt'] as Timestamp).toDate()
+                : DateTime.now(),
             createdBy: map['createdBy'] as String,
             tags: (map['tags'] as List<dynamic>).cast<String>(),
             members: (map['members'] as List<dynamic>).cast<String>(),

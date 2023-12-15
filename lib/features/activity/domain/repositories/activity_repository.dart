@@ -6,7 +6,7 @@ import 'package:social_ease_app/features/auth/domain/entites/user.dart';
 abstract class ActivityRepository {
   const ActivityRepository();
 
-  ResultFuture<List<Activity>> getActivities();
+  ResultStream<List<Activity>> getActivities();
   ResultFuture<void> addActivity(Activity activity);
   ResultFuture<LocalUser> getUserById(String userId);
   ResultFuture<void> joinActivity(

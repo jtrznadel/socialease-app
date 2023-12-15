@@ -9,9 +9,9 @@ sealed class ActivityState extends Equatable {
 
 final class ActivityInitial extends ActivityState {}
 
-class LoadingActivities extends ActivityState {}
+final class LoadingActivities extends ActivityState {}
 
-class ActivitiesLoaded extends ActivityState {
+final class ActivitiesLoaded extends ActivityState {
   const ActivitiesLoaded(this.activities);
 
   final List<Activity> activities;

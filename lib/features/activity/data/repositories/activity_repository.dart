@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/errors/exceptions.dart';
 import 'package:social_ease_app/core/errors/failures.dart';
 import 'package:social_ease_app/core/utils/typedefs.dart';
 import 'package:social_ease_app/features/activity/data/datasources/activity_remote_data_source.dart';
+import 'package:social_ease_app/features/activity/data/models/activity_model.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/domain/repositories/activity_repository.dart';
 import 'package:social_ease_app/features/auth/domain/entites/user.dart';
@@ -24,13 +28,24 @@ class ActivityRepositoryImpl implements ActivityRepository {
   }
 
   @override
-  ResultFuture<List<Activity>> getActivities() async {
-    try {
-      final activities = await _remoteDataSource.getActivities();
-      return Right(activities);
-    } on ServerException catch (e) {
-      return Left(ServerFailure.fromException(e));
-    }
+  ResultStream<List<Activity>> getActivities() {
+    return _remoteDataSource.getActivities().transform(
+          StreamTransformer<List<ActivityModel>,
+              Either<Failure, List<Activity>>>.fromHandlers(
+            handleData: (activities, sink) {
+              sink.add(Right(activities));
+            },
+            handleError: (error, stackTrace, sink) {
+              debugPrint(stackTrace.toString());
+              if (error is ServerException) {
+                sink.add(Left(ServerFailure.fromException(error)));
+              } else {
+                sink.add(Left(
+                    ServerFailure(message: error.toString(), statusCode: 505)));
+              }
+            },
+          ),
+        );
   }
 
   @override

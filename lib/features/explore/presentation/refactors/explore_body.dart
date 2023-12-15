@@ -10,6 +10,7 @@ import 'package:social_ease_app/features/activity/domain/entities/activity.dart'
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/activity/presentation/refactors/activities_list.dart';
 import 'package:social_ease_app/features/activity/presentation/refactors/activities_map.dart';
+import 'package:social_ease_app/features/dashboard/presentation/utils/dashboard_utils.dart';
 
 class ExploreBody extends StatefulWidget {
   const ExploreBody({super.key});
@@ -21,37 +22,40 @@ class ExploreBody extends StatefulWidget {
 class _ExploreBodyState extends State<ExploreBody> {
   final List<ActivityCategory> categories = ActivityCategory.values;
   late List<ActivityCategory> selectedCategories;
-  late List<Activity> activities;
-
-  void getActivities() {
-    context.read<ActivityCubit>().getActivities();
-  }
 
   void getCategories() {
     selectedCategories = List.from(categories);
   }
 
-  List<Activity> filterActivities(List<Activity> allActivities) {
-    return allActivities.where((activity) {
-      return selectedCategories.contains(activity.category);
-    }).toList();
-  }
-
   @override
   void initState() {
     getCategories();
-    getActivities();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ActivityCubit, ActivityState>(
-      builder: (context, state) {
-        if (state is LoadingActivities) {
+    return StreamBuilder<List<Activity>>(
+      stream: DashboardUtils.activitiesStream,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return const LoadingView();
-        } else if (state is ActivitiesLoaded && state.activities.isEmpty ||
-            state is ActivityError) {
+        } else if (snapshot.hasError) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50.0),
+              child: Text(
+                'Error loading activities',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: AppColors.secondaryTextColor,
+                  fontWeight: FontWeight.w400,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const Center(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 50.0),
@@ -66,8 +70,8 @@ class _ExploreBodyState extends State<ExploreBody> {
               ),
             ),
           );
-        } else if (state is ActivitiesLoaded) {
-          activities = state.activities;
+        } else {
+          List<Activity> activities = snapshot.data!;
           return Consumer<ExploreActivitiesTypeNotifier>(
             builder: (_, provider, __) {
               bool exploreType = provider.exploreType;
@@ -183,7 +187,7 @@ class _ExploreBodyState extends State<ExploreBody> {
                   Expanded(
                     child: ExploreList(
                       key: UniqueKey(),
-                      activities: filterActivities(state.activities),
+                      activities: activities,
                     ),
                   ),
                 ],
@@ -191,7 +195,6 @@ class _ExploreBodyState extends State<ExploreBody> {
             },
           );
         }
-        return const SizedBox.shrink();
       },
     );
   }

@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:social_ease_app/core/enums/activity_status.dart';
+import 'package:social_ease_app/core/errors/failures.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/add_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/get_activities.dart';
@@ -13,6 +17,15 @@ import 'package:social_ease_app/features/auth/domain/entites/user.dart';
 part 'activity_state.dart';
 
 class ActivityCubit extends Cubit<ActivityState> {
+  final AddActivity _addActivity;
+  final GetActivities _getActivities;
+  final GetUserById _getUserById;
+  final JoinActivity _joinActivity;
+  final LeaveActivity _leaveActivity;
+  final UpdateActivityStatus _updateActivityStatus;
+
+  StreamSubscription<Either<Failure, List<Activity>>>? activitiesSubscription;
+
   ActivityCubit({
     required AddActivity addActivity,
     required GetActivities getActivities,
@@ -28,12 +41,11 @@ class ActivityCubit extends Cubit<ActivityState> {
         _updateActivityStatus = updateActivityStatus,
         super(ActivityInitial());
 
-  final AddActivity _addActivity;
-  final GetActivities _getActivities;
-  final GetUserById _getUserById;
-  final JoinActivity _joinActivity;
-  final LeaveActivity _leaveActivity;
-  final UpdateActivityStatus _updateActivityStatus;
+  @override
+  Future<void> close() {
+    activitiesSubscription?.cancel();
+    return super.close();
+  }
 
   Future<void> addActivity(Activity activity) async {
     emit(AddingActivity());
@@ -44,12 +56,18 @@ class ActivityCubit extends Cubit<ActivityState> {
     );
   }
 
-  Future<void> getActivities() async {
+  void getActivities() {
     emit(LoadingActivities());
-    final result = await _getActivities();
-    result.fold(
-      (failure) => emit(ActivityError(failure.errorMessage)),
-      (activities) => emit(ActivitiesLoaded(activities)),
+    activitiesSubscription = _getActivities().listen(
+      (result) {
+        result.fold(
+          (failure) => emit(ActivityError(failure.errorMessage)),
+          (activities) => emit(ActivitiesLoaded(activities)),
+        );
+      },
+      onError: (error) {
+        emit(ActivityError(error.toString()));
+      },
     );
   }
 

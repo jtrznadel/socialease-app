@@ -8,12 +8,13 @@ import 'package:social_ease_app/core/errors/exceptions.dart';
 import 'package:social_ease_app/core/utils/datasource_utils.dart';
 import 'package:social_ease_app/features/activity/data/models/activity_model.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/get_activities.dart';
 import 'package:social_ease_app/features/auth/data/models/user_model.dart';
 import 'package:social_ease_app/features/chat/data/models/group_model.dart';
 
 abstract class ActivityRemoteDataSource {
   const ActivityRemoteDataSource();
-  Future<List<ActivityModel>> getActivities();
+  Stream<List<ActivityModel>> getActivities();
   Future<void> addActivity(Activity activity);
   Future<LocalUserModel> getUserById(String userId);
   Future<void> joinActivity({required activityId, required userId});
@@ -79,25 +80,41 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
   }
 
   @override
-  Future<List<ActivityModel>> getActivities() async {
+  Stream<List<ActivityModel>> getActivities() {
     try {
-      final user = _auth.currentUser;
-      if (user == null) {
-        throw const ServerException(
-          message: 'User is not authenticated',
-          statusCode: '401',
-        );
-      }
-
-      return _firestore.collection('activities').get().then((value) =>
-          value.docs.map((doc) => ActivityModel.fromMap(doc.data())).toList());
+      DataSourceUtils.authorizeUser(_auth);
+      final activitiesStream =
+          _firestore.collection('activities').snapshots().map((snapshot) {
+        return snapshot.docs
+            .map((doc) => ActivityModel.fromMap(doc.data()))
+            .toList();
+      });
+      return activitiesStream.handleError((error) {
+        if (error is FirebaseException) {
+          throw ServerException(
+            message: error.message ?? 'Unknown error occurred',
+            statusCode: error.code,
+          );
+        } else {
+          throw ServerException(message: error.toString(), statusCode: '505');
+        }
+      });
     } on FirebaseException catch (e) {
-      throw ServerException(
-          message: e.message ?? 'Unknown error occured', statusCode: e.code);
-    } on ServerException {
-      rethrow;
+      return Stream.error(
+        ServerException(
+          message: e.message ?? 'Unknown error occurred',
+          statusCode: e.code,
+        ),
+      );
+    } on ServerException catch (e) {
+      return Stream.error(e);
     } catch (e) {
-      throw ServerException(message: e.toString(), statusCode: '505');
+      return Stream.error(
+        ServerException(
+          message: e.toString(),
+          statusCode: '505',
+        ),
+      );
     }
   }
 
