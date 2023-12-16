@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:social_ease_app/core/common/app/providers/explore_activities_type_notifier.dart';
 import 'package:social_ease_app/core/common/views/loading_view.dart';
 import 'package:social_ease_app/core/enums/activity_category.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/activity/presentation/refactors/activities_list.dart';
@@ -33,6 +35,12 @@ class _ExploreBodyState extends State<ExploreBody> {
     super.initState();
   }
 
+  List<Activity> filterActivities(List<Activity> allActivities) {
+    return allActivities.where((activity) {
+      return selectedCategories.contains(activity.category);
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Activity>>(
@@ -55,29 +63,14 @@ class _ExploreBodyState extends State<ExploreBody> {
               ),
             ),
           );
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50.0),
-              child: Text(
-                'Activities have not been found or have not been added yet',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: AppColors.secondaryTextColor,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          );
         } else {
           List<Activity> activities = snapshot.data!;
+          List<Activity> filteredActivities = filterActivities(activities);
+
           return Consumer<ExploreActivitiesTypeNotifier>(
             builder: (_, provider, __) {
               bool exploreType = provider.exploreType;
-              if (exploreType) {
-                return ExploreMap(activities: activities);
-              }
+
               return Column(
                 children: [
                   Padding(
@@ -184,12 +177,41 @@ class _ExploreBodyState extends State<ExploreBody> {
                       ],
                     ),
                   ),
-                  Expanded(
-                    child: ExploreList(
-                      key: UniqueKey(),
-                      activities: activities,
+                  if (filteredActivities.isEmpty)
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LottieBuilder.asset(
+                            MediaRes.searchNotFound,
+                            width: context.height * .3,
+                          ),
+                          const Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 50.0),
+                              child: Text(
+                                'No activities found',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: AppColors.secondaryTextColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  else
+                    Expanded(
+                      child: exploreType
+                          ? ExploreMap(activities: filteredActivities)
+                          : ExploreList(
+                              key: UniqueKey(),
+                              activities: filteredActivities,
+                            ),
                     ),
-                  ),
                 ],
               );
             },

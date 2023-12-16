@@ -9,6 +9,8 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Access to take a photo by camera</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+<string>Access to location</string>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Access to pick a photo</string>
 	<key>NSPhotoLibraryUsageDescription</key>

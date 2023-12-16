@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_ease_app/core/common/app/providers/activity_of_the_day_notifier.dart';
@@ -24,6 +25,7 @@ Future<void> main() async {
 
   await init();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+  Location().requestPermission();
 
   runApp(const MyApp());
 }
