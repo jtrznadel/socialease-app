@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:social_ease_app/core/common/app/providers/explore_activities_type_notifier.dart';
 import 'package:social_ease_app/core/common/views/loading_view.dart';
 import 'package:social_ease_app/core/enums/activity_category.dart';
+import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
@@ -36,9 +37,15 @@ class _ExploreBodyState extends State<ExploreBody> {
   }
 
   List<Activity> filterActivities(List<Activity> allActivities) {
-    return allActivities.where((activity) {
-      return selectedCategories.contains(activity.category);
-    }).toList();
+    return allActivities
+        .where((activity) {
+          return selectedCategories.contains(activity.category);
+        })
+        .toList()
+        .where((activity) =>
+            activity.createdBy != context.currentUser!.uid &&
+            activity.status == ActivityStatus.verified.name)
+        .toList();
   }
 
   @override

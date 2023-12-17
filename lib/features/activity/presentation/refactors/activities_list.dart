@@ -19,10 +19,6 @@ class ExploreList extends StatefulWidget {
 class _ExploreListState extends State<ExploreList> {
   @override
   Widget build(BuildContext context) {
-    final allActivities = widget.activities
-        .where(((element) => element.createdBy != context.currentUser!.uid))
-        .where((element) => element.status == 'verified')
-        .toList();
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: ListView.separated(
@@ -31,9 +27,9 @@ class _ExploreListState extends State<ExploreList> {
             height: 10,
           );
         },
-        itemCount: allActivities.length,
+        itemCount: widget.activities.length,
         itemBuilder: (BuildContext context, int index) {
-          Activity activity = allActivities[index];
+          Activity activity = widget.activities[index];
           return BlocProvider(
             create: (_) => sl<ActivityCubit>(),
             child: ActivityTile(
