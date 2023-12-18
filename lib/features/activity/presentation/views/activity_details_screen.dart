@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:social_ease_app/core/common/widgets/expandable_text.dart';
 import 'package:social_ease_app/core/common/widgets/tag_tile.dart';
 import 'package:social_ease_app/core/entities/activity_details_arguments.dart';
@@ -29,7 +30,8 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
   Widget build(BuildContext context) {
     bool isCurrentUserMember =
         widget.arguments.activity.members.contains(context.currentUser!.uid);
-
+    var toEnd =
+        widget.arguments.activity.endDate!.difference(DateTime.now()).inDays;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -84,26 +86,50 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              widget.arguments.user.fullName,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
+                            Text.rich(
+                              TextSpan(
+                                text: '$toEnd ',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: toEnd > 30
+                                      ? Colors.green
+                                      : toEnd < 5
+                                          ? Colors.red
+                                          : Colors.yellow,
+                                ),
+                                children: const [
+                                  TextSpan(
+                                    text: 'days to go',
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 14),
+                                  ),
+                                ],
                               ),
                             ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            CircleAvatar(
-                              backgroundImage:
-                                  widget.arguments.user.profilePic != null
-                                      ? NetworkImage(
-                                              widget.arguments.user.profilePic!)
-                                          as ImageProvider
-                                      : const AssetImage(
-                                          MediaRes.defaultAvatarImage),
+                            Row(
+                              children: [
+                                Text(
+                                  widget.arguments.user.fullName,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                CircleAvatar(
+                                  backgroundImage:
+                                      widget.arguments.user.profilePic != null
+                                          ? NetworkImage(widget.arguments.user
+                                              .profilePic!) as ImageProvider
+                                          : const AssetImage(
+                                              MediaRes.defaultAvatarImage),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -190,22 +216,48 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Row(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Time: ',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
+                            const Icon(Icons.calendar_month),
+                            Row(
+                              children: [
+                                const Text(
+                                  'From: ',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  DateFormat.yMMMd().format(
+                                      widget.arguments.activity.startDate!),
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                )
+                              ],
                             ),
-                            Text(
-                              '23rd December 2023',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            )
+                            Row(
+                              children: [
+                                const Text(
+                                  'To: ',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  DateFormat.yMMMd().format(
+                                      widget.arguments.activity.endDate!),
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                )
+                              ],
+                            ),
                           ],
                         ),
                       ],

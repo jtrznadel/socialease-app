@@ -18,9 +18,13 @@ class ActivityModel extends Activity {
     required super.createdBy,
     required super.tags,
     required super.members,
+    required super.latitude,
+    required super.longitude,
     super.status = "toBeVerified",
     super.image,
     super.imageIsFile = false,
+    super.startDate,
+    super.endDate,
   });
 
   ActivityModel.empty()
@@ -33,6 +37,8 @@ class ActivityModel extends Activity {
           groupId: '_empty.groupId',
           tags: const [],
           members: const [],
+          latitude: 0.0,
+          longitude: 0.0,
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
           createdBy: '_empty.createdBy',
@@ -52,9 +58,18 @@ class ActivityModel extends Activity {
             updatedAt: map['updatedAt'] != null
                 ? (map['updatedAt'] as Timestamp).toDate()
                 : DateTime.now(),
+            startDate: map['startDate'] != null
+                ? (map['startDate'] as Timestamp).toDate()
+                : DateTime.now(),
+            endDate: map['endDate'] != null
+                ? (map['endDate'] as Timestamp).toDate()
+                : DateTime.now(),
             createdBy: map['createdBy'] as String,
             tags: (map['tags'] as List<dynamic>).cast<String>(),
             members: (map['members'] as List<dynamic>).cast<String>(),
+            latitude: map['latitude'] != null ? map['latitude'] as double : 0.0,
+            longitude:
+                map['longitude'] != null ? map['longitude'] as double : 0.0,
             image: map['image'] as String?,
             status: map['status'] as String);
 
@@ -67,6 +82,10 @@ class ActivityModel extends Activity {
     String? groupId,
     DateTime? createdAt,
     DateTime? updatedAt,
+    DateTime? startDate,
+    DateTime? endDate,
+    double? latitude,
+    double? longitude,
     String? createdBy,
     List<String>? tags,
     List<String>? members,
@@ -83,12 +102,16 @@ class ActivityModel extends Activity {
       groupId: groupId ?? this.groupId,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
       createdBy: createdBy ?? this.createdBy,
       tags: tags ?? this.tags,
       members: members ?? this.members,
       image: image ?? this.image,
       imageIsFile: imageIsFile ?? this.imageIsFile,
       status: status ?? this.status,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
     );
   }
 
@@ -101,9 +124,13 @@ class ActivityModel extends Activity {
         'groupId': groupId,
         'createdAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
+        'startDate': startDate,
+        'endDate': endDate,
         'createdBy': createdBy,
         'tags': tags,
         'members': members,
+        'latitude': latitude,
+        'longitude': longitude,
         'image': image,
         'status': status,
       };

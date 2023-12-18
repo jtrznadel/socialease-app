@@ -48,4 +48,7 @@ class MediaRes {
 
   //TEMP
   static const testMap = '$_baseImage/map_temp.jpg';
+
+  //utilities
+  static const blueDot = '$_baseImage/blue_dot.png';
 }

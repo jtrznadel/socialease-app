@@ -7,6 +7,8 @@ class Activity extends Equatable {
     required this.title,
     required this.description,
     required this.location,
+    this.startDate,
+    this.endDate,
     required this.category,
     required this.groupId,
     required this.createdAt,
@@ -14,6 +16,8 @@ class Activity extends Equatable {
     required this.createdBy,
     required this.tags,
     required this.members,
+    required this.latitude,
+    required this.longitude,
     this.status = "toBeVerified",
     this.image,
     this.imageIsFile = false,
@@ -32,6 +36,8 @@ class Activity extends Equatable {
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
           createdBy: '_empty.createdBy',
+          longitude: 0.0,
+          latitude: 0.0,
         );
 
   final String id;
@@ -45,9 +51,13 @@ class Activity extends Equatable {
   final bool imageIsFile;
   final String status;
   final DateTime createdAt;
+  final DateTime? startDate;
+  final DateTime? endDate;
   final DateTime updatedAt;
   final String createdBy;
   final List<String> members;
+  final double longitude;
+  final double latitude;
 
   @override
   List<Object?> get props => [id];

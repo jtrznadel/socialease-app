@@ -213,7 +213,9 @@ class _ExploreBodyState extends State<ExploreBody> {
                   else
                     Expanded(
                       child: exploreType
-                          ? ExploreMap(activities: filteredActivities)
+                          ? ExploreMap(
+                              activities: filteredActivities,
+                            )
                           : ExploreList(
                               key: UniqueKey(),
                               activities: filteredActivities,
