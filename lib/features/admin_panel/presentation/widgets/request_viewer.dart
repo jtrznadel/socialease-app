@@ -13,6 +13,7 @@ import 'package:social_ease_app/features/activity/domain/entities/activity.dart'
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/notifications/data/models/notification_model.dart';
 import 'package:social_ease_app/features/notifications/presentation/cubit/notification_cubit.dart';
+import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
 
 class RequestViewer extends StatefulWidget {
   const RequestViewer({super.key, required this.requests});
@@ -167,6 +168,10 @@ class _RequestViewerState extends State<RequestViewer> {
                                             .requests[_currentIndex].createdBy,
                                         notification: notification,
                                       );
+                                  context.read<PointsCubit>().addPoints(
+                                      userId: widget
+                                          .requests[_currentIndex].createdBy,
+                                      points: 399);
                                   context
                                       .read<ActivityCubit>()
                                       .updateActivityStatus(

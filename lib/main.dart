@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_ease_app/core/common/app/providers/activity_of_the_day_notifier.dart';
 import 'package:social_ease_app/core/common/app/providers/explore_activities_type_notifier.dart';
 import 'package:social_ease_app/core/common/app/providers/favorite_activities_notifier.dart';
+import 'package:social_ease_app/core/common/app/providers/location_provider.dart';
 import 'package:social_ease_app/core/common/app/providers/notification_notifier.dart';
 import 'package:social_ease_app/core/common/app/providers/user_provider.dart';
 import 'package:social_ease_app/core/res/colors.dart';
@@ -22,7 +23,6 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseUIAuth.configureProviders([EmailAuthProvider()]);
-
   await init();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
   Location().requestPermission();
@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ActivityOfTheDayNotifier()),
         ChangeNotifierProvider(create: (_) => ExploreActivitiesTypeNotifier()),
         ChangeNotifierProvider(create: (_) => FavoriteActivitiesNotifier()),
+        ChangeNotifierProvider(create: (_) => LocationProvider()),
         ChangeNotifierProvider(
             create: (_) => NotificationsNotifier(sl<SharedPreferences>())),
       ],

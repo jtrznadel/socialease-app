@@ -12,6 +12,7 @@ import 'package:social_ease_app/core/utils/constants.dart';
 import 'package:social_ease_app/core/utils/typedefs.dart';
 import 'package:social_ease_app/features/auth/data/models/user_model.dart';
 import 'package:social_ease_app/features/auth/domain/entites/social_media_links.dart';
+import 'package:social_ease_app/features/points/data/models/ranking_position_model.dart';
 
 abstract class AuthRemoteDataSource {
   const AuthRemoteDataSource();
@@ -171,6 +172,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           doneActivities: const [],
           ongoingActivities: const [],
         ).toMap());
+
+    await _cloudStoreClient
+        .collection('rankings')
+        .doc('all-time')
+        .collection('users')
+        .doc(user.uid)
+        .set(const RankingPositionModel.empty()
+            .copyWith(
+              userId: user.uid,
+            )
+            .toMap());
   }
 
   Future<void> _updateUserData(DataMap data) async {

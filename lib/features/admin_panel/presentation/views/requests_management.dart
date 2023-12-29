@@ -10,6 +10,7 @@ import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/admin_panel/presentation/widgets/request_viewer.dart';
 import 'package:social_ease_app/features/notifications/presentation/cubit/notification_cubit.dart';
+import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
 
 class RequestsManagementScreen extends StatefulWidget {
   const RequestsManagementScreen({super.key});
@@ -74,6 +75,9 @@ class _RequestsManagementScreenState extends State<RequestsManagementScreen> {
                   ),
                   BlocProvider(
                     create: (context) => sl<ActivityCubit>(),
+                  ),
+                  BlocProvider(
+                    create: (context) => sl<PointsCubit>(),
                   )
                 ],
                 child: RequestViewer(requests: requests),

@@ -19,12 +19,16 @@ Future<void> _initPoints() async {
           updateLevel: sl(),
           getPoints: sl(),
           getLevel: sl(),
+          getAllTimeRanking: sl(),
+          getMonthlyRanking: sl(),
         ))
     ..registerLazySingleton(() => AddPoints(sl()))
     ..registerLazySingleton(() => SubPoints(sl()))
     ..registerLazySingleton(() => UpdateLevel(sl()))
     ..registerLazySingleton(() => GetPoints(sl()))
     ..registerLazySingleton(() => GetLevel(sl()))
+    ..registerLazySingleton(() => GetAllTimeRanking(sl()))
+    ..registerLazySingleton(() => GetMonthlyRanking(sl()))
     ..registerLazySingleton<PointsRepo>(() => PointsRepoImpl(sl()))
     ..registerLazySingleton<PointsRemoteDataSrc>(
       () => PointsRemoteDataSrcImpl(firestore: sl(), auth: sl()),

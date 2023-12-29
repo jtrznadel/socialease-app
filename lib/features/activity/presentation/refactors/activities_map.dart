@@ -71,7 +71,6 @@ class _ExploreMapState extends State<ExploreMap> {
       );
     }
 
-    // Dodaj markery dla aktywności
     markers.addAll(widget.activities.map((activity) {
       return Marker(
         markerId: MarkerId(activity.id),

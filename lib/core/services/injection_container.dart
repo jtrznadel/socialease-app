@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:social_ease_app/core/common/app/providers/location_provider.dart';
 import 'package:social_ease_app/features/activity/data/datasources/activity_remote_data_source.dart';
 import 'package:social_ease_app/features/activity/data/repositories/activity_repository.dart';
 import 'package:social_ease_app/features/activity/domain/repositories/activity_repository.dart';
@@ -52,7 +53,9 @@ import 'package:social_ease_app/features/points/data/datasources/points_remote_d
 import 'package:social_ease_app/features/points/data/repositories/points_repo_impl.dart';
 import 'package:social_ease_app/features/points/domain/repositories/points_repository.dart';
 import 'package:social_ease_app/features/points/domain/usecases/add_points.dart';
+import 'package:social_ease_app/features/points/domain/usecases/get_all_time_ranking.dart';
 import 'package:social_ease_app/features/points/domain/usecases/get_level.dart';
+import 'package:social_ease_app/features/points/domain/usecases/get_monthly_ranking.dart';
 import 'package:social_ease_app/features/points/domain/usecases/get_points.dart';
 import 'package:social_ease_app/features/points/domain/usecases/subtract_points.dart';
 import 'package:social_ease_app/features/points/domain/usecases/update_level.dart';

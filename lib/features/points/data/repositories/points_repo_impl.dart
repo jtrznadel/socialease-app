@@ -7,6 +7,8 @@ import 'package:social_ease_app/core/errors/exceptions.dart';
 import 'package:social_ease_app/core/errors/failures.dart';
 import 'package:social_ease_app/core/utils/typedefs.dart';
 import 'package:social_ease_app/features/points/data/datasources/points_remote_data_source.dart';
+import 'package:social_ease_app/features/points/data/models/ranking_position_model.dart';
+import 'package:social_ease_app/features/points/domain/entities/ranking_position.dart';
 import 'package:social_ease_app/features/points/domain/repositories/points_repository.dart';
 
 class PointsRepoImpl implements PointsRepo {
@@ -77,6 +79,58 @@ class PointsRepoImpl implements PointsRepo {
   ResultFuture<void> updateLevel({required String userId}) async {
     try {
       await _remoteDataSrc.updateLevel(userId: userId);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
+
+  @override
+  ResultStream<List<RankingPosition>> getAllTimeRanking() {
+    return _remoteDataSrc.getAllTimeRanking().transform(
+          StreamTransformer<List<RankingPositionModel>,
+              Either<Failure, List<RankingPosition>>>.fromHandlers(
+            handleData: (positions, sink) {
+              sink.add(Right(positions));
+            },
+            handleError: (error, stackTrace, sink) {
+              debugPrint(stackTrace.toString());
+              if (error is ServerException) {
+                sink.add(Left(ServerFailure.fromException(error)));
+              } else {
+                sink.add(Left(
+                    ServerFailure(message: error.toString(), statusCode: 505)));
+              }
+            },
+          ),
+        );
+  }
+
+  @override
+  ResultStream<List<RankingPosition>> getMonthlyRanking() {
+    return _remoteDataSrc.getMonthlyRanking().transform(
+          StreamTransformer<List<RankingPositionModel>,
+              Either<Failure, List<RankingPosition>>>.fromHandlers(
+            handleData: (positions, sink) {
+              sink.add(Right(positions));
+            },
+            handleError: (error, stackTrace, sink) {
+              debugPrint(stackTrace.toString());
+              if (error is ServerException) {
+                sink.add(Left(ServerFailure.fromException(error)));
+              } else {
+                sink.add(Left(
+                    ServerFailure(message: error.toString(), statusCode: 505)));
+              }
+            },
+          ),
+        );
+  }
+
+  @override
+  ResultFuture<void> updateRanking() async {
+    try {
+      await _remoteDataSrc.updateRanking();
       return const Right(null);
     } on ServerException catch (e) {
       return Left(ServerFailure.fromException(e));

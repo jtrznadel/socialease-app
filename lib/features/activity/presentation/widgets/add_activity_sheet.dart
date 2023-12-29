@@ -32,7 +32,7 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
   final tagController = TextfieldTagsController();
   final locationController = TextEditingController();
   late double distanceToField;
-
+  bool requestButtonPressed = false;
   final formKey = GlobalKey<FormState>();
 
   DateTime startDate = DateTime.now();
@@ -268,34 +268,80 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                 const SizedBox(
                   height: 10,
                 ),
-                IField(
-                  controller: locationController,
-                  labelText: 'Location',
-                  hintText: 'Enter location',
-                  suffixIcon: IconButton(
-                    onPressed: () async {
-                      final LatLng? result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MapScreen(),
-                        ),
-                      );
-                      if (result != null) {
-                        setState(() {
-                          selectedLocation = result;
-                        });
-                      }
-                    },
-                    icon: const Icon(
-                      Icons.assistant_navigation,
+                Row(
+                  children: [
+                    Expanded(
+                      child: IField(
+                        controller: locationController,
+                        labelText: 'Location',
+                        hintText: 'Enter location',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'This field is required';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'This field is required';
-                    }
-                    return null;
-                  },
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                                color: (selectedLocation == null &&
+                                        requestButtonPressed)
+                                    ? Colors.red
+                                    : AppColors.secondaryTextColor,
+                                width: (selectedLocation == null &&
+                                        requestButtonPressed)
+                                    ? 1.3
+                                    : 1),
+                          ),
+                          child: IconButton(
+                            onPressed: () async {
+                              final LatLng? result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MapScreen(),
+                                ),
+                              );
+                              if (result != null) {
+                                setState(
+                                  () {
+                                    selectedLocation = result;
+                                  },
+                                );
+                              }
+                            },
+                            icon: Icon(
+                              Icons.my_location,
+                              color: (selectedLocation == null &&
+                                      requestButtonPressed)
+                                  ? Colors.red
+                                  : AppColors.secondaryTextColor,
+                            ),
+                          ),
+                        ),
+                        if (selectedLocation == null &&
+                            requestButtonPressed) ...[
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          const Text(
+                            "Required",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ]
+                      ],
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 10),
                 TextFieldTags(
@@ -307,14 +353,6 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                   ],
                   textSeparators: const [' ', ','],
                   letterCase: LetterCase.normal,
-                  validator: (String tag) {
-                    if (tag == 'php') {
-                      return 'No, please just no';
-                    } else if (tagController.getTags!.contains(tag)) {
-                      return 'You have entered that already';
-                    }
-                    return null;
-                  },
                   inputfieldBuilder:
                       (context, tec, fn, error, onChanged, onSubmitted) {
                     return ((context, sc, tags, onTagDelete) {
@@ -335,7 +373,7 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                               width: 2.0,
                             ),
                           ),
-                          helperText: 'Enter language...',
+                          helperText: 'Enter tags to describe your activity...',
                           helperStyle: const TextStyle(
                             color: AppColors.primaryColor,
                           ),
@@ -413,6 +451,11 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
+                          if (selectedLocation == null) {
+                            setState(() {
+                              requestButtonPressed = true;
+                            });
+                          }
                           if (formKey.currentState!.validate()) {
                             final now = DateTime.now();
                             final activity = ActivityModel.empty().copyWith(

@@ -6,6 +6,7 @@ import 'package:social_ease_app/core/common/widgets/gradient_background.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
+import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/activity/presentation/views/activity_details_screen.dart';
 import 'package:social_ease_app/features/activity/presentation/views/edit_activity_screen.dart';
@@ -46,7 +47,12 @@ class _ActivitiesManagementScreenState
           builder: (context, state) {
             if (state is LoadingActivities) {
               return const LoadingView();
-            } else if (state is ActivitiesLoaded && state.activities.isEmpty ||
+            } else if ((state is ActivitiesLoaded &&
+                    state.activities
+                        .where((activity) =>
+                            activity.createdBy == context.currentUser!.uid)
+                        .toList()
+                        .isEmpty) ||
                 state is ActivityError) {
               return const Center(
                 child: Padding(
@@ -79,11 +85,14 @@ class _ActivitiesManagementScreenState
                     itemCount: userActivities.length,
                     itemBuilder: (context, index) {
                       final activity = userActivities[index];
-                      return ActivityTile(
-                        activity: activity,
-                        onTap: () => Navigator.of(context).pushNamed(
-                          EditActivityScreen.routeName,
-                          arguments: activity,
+                      return BlocProvider(
+                        create: (_) => sl<ActivityCubit>(),
+                        child: ActivityTile(
+                          activity: activity,
+                          onTap: () => Navigator.of(context).pushNamed(
+                            EditActivityScreen.routeName,
+                            arguments: activity,
+                          ),
                         ),
                       );
                     }),

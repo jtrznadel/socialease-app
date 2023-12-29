@@ -5,8 +5,11 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:social_ease_app/core/enums/account_level.dart';
 import 'package:social_ease_app/core/errors/failures.dart';
+import 'package:social_ease_app/features/points/domain/entities/ranking_position.dart';
 import 'package:social_ease_app/features/points/domain/usecases/add_points.dart';
+import 'package:social_ease_app/features/points/domain/usecases/get_all_time_ranking.dart';
 import 'package:social_ease_app/features/points/domain/usecases/get_level.dart';
+import 'package:social_ease_app/features/points/domain/usecases/get_monthly_ranking.dart';
 import 'package:social_ease_app/features/points/domain/usecases/get_points.dart';
 import 'package:social_ease_app/features/points/domain/usecases/subtract_points.dart';
 import 'package:social_ease_app/features/points/domain/usecases/update_level.dart';
@@ -20,11 +23,15 @@ class PointsCubit extends Cubit<PointsState> {
     required UpdateLevel updateLevel,
     required GetPoints getPoints,
     required GetLevel getLevel,
+    required GetAllTimeRanking getAllTimeRanking,
+    required GetMonthlyRanking getMonthlyRanking,
   })  : _addPoints = addPoints,
         _subPoints = subPoints,
         _updateLevel = updateLevel,
         _getPoints = getPoints,
         _getLevel = getLevel,
+        _getAllTimeRanking = getAllTimeRanking,
+        _getMonthlyRanking = getMonthlyRanking,
         super(PointsInitial());
 
   final AddPoints _addPoints;
@@ -32,6 +39,8 @@ class PointsCubit extends Cubit<PointsState> {
   final UpdateLevel _updateLevel;
   final GetPoints _getPoints;
   final GetLevel _getLevel;
+  final GetAllTimeRanking _getAllTimeRanking;
+  final GetMonthlyRanking _getMonthlyRanking;
 
   Future<void> addPoints({
     required String userId,
@@ -109,6 +118,40 @@ class PointsCubit extends Cubit<PointsState> {
         subscription?.cancel();
       },
       onDone: () => subscription?.cancel(),
+    );
+  }
+
+  void getAllTimeRanking() {
+    emit(const LoadingAllTimeRanking());
+    StreamSubscription<Either<Failure, List<RankingPosition>>>? subscription;
+
+    subscription = _getAllTimeRanking().listen(
+      (result) {
+        result.fold(
+          (failure) => emit(PointsError(failure.errorMessage)),
+          (ranking) => emit(AllTimeRankingLoaded(ranking)),
+        );
+      },
+      onError: (error) {
+        emit(PointsError(error.toString()));
+      },
+    );
+  }
+
+  void getMonthlyRanking() {
+    emit(const LoadingMonthlyRanking());
+    StreamSubscription<Either<Failure, List<RankingPosition>>>? subscription;
+
+    subscription = _getMonthlyRanking().listen(
+      (result) {
+        result.fold(
+          (failure) => emit(PointsError(failure.errorMessage)),
+          (ranking) => emit(MonthlyRankingLoaded(ranking)),
+        );
+      },
+      onError: (error) {
+        emit(PointsError(error.toString()));
+      },
     );
   }
 }

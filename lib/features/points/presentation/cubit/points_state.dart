@@ -59,6 +59,28 @@ final class LevelLoaded extends PointsState {
   List<Object> get props => [level];
 }
 
+final class LoadingAllTimeRanking extends PointsState {
+  const LoadingAllTimeRanking();
+}
+
+final class AllTimeRankingLoaded extends PointsState {
+  const AllTimeRankingLoaded(this.allTimeRanking);
+  final List<RankingPosition> allTimeRanking;
+  @override
+  List<Object> get props => [allTimeRanking];
+}
+
+final class LoadingMonthlyRanking extends PointsState {
+  const LoadingMonthlyRanking();
+}
+
+final class MonthlyRankingLoaded extends PointsState {
+  const MonthlyRankingLoaded(this.monthlyRanking);
+  final List<RankingPosition> monthlyRanking;
+  @override
+  List<Object> get props => [monthlyRanking];
+}
+
 final class PointsError extends PointsState {
   const PointsError(this.message);
 
