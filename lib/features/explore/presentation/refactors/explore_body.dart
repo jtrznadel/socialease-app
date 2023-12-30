@@ -44,7 +44,8 @@ class _ExploreBodyState extends State<ExploreBody> {
         .toList()
         .where((activity) =>
             activity.createdBy != context.currentUser!.uid &&
-            activity.status == ActivityStatus.verified.name)
+            activity.status == ActivityStatus.verified.name &&
+            activity.endDate!.isAfter(DateTime.now()))
         .toList();
   }
 

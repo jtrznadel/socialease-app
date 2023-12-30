@@ -96,7 +96,6 @@ class _ExploreMapState extends State<ExploreMap> {
           height: context.height * .35,
           child: Stack(
             children: [
-              // Stack of images taking full available space
               Container(
                 padding: const EdgeInsets.all(5).copyWith(bottom: 0),
                 height: context.height * .2,
@@ -109,7 +108,6 @@ class _ExploreMapState extends State<ExploreMap> {
                   ),
                 ),
               ),
-
               Positioned(
                 right: 0,
                 left: 0,
@@ -160,7 +158,6 @@ class _ExploreMapState extends State<ExploreMap> {
                           color: Colors.white,
                         ),
                       ),
-                      // Add more details as needed
                     ],
                   ),
                 ),

@@ -15,12 +15,8 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: HomeAppBar(),
-      body: GradientBackground(
-        image: MediaRes.dashboardGradient,
-        child: HomeBody(),
-      ),
+      body: HomeBody(),
     );
   }
 }

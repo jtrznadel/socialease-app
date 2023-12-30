@@ -62,6 +62,14 @@ final class LeftActivity extends ActivityState {
   const LeftActivity();
 }
 
+final class UpdatingActivity extends ActivityState {
+  const UpdatingActivity();
+}
+
+final class ActivityUpdated extends ActivityState {
+  const ActivityUpdated();
+}
+
 final class UpdatingActivityStatus extends ActivityState {
   const UpdatingActivityStatus();
 }

@@ -28,6 +28,16 @@ class ActivityRepositoryImpl implements ActivityRepository {
   }
 
   @override
+  ResultFuture<void> updateActivity(Activity activity) async {
+    try {
+      await _remoteDataSource.updateActivity(activity);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
+
+  @override
   ResultStream<List<Activity>> getActivities() {
     return _remoteDataSource.getActivities().transform(
           StreamTransformer<List<ActivityModel>,

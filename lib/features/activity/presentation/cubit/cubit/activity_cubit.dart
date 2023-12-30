@@ -11,6 +11,7 @@ import 'package:social_ease_app/features/activity/domain/usecases/get_activities
 import 'package:social_ease_app/features/activity/domain/usecases/get_user_by_id.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/join_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/leave_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/update_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/update_activity_status.dart';
 import 'package:social_ease_app/features/auth/domain/entites/user.dart';
 
@@ -18,6 +19,7 @@ part 'activity_state.dart';
 
 class ActivityCubit extends Cubit<ActivityState> {
   final AddActivity _addActivity;
+  final UpdateActivity _updateActivity;
   final GetActivities _getActivities;
   final GetUserById _getUserById;
   final JoinActivity _joinActivity;
@@ -28,12 +30,14 @@ class ActivityCubit extends Cubit<ActivityState> {
 
   ActivityCubit({
     required AddActivity addActivity,
+    required UpdateActivity updateActivity,
     required GetActivities getActivities,
     required GetUserById getUserById,
     required JoinActivity joinActivity,
     required LeaveActivity leaveActivity,
     required UpdateActivityStatus updateActivityStatus,
   })  : _addActivity = addActivity,
+        _updateActivity = updateActivity,
         _getActivities = getActivities,
         _getUserById = getUserById,
         _joinActivity = joinActivity,
@@ -53,6 +57,15 @@ class ActivityCubit extends Cubit<ActivityState> {
     result.fold(
       (failure) => emit(ActivityError(failure.errorMessage)),
       (_) => emit(ActivityAdded()),
+    );
+  }
+
+  Future<void> updateActivity(Activity activity) async {
+    emit(const UpdatingActivity());
+    final result = await _updateActivity(activity);
+    result.fold(
+      (failure) => emit(ActivityError(failure.errorMessage)),
+      (_) => emit(const ActivityUpdated()),
     );
   }
 

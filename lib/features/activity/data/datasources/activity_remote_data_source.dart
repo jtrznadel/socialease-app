@@ -16,6 +16,7 @@ abstract class ActivityRemoteDataSource {
   const ActivityRemoteDataSource();
   Stream<List<ActivityModel>> getActivities();
   Future<void> addActivity(Activity activity);
+  Future<void> updateActivity(Activity activity);
   Future<LocalUserModel> getUserById(String userId);
   Future<void> joinActivity({required activityId, required userId});
   Future<void> leaveActivity({required activityId, required userId});
@@ -76,6 +77,39 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
       rethrow;
     } catch (e) {
       throw ServerException(message: e.toString(), statusCode: '505');
+    }
+  }
+
+  @override
+  Future<void> updateActivity(Activity updateData) async {
+    try {
+      await DataSourceUtils.authorizeUser(_auth);
+
+      var activityModel = (updateData as ActivityModel);
+      if (activityModel.imageIsFile) {
+        final imageRef = _storage.ref().child(
+            'activities/${activityModel.id}/profile_image/${activityModel.title}-pfp');
+        await imageRef.putFile(File(activityModel.image!)).then((value) async {
+          final url = await value.ref.getDownloadURL();
+          activityModel = activityModel.copyWith(image: url);
+        });
+      }
+      await _firestore
+          .collection('activities')
+          .doc(activityModel.id)
+          .update(activityModel.toMap());
+    } on FirebaseException catch (e) {
+      throw ServerException(
+        message: e.message ?? 'Unknown error occurred',
+        statusCode: e.code,
+      );
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw ServerException(
+        message: e.toString(),
+        statusCode: '505',
+      );
     }
   }
 

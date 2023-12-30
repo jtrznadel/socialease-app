@@ -24,14 +24,6 @@ class HomeHeader extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Text(
-                'Check out the trending activity',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.secondaryTextColor,
-                ),
-              ),
             ],
           ),
           Positioned(

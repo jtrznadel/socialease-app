@@ -27,8 +27,8 @@ class LocationProvider extends ChangeNotifier {
     }
   }
 
-  double calculateDistance(double destLatitude, double destLongitude) {
-    const double earthRadius = 6371;
+  int calculateDistance(double destLatitude, double destLongitude) {
+    const double earthRadius = 6371; // in kilometers
 
     double lat1 = _currentPosition!.latitude;
     double lon1 = _currentPosition!.longitude;
@@ -46,9 +46,9 @@ class LocationProvider extends ChangeNotifier {
 
     double c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
-    double distance = earthRadius * c;
+    double distance = earthRadius * c * 1000; // convert to meters
 
-    return distance;
+    return distance.round().toInt();
   }
 
   double _degreesToRadians(double degrees) {

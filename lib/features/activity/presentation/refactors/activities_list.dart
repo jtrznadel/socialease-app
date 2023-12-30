@@ -33,6 +33,7 @@ class _ExploreListState extends State<ExploreList> {
           return BlocProvider(
             create: (_) => sl<ActivityCubit>(),
             child: ActivityTile(
+              editMode: false,
               activity: activity,
               onTap: () {},
             ),

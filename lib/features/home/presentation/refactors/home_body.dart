@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:social_ease_app/core/common/app/providers/activity_of_the_day_notifier.dart';
 import 'package:social_ease_app/core/common/views/loading_view.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
@@ -9,6 +11,8 @@ import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activ
 import 'package:social_ease_app/features/home/presentation/refactors/home_categories.dart';
 import 'package:social_ease_app/features/home/presentation/refactors/home_favorites.dart';
 import 'package:social_ease_app/features/home/presentation/refactors/home_header.dart';
+import 'package:social_ease_app/features/home/presentation/widgets/user_of_the_all_time.dart';
+import 'package:social_ease_app/features/home/presentation/widgets/user_of_the_month.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
@@ -18,6 +22,8 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
+  final controller = PageController();
+
   void getActivities() {
     context.read<ActivityCubit>().getActivities();
   }
@@ -29,7 +35,14 @@ class _HomeBodyState extends State<HomeBody> {
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final pages = [const UserOfTheMonth(), const UserOfTheAllTime()];
     return BlocConsumer<ActivityCubit, ActivityState>(
       listener: (_, state) {
         if (state is ActivityError) {
@@ -70,12 +83,55 @@ class _HomeBodyState extends State<HomeBody> {
             ),
           );
         } else if (state is ActivitiesLoaded) {
-          return ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            children: const [
-              HomeHeader(),
-              HomeCategories(),
-              HomeFavorites(),
+          return Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(15),
+                height: context.height * .3,
+                width: context.width,
+                color: Colors.white,
+                child: const HomeHeader(),
+              ),
+              Expanded(
+                child: Container(
+                  width: context.width,
+                  decoration: BoxDecoration(
+                    color: AppColors.secondaryColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        spreadRadius: 8,
+                        blurRadius: 15,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 20),
+                        height: context.height * .2,
+                        child: PageView.builder(
+                          controller: controller,
+                          itemBuilder: (_, index) {
+                            return pages[index % pages.length];
+                          },
+                        ),
+                      ),
+                      SmoothPageIndicator(
+                          controller: controller,
+                          count: 2,
+                          effect: const WormEffect(),
+                          onDotClicked: (index) {})
+                    ],
+                  ),
+                ),
+              ),
             ],
           );
         }

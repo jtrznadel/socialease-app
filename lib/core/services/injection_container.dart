@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:social_ease_app/core/common/app/providers/location_provider.dart';
 import 'package:social_ease_app/features/activity/data/datasources/activity_remote_data_source.dart';
 import 'package:social_ease_app/features/activity/data/repositories/activity_repository.dart';
 import 'package:social_ease_app/features/activity/domain/repositories/activity_repository.dart';
@@ -11,6 +10,7 @@ import 'package:social_ease_app/features/activity/domain/usecases/add_activity.d
 import 'package:social_ease_app/features/activity/domain/usecases/get_activities.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/join_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/leave_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/update_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/update_activity_status.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/auth/data/datasources/auth_remote_data_source.dart';

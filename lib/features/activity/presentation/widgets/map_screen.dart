@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:social_ease_app/core/common/app/providers/location_provider.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key}) : super(key: key);
+  const MapScreen({Key? key, this.initialLatLng}) : super(key: key);
+  final LatLng? initialLatLng;
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -13,10 +14,17 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
+  LatLng? currentMarkerPosition;
+
   Set<Marker> markers = {};
 
   @override
   void initState() {
+    currentMarkerPosition = widget.initialLatLng;
+    if (widget.initialLatLng != null) {
+      _addMarker(widget.initialLatLng!);
+    }
+
     _init();
     super.initState();
   }
@@ -39,6 +47,7 @@ class _MapScreenState extends State<MapScreen> {
           icon: BitmapDescriptor.defaultMarker,
         ),
       );
+      currentMarkerPosition = position;
     });
   }
 
@@ -61,12 +70,15 @@ class _MapScreenState extends State<MapScreen> {
               child: GoogleMap(
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
-                  target: provider.currentPosition!,
+                  target: currentMarkerPosition ??
+                      context.read<LocationProvider>().currentPosition!,
                   zoom: 16.0,
                 ),
                 myLocationButtonEnabled: false,
-                onTap: (LatLng position) {
-                  _addMarker(position);
+                onTap: (LatLng? position) {
+                  if (position != null) {
+                    _addMarker(position);
+                  }
                 },
                 markers: markers,
               ),
@@ -90,14 +102,12 @@ class _MapScreenState extends State<MapScreen> {
               ),
               FloatingActionButton(
                 onPressed: () {
-                  if (markers.isNotEmpty) {
-                    Navigator.pop(context, markers.first.position);
+                  if (currentMarkerPosition != null) {
+                    Navigator.pop(context, currentMarkerPosition);
                   }
                 },
-                backgroundColor: Colors.green,
-                child: const Icon(
-                  Icons.check,
-                ),
+                backgroundColor: Colors.red,
+                child: const Icon(Icons.check),
               ),
             ],
           ),

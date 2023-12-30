@@ -69,6 +69,7 @@ class PointsRemoteDataSrcImpl implements PointsRemoteDataSrc {
             )
             .toMap());
         await updateRanking();
+        await updateLevel(userId: userId);
       }
     } on FirebaseException catch (e) {
       throw ServerException(
@@ -126,6 +127,7 @@ class PointsRemoteDataSrcImpl implements PointsRemoteDataSrc {
             )
             .toMap());
         await updateRanking();
+        await updateLevel(userId: userId);
       }
     } on FirebaseException catch (e) {
       throw ServerException(

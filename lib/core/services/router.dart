@@ -3,6 +3,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart' as fui;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:social_ease_app/core/common/app/providers/location_provider.dart';
 import 'package:social_ease_app/core/common/views/page_under_construction.dart';
 import 'package:social_ease_app/core/entities/activity_details_arguments.dart';
 import 'package:social_ease_app/core/enums/account_level.dart';

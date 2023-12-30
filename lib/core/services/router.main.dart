@@ -20,6 +20,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
             fullName: user.displayName ?? '',
           );
           context.userProvider.initUser(localUser);
+          context.read<LocationProvider>().getCurrentPosition();
           return const Dashboard();
         } else {
           return BlocProvider(

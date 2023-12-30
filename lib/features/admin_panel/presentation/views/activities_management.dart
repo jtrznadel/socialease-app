@@ -73,6 +73,7 @@ class _ActivitiesManagementScreenState
                   .where((element) =>
                       element.createdBy == context.currentUser!.uid)
                   .toList();
+              userActivities.sort((a, b) => b.endDate!.compareTo(a.endDate!));
 
               return Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -85,14 +86,20 @@ class _ActivitiesManagementScreenState
                     itemCount: userActivities.length,
                     itemBuilder: (context, index) {
                       final activity = userActivities[index];
+                      final isActive =
+                          activity.endDate!.isAfter(DateTime.now());
+
                       return BlocProvider(
                         create: (_) => sl<ActivityCubit>(),
                         child: ActivityTile(
                           activity: activity,
-                          onTap: () => Navigator.of(context).pushNamed(
-                            EditActivityScreen.routeName,
-                            arguments: activity,
-                          ),
+                          editMode: true,
+                          onTap: isActive
+                              ? () => Navigator.of(context).pushNamed(
+                                    EditActivityScreen.routeName,
+                                    arguments: activity,
+                                  )
+                              : () {},
                         ),
                       );
                     }),
