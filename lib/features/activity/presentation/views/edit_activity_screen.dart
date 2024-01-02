@@ -196,9 +196,9 @@ class EditActivityScreen extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Row(
+                        Row(
                           children: [
-                            Text(
+                            const Text(
                               'Location: ',
                               style: TextStyle(
                                 fontSize: 18,
@@ -206,8 +206,8 @@ class EditActivityScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              'Sunrises Avenue 3/5, 243-54 LA',
-                              style: TextStyle(
+                              activity.location,
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -259,6 +259,19 @@ class EditActivityScreen extends StatelessWidget {
                               ],
                             ),
                           ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          'Members: ${activity.members.length}',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
                         ),
                       ],
                     ),

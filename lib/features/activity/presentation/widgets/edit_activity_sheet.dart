@@ -53,6 +53,9 @@ class _EditActivitySheetState extends State<EditActivitySheet> {
   @override
   void initState() {
     super.initState();
+    startDate = widget.editActivity.startDate!;
+    endDate = widget.editActivity.endDate!;
+    selectedCategory = widget.editActivity.category;
 
     imageController.addListener(() {
       if (isFile && imageController.text.trim().isEmpty) {
@@ -205,7 +208,7 @@ class _EditActivitySheetState extends State<EditActivitySheet> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     borderRadius: BorderRadius.circular(10),
                     hint: const Text("Select a Category"),
-                    value: widget.editActivity.category,
+                    value: selectedCategory,
                     onChanged: (ActivityCategory? newValue) {
                       setState(() {
                         selectedCategory = newValue ?? ActivityCategory.charity;
@@ -240,10 +243,10 @@ class _EditActivitySheetState extends State<EditActivitySheet> {
                     const Text("From "),
                     TimePickerSpinnerPopUp(
                       mode: CupertinoDatePickerMode.date,
-                      initTime: widget.editActivity.startDate,
+                      initTime: startDate,
                       minTime:
-                          DateTime.now().subtract(const Duration(days: 10)),
-                      maxTime: DateTime.now().add(const Duration(days: 10)),
+                          DateTime.now().subtract(const Duration(minutes: 10)),
+                      maxTime: DateTime.now().add(const Duration(days: 30)),
                       barrierColor: Colors.black12,
                       minuteInterval: 1,
                       padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
@@ -260,10 +263,10 @@ class _EditActivitySheetState extends State<EditActivitySheet> {
                     const Text(" To "),
                     TimePickerSpinnerPopUp(
                       mode: CupertinoDatePickerMode.date,
-                      initTime: widget.editActivity.endDate,
+                      initTime: endDate,
                       minTime:
-                          DateTime.now().subtract(const Duration(days: 10)),
-                      maxTime: DateTime.now().add(const Duration(days: 10)),
+                          DateTime.now().subtract(const Duration(minutes: 10)),
+                      maxTime: DateTime.now().add(const Duration(days: 30)),
                       barrierColor: Colors.black12,
                       minuteInterval: 1,
                       padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),

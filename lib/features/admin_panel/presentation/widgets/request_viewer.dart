@@ -2,6 +2,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/enums/notification_enum.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
@@ -30,6 +31,7 @@ class _RequestViewerState extends State<RequestViewer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.transparent,
         body: widget.requests.isNotEmpty
             ? Stack(
                 children: [
@@ -61,7 +63,14 @@ class _RequestViewerState extends State<RequestViewer> {
                           color: Colors.black,
                         ),
                         Text(
-                          'Tags: ${widget.requests[_currentIndex].tags.join(' ,')}',
+                          'Category: ${widget.requests[_currentIndex].category.label}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        const Divider(
+                          color: Colors.black,
+                        ),
+                        Text(
+                          'Tags: ${widget.requests[_currentIndex].tags.join(', ')}',
                           style: const TextStyle(fontSize: 16),
                         ),
                         const Divider(
@@ -74,10 +83,16 @@ class _RequestViewerState extends State<RequestViewer> {
                         const Divider(
                           color: Colors.black,
                         ),
-                        const Text(
-                          'Time: 23rd December 2023',
-                          //TODO: implement time property
-                          style: TextStyle(fontSize: 16),
+                        Text(
+                          'From: ${DateFormat.yMMMd().format(widget.requests[_currentIndex].startDate!)}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        const Divider(
+                          color: Colors.black,
+                        ),
+                        Text(
+                          'To: ${DateFormat.yMMMd().format(widget.requests[_currentIndex].endDate!)}',
+                          style: const TextStyle(fontSize: 16),
                         ),
                         const Divider(
                           color: Colors.black,
@@ -175,7 +190,7 @@ class _RequestViewerState extends State<RequestViewer> {
                                   context
                                       .read<ActivityCubit>()
                                       .updateActivityStatus(
-                                        status: ActivityStatus.verified,
+                                        status: ActivityStatus.active,
                                         activityId:
                                             widget.requests[_currentIndex].id,
                                       );

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/common/views/loading_view.dart';
+import 'package:social_ease_app/core/common/widgets/content_empty.dart';
 import 'package:social_ease_app/core/common/widgets/gradient_background.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
@@ -54,19 +55,9 @@ class _ActivitiesManagementScreenState
                         .toList()
                         .isEmpty) ||
                 state is ActivityError) {
-              return const Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50.0),
-                  child: Text(
+              return const ContentEmpty(
+                text:
                     'Activities have not been found or have not been added yet',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: AppColors.secondaryTextColor,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
               );
             } else if (state is ActivitiesLoaded) {
               final userActivities = state.activities

@@ -1,5 +1,7 @@
 enum ActivityStatus {
-  verified,
+  active,
   declined,
   toBeVerified,
+  editedToBeVerified,
+  completed,
 }

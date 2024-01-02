@@ -4,8 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:social_ease_app/core/common/app/providers/activity_of_the_day_notifier.dart';
 import 'package:social_ease_app/core/common/views/loading_view.dart';
+import 'package:social_ease_app/core/common/widgets/content_empty.dart';
+import 'package:social_ease_app/core/common/widgets/gradient_background.dart';
+import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/core/utils/core_utils.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/home/presentation/refactors/home_categories.dart';
@@ -52,7 +56,7 @@ class _HomeBodyState extends State<HomeBody> {
           final activitiesOfTheDay = state.activities
               .where((activity) =>
                   activity.createdBy != context.currentUser!.uid &&
-                  activity.status == 'verified')
+                  activity.status == ActivityStatus.active.name)
               .toList();
           final activityOfTheDay = activities.first;
           context
@@ -68,18 +72,10 @@ class _HomeBodyState extends State<HomeBody> {
           return const LoadingView();
         } else if (state is ActivitiesLoaded && state.activities.isEmpty ||
             state is ActivityError) {
-          return const Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50.0),
-              child: Text(
-                'Activities have not been found or have not been added yet',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: AppColors.secondaryTextColor,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.center,
-              ),
+          return const GradientBackground(
+            image: MediaRes.dashboardGradient,
+            child: ContentEmpty(
+              text: 'Activities have not been found or have not been added yet',
             ),
           );
         } else if (state is ActivitiesLoaded) {

@@ -195,9 +195,9 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Row(
+                        Row(
                           children: [
-                            Text(
+                            const Text(
                               'Location: ',
                               style: TextStyle(
                                 fontSize: 18,
@@ -205,8 +205,8 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                               ),
                             ),
                             Text(
-                              'Sunrises Avenue 3/5, 243-54 LA',
-                              style: TextStyle(
+                              widget.arguments.activity.location,
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),

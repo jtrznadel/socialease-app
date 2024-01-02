@@ -223,13 +223,13 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("From: "),
+                    const Text("From "),
                     TimePickerSpinnerPopUp(
                       mode: CupertinoDatePickerMode.date,
                       initTime: startDate,
                       minTime:
-                          DateTime.now().subtract(const Duration(days: 10)),
-                      maxTime: DateTime.now().add(const Duration(days: 10)),
+                          DateTime.now().subtract(const Duration(minutes: 10)),
+                      maxTime: DateTime.now().add(const Duration(days: 30)),
                       barrierColor: Colors.black12,
                       minuteInterval: 1,
                       padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
@@ -243,13 +243,13 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                         });
                       },
                     ),
-                    const Text(" To: "),
+                    const Text(" To "),
                     TimePickerSpinnerPopUp(
                       mode: CupertinoDatePickerMode.date,
                       initTime: endDate,
                       minTime:
-                          DateTime.now().subtract(const Duration(days: 10)),
-                      maxTime: DateTime.now().add(const Duration(days: 10)),
+                          DateTime.now().subtract(const Duration(minutes: 10)),
+                      maxTime: DateTime.now().add(const Duration(days: 30)),
                       barrierColor: Colors.black12,
                       minuteInterval: 1,
                       padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),

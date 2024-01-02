@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:social_ease_app/core/common/app/providers/explore_activities_type_notifier.dart';
 import 'package:social_ease_app/core/common/views/loading_view.dart';
+import 'package:social_ease_app/core/common/widgets/content_empty.dart';
 import 'package:social_ease_app/core/enums/activity_category.dart';
 import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
@@ -44,7 +45,7 @@ class _ExploreBodyState extends State<ExploreBody> {
         .toList()
         .where((activity) =>
             activity.createdBy != context.currentUser!.uid &&
-            activity.status == ActivityStatus.verified.name &&
+            activity.status == ActivityStatus.active.name &&
             activity.endDate!.isAfter(DateTime.now()))
         .toList();
   }
@@ -186,29 +187,9 @@ class _ExploreBodyState extends State<ExploreBody> {
                     ),
                   ),
                   if (filteredActivities.isEmpty)
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          LottieBuilder.asset(
-                            MediaRes.searchNotFound,
-                            width: context.height * .3,
-                          ),
-                          const Center(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 50.0),
-                              child: Text(
-                                'No activities found',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: AppColors.secondaryTextColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ],
+                    const Expanded(
+                      child: ContentEmpty(
+                        text: 'No activities found',
                       ),
                     )
                   else
