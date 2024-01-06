@@ -35,6 +35,7 @@ class MediaRes {
   static const underConstruction = '$_baseLottie/under_construction.json';
   static const noNotifications = '$_baseLottie/no_notifications.json';
   static const searchNotFound = '$_baseLottie/search.json';
+  static const congrats = '$_baseLottie/congrats.json';
 
   //categories
   static const animalWelfare = '$_categories/animal_welfare.png';

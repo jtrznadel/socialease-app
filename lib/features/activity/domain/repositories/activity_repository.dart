@@ -8,6 +8,7 @@ abstract class ActivityRepository {
 
   ResultStream<List<Activity>> getActivities();
   ResultFuture<void> addActivity(Activity activity);
+  ResultFuture<void> removeActivity(String activityId);
   ResultFuture<void> updateActivity(Activity activity);
   ResultFuture<LocalUser> getUserById(String userId);
   ResultFuture<void> joinActivity(

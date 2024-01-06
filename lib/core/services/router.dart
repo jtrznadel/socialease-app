@@ -12,6 +12,7 @@ import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/activity/presentation/views/activity_details_screen.dart';
+import 'package:social_ease_app/features/activity/presentation/views/activity_members_screen.dart';
 import 'package:social_ease_app/features/activity/presentation/views/edit_activity_screen.dart';
 import 'package:social_ease_app/features/admin_panel/presentation/views/activities_management.dart';
 import 'package:social_ease_app/features/admin_panel/presentation/views/requests_management.dart';

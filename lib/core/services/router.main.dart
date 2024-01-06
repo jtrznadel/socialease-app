@@ -68,8 +68,17 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           settings: settings);
     case EditActivityScreen.routeName:
       return _pageBuilder(
-          (_) => EditActivityScreen(settings.arguments as Activity),
+          (_) => BlocProvider(
+                create: (_) => sl<ActivityCubit>(),
+                child: EditActivityScreen(settings.arguments as Activity),
+              ),
           settings: settings);
+    case ActivityMembersScreen.routeName:
+      return _pageBuilder(
+          (_) => ActivityMembersScreen(
+              members: settings.arguments as List<String>),
+          settings: settings);
+
     case '/forgot-password':
       return _pageBuilder((_) => const fui.ForgotPasswordScreen(),
           settings: settings);

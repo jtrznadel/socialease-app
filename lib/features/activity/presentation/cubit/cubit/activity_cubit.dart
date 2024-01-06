@@ -11,6 +11,7 @@ import 'package:social_ease_app/features/activity/domain/usecases/get_activities
 import 'package:social_ease_app/features/activity/domain/usecases/get_user_by_id.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/join_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/leave_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/remove_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/update_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/update_activity_status.dart';
 import 'package:social_ease_app/features/auth/domain/entites/user.dart';
@@ -19,6 +20,7 @@ part 'activity_state.dart';
 
 class ActivityCubit extends Cubit<ActivityState> {
   final AddActivity _addActivity;
+  final RemoveActivity _removeActivity;
   final UpdateActivity _updateActivity;
   final GetActivities _getActivities;
   final GetUserById _getUserById;
@@ -30,6 +32,7 @@ class ActivityCubit extends Cubit<ActivityState> {
 
   ActivityCubit({
     required AddActivity addActivity,
+    required RemoveActivity removeActivity,
     required UpdateActivity updateActivity,
     required GetActivities getActivities,
     required GetUserById getUserById,
@@ -37,6 +40,7 @@ class ActivityCubit extends Cubit<ActivityState> {
     required LeaveActivity leaveActivity,
     required UpdateActivityStatus updateActivityStatus,
   })  : _addActivity = addActivity,
+        _removeActivity = removeActivity,
         _updateActivity = updateActivity,
         _getActivities = getActivities,
         _getUserById = getUserById,
@@ -57,6 +61,15 @@ class ActivityCubit extends Cubit<ActivityState> {
     result.fold(
       (failure) => emit(ActivityError(failure.errorMessage)),
       (_) => emit(ActivityAdded()),
+    );
+  }
+
+  Future<void> removeActivity(String activityId) async {
+    emit(const ActivityRemoving());
+    final result = await _removeActivity(activityId);
+    result.fold(
+      (failure) => emit(ActivityError(failure.errorMessage)),
+      (_) => emit(const ActivityRemoved()),
     );
   }
 

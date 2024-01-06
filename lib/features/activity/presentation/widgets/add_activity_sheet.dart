@@ -246,7 +246,7 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                     const Text(" To "),
                     TimePickerSpinnerPopUp(
                       mode: CupertinoDatePickerMode.date,
-                      initTime: endDate,
+                      initTime: endDate.add(const Duration(days: 1)),
                       minTime:
                           DateTime.now().subtract(const Duration(minutes: 10)),
                       maxTime: DateTime.now().add(const Duration(days: 30)),

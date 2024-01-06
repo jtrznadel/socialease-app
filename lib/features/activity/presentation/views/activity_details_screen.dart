@@ -9,7 +9,6 @@ import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
-import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/activity/presentation/widgets/activity_action_button.dart';
 import 'package:social_ease_app/features/chat/presentation/cubit/chat_cubit.dart';
@@ -28,20 +27,16 @@ class ActivityDetailsScreen extends StatefulWidget {
 class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    bool isCurrentUserMember =
-        widget.arguments.activity.members.contains(context.currentUser!.uid);
     var toEnd =
         widget.arguments.activity.endDate!.difference(DateTime.now()).inDays;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          decoration: BoxDecoration(
-            color: AppColors.bgColor.withOpacity(.8),
-            borderRadius: BorderRadius.circular(25),
+        title: const Text(
+          'Activity Details',
+          style: TextStyle(
+            color: AppColors.primaryColor,
           ),
-          child: const Text('Activity Details'),
         ),
       ),
       body: Stack(

@@ -16,6 +16,7 @@ abstract class ActivityRemoteDataSource {
   const ActivityRemoteDataSource();
   Stream<List<ActivityModel>> getActivities();
   Future<void> addActivity(Activity activity);
+  Future<void> removeActivity(String activityId);
   Future<void> updateActivity(Activity activity);
   Future<LocalUserModel> getUserById(String userId);
   Future<void> joinActivity({required activityId, required userId});
@@ -77,6 +78,43 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
       rethrow;
     } catch (e) {
       throw ServerException(message: e.toString(), statusCode: '505');
+    }
+  }
+
+  @override
+  Future<void> removeActivity(String activityId) async {
+    try {
+      await DataSourceUtils.authorizeUser(_auth);
+      WriteBatch batch = _firestore.batch();
+
+      batch.delete(_firestore.collection('activities').doc(activityId));
+
+      final activitySnapshot =
+          await _firestore.collection('activities').doc(activityId).get();
+      final List<String> members =
+          List<String>.from(activitySnapshot.get('members'));
+
+      for (final memberId in members) {
+        batch.update(
+          _firestore.collection('users').doc(memberId),
+          {
+            'ongoingActivities': FieldValue.arrayRemove([activityId])
+          },
+        );
+      }
+      await batch.commit();
+    } on FirebaseException catch (e) {
+      throw ServerException(
+        message: e.message ?? 'Unknown error occurred',
+        statusCode: e.code,
+      );
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw ServerException(
+        message: e.toString(),
+        statusCode: '505',
+      );
     }
   }
 

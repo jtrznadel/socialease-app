@@ -17,4 +17,10 @@ extension StringExt on String {
       return '${distanceInKm.toStringAsFixed(2)} km';
     }
   }
+
+  String get shuffleString {
+    List<String> characters = split('');
+    characters.shuffle();
+    return characters.join();
+  }
 }

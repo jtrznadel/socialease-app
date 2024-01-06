@@ -28,6 +28,16 @@ class ActivityRepositoryImpl implements ActivityRepository {
   }
 
   @override
+  ResultFuture<void> removeActivity(String activityId) async {
+    try {
+      await _remoteDataSource.removeActivity(activityId);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
+
+  @override
   ResultFuture<void> updateActivity(Activity activity) async {
     try {
       await _remoteDataSource.updateActivity(activity);

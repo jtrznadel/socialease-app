@@ -181,11 +181,6 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                   ActivitiesManagementScreen.routeName,
                 ),
               ),
-              ProfileActionButton(
-                label: 'Register an Organization',
-                icon: Icons.account_balance,
-                onPressed: () {},
-              ),
             ] else ...[
               const Row(
                 children: [

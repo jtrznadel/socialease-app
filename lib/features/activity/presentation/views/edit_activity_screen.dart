@@ -1,24 +1,38 @@
+import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:social_ease_app/core/common/widgets/expandable_text.dart';
 import 'package:social_ease_app/core/common/widgets/tag_tile.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
+import 'package:social_ease_app/core/extensions/string_extensions.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
-import 'package:social_ease_app/features/activity/data/models/activity_model.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
+import 'package:social_ease_app/features/activity/presentation/views/activity_members_screen.dart';
 import 'package:social_ease_app/features/activity/presentation/widgets/edit_activity_sheet.dart';
 
-class EditActivityScreen extends StatelessWidget {
+class EditActivityScreen extends StatefulWidget {
   const EditActivityScreen(this.activity, {Key? key}) : super(key: key);
 
   static const routeName = '/edit-activity';
 
   final Activity activity;
+
+  @override
+  State<EditActivityScreen> createState() => _EditActivityScreenState();
+}
+
+class _EditActivityScreenState extends State<EditActivityScreen> {
+  var removeController = TextEditingController();
+  @override
+  void dispose() {
+    removeController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +50,8 @@ class EditActivityScreen extends StatelessWidget {
       );
     }
 
-    bool isCurrentUserMember =
-        activity.members.contains(context.currentUser!.uid);
-    var toEnd = activity.endDate!.difference(DateTime.now()).inDays + 1;
+    var toEnd = widget.activity.endDate!.difference(DateTime.now()).inDays + 1;
+    var confirmCode = widget.activity.title.shuffleString;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -48,9 +61,9 @@ class EditActivityScreen extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          activity.image != null
+          widget.activity.image != null
               ? Image.network(
-                  activity.image!,
+                  widget.activity.image!,
                   fit: BoxFit.cover,
                 )
               : Image.asset(
@@ -137,7 +150,7 @@ class EditActivityScreen extends StatelessWidget {
                           ],
                         ),
                         Text(
-                          activity.title,
+                          widget.activity.title,
                           style: TextStyle(
                             fontSize: 26,
                             fontFamily: Fonts.lato,
@@ -149,12 +162,12 @@ class EditActivityScreen extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Icon(activity.category.icon),
+                            Icon(widget.activity.category.icon),
                             const SizedBox(
                               width: 5,
                             ),
                             Text(
-                              activity.category.label,
+                              widget.activity.category.label,
                               style: TextStyle(
                                 fontSize: 20,
                                 color: AppColors.secondaryTextColor,
@@ -179,7 +192,7 @@ class EditActivityScreen extends StatelessWidget {
                         ),
                         ExpandableText(
                           context,
-                          text: activity.description,
+                          text: widget.activity.description,
                         ),
                         const SizedBox(
                           height: 10,
@@ -188,7 +201,7 @@ class EditActivityScreen extends StatelessWidget {
                           spacing: 5.0,
                           runSpacing: 8.0,
                           children: [
-                            ...activity.tags
+                            ...widget.activity.tags
                                 .take(3)
                                 .map((tag) => TagTile(tag: tag)),
                           ],
@@ -206,7 +219,7 @@ class EditActivityScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              activity.location,
+                              widget.activity.location,
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -232,7 +245,7 @@ class EditActivityScreen extends StatelessWidget {
                                 ),
                                 Text(
                                   DateFormat.yMMMd()
-                                      .format(activity.startDate!),
+                                      .format(widget.activity.startDate!),
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
@@ -250,7 +263,8 @@ class EditActivityScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  DateFormat.yMMMd().format(activity.endDate!),
+                                  DateFormat.yMMMd()
+                                      .format(widget.activity.endDate!),
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
@@ -264,7 +278,7 @@ class EditActivityScreen extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          'Members: ${activity.members.length}',
+                          'Members: ${widget.activity.members.length}',
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -286,11 +300,67 @@ class EditActivityScreen extends StatelessWidget {
             left: 20,
             child: SizedBox(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
+                    onPressed: () async {
+                      if (await confirm(
+                        context,
+                        title: const Text('Confirm'),
+                        content: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Are you sure?'),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            TextFormField(
+                              controller: removeController,
+                              decoration: InputDecoration(
+                                labelText: 'Enter code below to confirm',
+                                hintText: confirmCode,
+                              ),
+                              validator: (value) {
+                                if (value == confirmCode) {
+                                  return null;
+                                } else {
+                                  return 'Code does not match';
+                                }
+                              },
+                            )
+                          ],
+                        ),
+                        textOK: const Text('Remove'),
+                        textCancel: const Text('Cancel'),
+                      )) {
+                        context
+                            .read<ActivityCubit>()
+                            .removeActivity(widget.activity.id);
+                        Navigator.pop(context);
+                      }
+                      context.pop();
+                    },
+                    child: const Row(
+                      children: [
+                        Icon(
+                          Icons.remove_circle_outline,
+                          color: Colors.red,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          'Remove',
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
                     onPressed: () {
-                      showEditActivitySheet(context, activity);
+                      showEditActivitySheet(context, widget.activity);
                     },
                     child: const Row(
                       children: [
@@ -312,24 +382,14 @@ class EditActivityScreen extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // TODO: Implement your remove action
+                      Navigator.of(context).pushNamed(
+                        ActivityMembersScreen.routeName,
+                        arguments: widget.activity.members,
+                      );
                     },
-                    child: const Row(
-                      children: [
-                        Icon(
-                          Icons.remove_circle_outline,
-                          color: Colors.red,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          'Remove',
-                          style: TextStyle(
-                            color: Colors.red,
-                          ),
-                        )
-                      ],
+                    child: const Icon(
+                      Icons.people,
+                      color: Colors.orange,
                     ),
                   ),
                 ],

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:social_ease_app/core/extensions/date_time_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';

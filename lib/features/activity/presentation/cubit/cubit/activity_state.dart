@@ -77,3 +77,11 @@ final class UpdatingActivityStatus extends ActivityState {
 final class ActivityStatusUpdated extends ActivityState {
   const ActivityStatusUpdated();
 }
+
+final class ActivityRemoving extends ActivityState {
+  const ActivityRemoving();
+}
+
+final class ActivityRemoved extends ActivityState {
+  const ActivityRemoved();
+}

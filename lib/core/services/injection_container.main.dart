@@ -87,6 +87,7 @@ Future<void> _initActivity() async {
     ..registerFactory(
       () => ActivityCubit(
         addActivity: sl(),
+        removeActivity: sl(),
         updateActivity: sl(),
         getActivities: sl(),
         getUserById: sl(),
@@ -96,6 +97,7 @@ Future<void> _initActivity() async {
       ),
     )
     ..registerLazySingleton(() => AddActivity(sl()))
+    ..registerLazySingleton(() => RemoveActivity(sl()))
     ..registerLazySingleton(() => UpdateActivity(sl()))
     ..registerLazySingleton(() => GetActivities(sl()))
     ..registerLazySingleton(() => ac.GetUserById(sl()))

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:social_ease_app/core/res/colors.dart';
 
 class TagTile extends StatelessWidget {
   const TagTile({super.key, required this.tag});
