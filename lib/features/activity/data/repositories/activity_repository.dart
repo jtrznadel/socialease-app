@@ -103,11 +103,47 @@ class ActivityRepositoryImpl implements ActivityRepository {
   }
 
   @override
+  ResultFuture<void> completeActivity(
+      {required String activityId, required String userId}) async {
+    try {
+      await _remoteDataSource.completeActivity(
+          activityId: activityId, userId: userId);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
+
+  @override
   ResultFuture<void> updateActivityStatus(
       {required String activityId, required ActivityStatus status}) async {
     try {
       await _remoteDataSource.updateActivityStatus(
           status: status, activityId: activityId);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> sendRequest(
+      {required String activityId, required String userId}) async {
+    try {
+      await _remoteDataSource.sendRequest(
+          userId: userId, activityId: activityId);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> removeRequest(
+      {required String activityId, required String userId}) async {
+    try {
+      await _remoteDataSource.removeRequest(
+          userId: userId, activityId: activityId);
       return const Right(null);
     } on ServerException catch (e) {
       return Left(ServerFailure.fromException(e));

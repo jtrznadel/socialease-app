@@ -93,6 +93,9 @@ Future<void> _initActivity() async {
         getUserById: sl(),
         joinActivity: sl(),
         leaveActivity: sl(),
+        completeActivity: sl(),
+        sendRequest: sl(),
+        removeRequest: sl(),
         updateActivityStatus: sl(),
       ),
     )
@@ -103,6 +106,9 @@ Future<void> _initActivity() async {
     ..registerLazySingleton(() => ac.GetUserById(sl()))
     ..registerLazySingleton(() => JoinActivity(sl()))
     ..registerLazySingleton(() => LeaveActivity(sl()))
+    ..registerLazySingleton(() => CompleteActivity(sl()))
+    ..registerLazySingleton(() => SendRequest(sl()))
+    ..registerLazySingleton(() => RemoveRequest(sl()))
     ..registerLazySingleton(() => UpdateActivityStatus(sl()))
     ..registerLazySingleton<ActivityRepository>(
         () => ActivityRepositoryImpl(sl()))

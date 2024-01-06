@@ -16,6 +16,7 @@ class Activity extends Equatable {
     required this.createdBy,
     required this.tags,
     required this.members,
+    required this.pendingRequests,
     required this.latitude,
     required this.longitude,
     this.status = "toBeVerified",
@@ -33,6 +34,7 @@ class Activity extends Equatable {
           groupId: '_empty.groupId',
           tags: const [],
           members: const [],
+          pendingRequests: const [],
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
           createdBy: '_empty.createdBy',
@@ -56,6 +58,7 @@ class Activity extends Equatable {
   final DateTime updatedAt;
   final String createdBy;
   final List<String> members;
+  final List<String> pendingRequests;
   final double longitude;
   final double latitude;
 

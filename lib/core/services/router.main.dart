@@ -75,8 +75,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           settings: settings);
     case ActivityMembersScreen.routeName:
       return _pageBuilder(
-          (_) => ActivityMembersScreen(
-              members: settings.arguments as List<String>),
+          (_) =>
+              ActivityMembersScreen(activity: settings.arguments as Activity),
           settings: settings);
 
     case '/forgot-password':

@@ -15,7 +15,8 @@ class LocalUserModel extends LocalUser {
     super.bio,
     super.groups,
     super.ongoingActivities,
-    super.doneActivities,
+    super.createdActivities,
+    super.completedActivities,
   });
 
   factory LocalUserModel.empty() {
@@ -40,7 +41,10 @@ class LocalUserModel extends LocalUser {
       profilePic: map['profilePic'] as String?,
       bio: map['bio'] as String?,
       groups: (map['groups'] as List<dynamic>).cast<String>(),
-      doneActivities: (map['doneActivities'] as List<dynamic>).cast<String>(),
+      createdActivities:
+          (map['createdActivities'] as List<dynamic>).cast<String>(),
+      completedActivities:
+          (map['completedActivities'] as List<dynamic>).cast<String>(),
       ongoingActivities:
           (map['ongoingActivities'] as List<dynamic>).cast<String>(),
     );
@@ -57,7 +61,8 @@ class LocalUserModel extends LocalUser {
     String? bio,
     List<String>? groups,
     List<String>? ongoingActivities,
-    List<String>? doneActivities,
+    List<String>? completedActivities,
+    List<String>? createdActivities,
   }) {
     return LocalUserModel(
       uid: uid ?? this.uid,
@@ -70,7 +75,8 @@ class LocalUserModel extends LocalUser {
       bio: bio ?? this.bio,
       groups: groups ?? this.groups,
       ongoingActivities: ongoingActivities ?? this.ongoingActivities,
-      doneActivities: doneActivities ?? this.doneActivities,
+      completedActivities: completedActivities ?? this.completedActivities,
+      createdActivities: createdActivities ?? this.createdActivities,
     );
   }
 
@@ -86,7 +92,8 @@ class LocalUserModel extends LocalUser {
       'bio': bio,
       'groups': groups,
       'ongoingActivities': ongoingActivities,
-      'doneActivities': doneActivities,
+      'createdActivities': createdActivities,
+      'completedActivities': completedActivities,
     };
   }
 }

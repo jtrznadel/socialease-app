@@ -14,7 +14,8 @@ class LocalUser extends Equatable {
     this.bio,
     this.groups = const [],
     this.ongoingActivities = const [],
-    this.doneActivities = const [],
+    this.createdActivities = const [],
+    this.completedActivities = const [],
   });
 
   factory LocalUser.empty() {
@@ -25,8 +26,9 @@ class LocalUser extends Equatable {
       bio: '',
       fullName: '',
       groups: const [],
-      doneActivities: const [],
+      createdActivities: const [],
       ongoingActivities: const [],
+      completedActivities: const [],
       accountLevel: AccountLevel.rookie,
       socialMediaLinks: SocialMediaLinks.empty(),
       points: 0,
@@ -42,7 +44,8 @@ class LocalUser extends Equatable {
   final AccountLevel accountLevel;
   final List<String> groups;
   final List<String> ongoingActivities;
-  final List<String> doneActivities;
+  final List<String> createdActivities;
+  final List<String> completedActivities;
   final SocialMediaLinks socialMediaLinks;
 
   bool get isAdmin => email == 'admin@socialease.com';
@@ -58,7 +61,8 @@ class LocalUser extends Equatable {
         accountLevel,
         groups.length,
         ongoingActivities.length,
-        doneActivities,
+        createdActivities.length,
+        completedActivities.length,
         socialMediaLinks,
       ];
 

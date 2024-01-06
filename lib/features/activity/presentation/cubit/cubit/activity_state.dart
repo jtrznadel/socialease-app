@@ -85,3 +85,27 @@ final class ActivityRemoving extends ActivityState {
 final class ActivityRemoved extends ActivityState {
   const ActivityRemoved();
 }
+
+final class SendingActivityRequest extends ActivityState {
+  const SendingActivityRequest();
+}
+
+final class ActivityRequestSent extends ActivityState {
+  const ActivityRequestSent();
+}
+
+final class RemovingActivityRequest extends ActivityState {
+  const RemovingActivityRequest();
+}
+
+final class ActivityRequestRemoved extends ActivityState {
+  const ActivityRequestRemoved();
+}
+
+final class CompletingActivity extends ActivityState {
+  const CompletingActivity();
+}
+
+final class ActivityCompleted extends ActivityState {
+  const ActivityCompleted();
+}

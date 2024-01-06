@@ -15,6 +15,12 @@ abstract class ActivityRepository {
       {required String activityId, required String userId});
   ResultFuture<void> leaveActivity(
       {required String activityId, required String userId});
+  ResultFuture<void> completeActivity(
+      {required String activityId, required String userId});
+  ResultFuture<void> sendRequest(
+      {required String activityId, required String userId});
+  ResultFuture<void> removeRequest(
+      {required String activityId, required String userId});
   ResultFuture<void> updateActivityStatus({
     required String activityId,
     required ActivityStatus status,

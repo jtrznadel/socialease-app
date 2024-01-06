@@ -340,51 +340,25 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                       }
                       context.pop();
                     },
-                    child: const Row(
-                      children: [
-                        Icon(
-                          Icons.remove_circle_outline,
-                          color: Colors.red,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          'Remove',
-                          style: TextStyle(
-                            color: Colors.red,
-                          ),
-                        )
-                      ],
+                    child: const Icon(
+                      Icons.remove_circle_outline,
+                      color: Colors.red,
                     ),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       showEditActivitySheet(context, widget.activity);
                     },
-                    child: const Row(
-                      children: [
-                        Icon(
-                          Icons.edit_document,
-                          color: Colors.blue,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          'Edit',
-                          style: TextStyle(
-                            color: Colors.blue,
-                          ),
-                        )
-                      ],
+                    child: const Icon(
+                      Icons.edit_document,
+                      color: Colors.blue,
                     ),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed(
                         ActivityMembersScreen.routeName,
-                        arguments: widget.activity.members,
+                        arguments: widget.activity,
                       );
                     },
                     child: const Icon(

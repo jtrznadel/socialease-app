@@ -155,7 +155,7 @@ class PointsRemoteDataSrcImpl implements PointsRemoteDataSrc {
       await _firestore
           .collection('users')
           .doc(userId)
-          .update({'accointLevel': currentLevel.label});
+          .update({'accountLevel': currentLevel.label});
     } on FirebaseException catch (e) {
       throw ServerException(
         message: e.message ?? 'Unknown error occurred',

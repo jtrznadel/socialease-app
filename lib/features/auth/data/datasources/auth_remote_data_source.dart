@@ -142,6 +142,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
               ?.updatePassword(newData['newPassword'] as String);
         case UpdateUserAction.bio:
           await _updateUserData({'bio': userData as String});
+        case UpdateUserAction.completeActivity:
+          await _updateUserData({
+            'completedActivities': FieldValue.arrayUnion([userData])
+          });
       }
     } on FirebaseException catch (e) {
       throw ServerException(
@@ -169,7 +173,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           fullName: user.displayName ?? '',
           profilePic: user.photoURL ?? '',
           groups: const [],
-          doneActivities: const [],
+          createdActivities: const [],
           ongoingActivities: const [],
         ).toMap());
 

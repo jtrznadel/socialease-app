@@ -46,7 +46,15 @@ class _ActivityActionButtonState extends State<ActivityActionButton> {
           );
         } else if (widget.activity.members.contains(context.currentUser!.uid) ||
             state is JoinedActivity) {
-          return const ActivityCompleteButton();
+          return BlocProvider(
+            create: (context) => sl<ActivityCubit>(),
+            child: ActivityCompleteButton(
+              activityId: widget.activity.id,
+            ),
+          );
+        } else if (context.currentUser!.createdActivities
+            .contains(widget.activity.id)) {
+          return const Text("You have completed that activity!");
         } else {
           return MultiBlocProvider(
             providers: [

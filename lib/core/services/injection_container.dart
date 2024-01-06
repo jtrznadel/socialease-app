@@ -7,10 +7,13 @@ import 'package:social_ease_app/features/activity/data/datasources/activity_remo
 import 'package:social_ease_app/features/activity/data/repositories/activity_repository.dart';
 import 'package:social_ease_app/features/activity/domain/repositories/activity_repository.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/add_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/complete_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/get_activities.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/join_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/leave_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/remove_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/remove_request.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/send_request.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/update_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/update_activity_status.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';

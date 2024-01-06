@@ -7,11 +7,14 @@ import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/errors/failures.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/add_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/complete_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/get_activities.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/get_user_by_id.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/join_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/leave_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/remove_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/remove_request.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/send_request.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/update_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/update_activity_status.dart';
 import 'package:social_ease_app/features/auth/domain/entites/user.dart';
@@ -26,6 +29,9 @@ class ActivityCubit extends Cubit<ActivityState> {
   final GetUserById _getUserById;
   final JoinActivity _joinActivity;
   final LeaveActivity _leaveActivity;
+  final CompleteActivity _completeActivity;
+  final SendRequest _sendRequest;
+  final RemoveRequest _removeRequest;
   final UpdateActivityStatus _updateActivityStatus;
 
   StreamSubscription<Either<Failure, List<Activity>>>? activitiesSubscription;
@@ -38,6 +44,9 @@ class ActivityCubit extends Cubit<ActivityState> {
     required GetUserById getUserById,
     required JoinActivity joinActivity,
     required LeaveActivity leaveActivity,
+    required CompleteActivity completeActivity,
+    required SendRequest sendRequest,
+    required RemoveRequest removeRequest,
     required UpdateActivityStatus updateActivityStatus,
   })  : _addActivity = addActivity,
         _removeActivity = removeActivity,
@@ -46,6 +55,9 @@ class ActivityCubit extends Cubit<ActivityState> {
         _getUserById = getUserById,
         _joinActivity = joinActivity,
         _leaveActivity = leaveActivity,
+        _completeActivity = completeActivity,
+        _sendRequest = sendRequest,
+        _removeRequest = removeRequest,
         _updateActivityStatus = updateActivityStatus,
         super(ActivityInitial());
 
@@ -133,6 +145,51 @@ class ActivityCubit extends Cubit<ActivityState> {
     result.fold(
       (failure) => emit(ActivityError(failure.errorMessage)),
       (_) => emit(const LeftActivity()),
+    );
+  }
+
+  Future<void> completeActivity({
+    required String activityId,
+    required String userId,
+  }) async {
+    emit(const CompletingActivity());
+    final result = await _completeActivity(CompleteActivityParams(
+      activityId: activityId,
+      userId: userId,
+    ));
+    result.fold(
+      (failure) => emit(ActivityError(failure.errorMessage)),
+      (_) => emit(const ActivityCompleted()),
+    );
+  }
+
+  Future<void> sendRequest({
+    required String activityId,
+    required String userId,
+  }) async {
+    emit(const SendingActivityRequest());
+    final result = await _sendRequest(SendRequestParams(
+      activityId: activityId,
+      userId: userId,
+    ));
+    result.fold(
+      (failure) => emit(ActivityError(failure.errorMessage)),
+      (_) => emit(const ActivityRequestSent()),
+    );
+  }
+
+  Future<void> removeRequest({
+    required String activityId,
+    required String userId,
+  }) async {
+    emit(const RemovingActivityRequest());
+    final result = await _removeRequest(RemoveRequestParams(
+      activityId: activityId,
+      userId: userId,
+    ));
+    result.fold(
+      (failure) => emit(ActivityError(failure.errorMessage)),
+      (_) => emit(const ActivityRequestRemoved()),
     );
   }
 

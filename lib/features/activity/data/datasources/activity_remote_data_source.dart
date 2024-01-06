@@ -8,7 +8,6 @@ import 'package:social_ease_app/core/errors/exceptions.dart';
 import 'package:social_ease_app/core/utils/datasource_utils.dart';
 import 'package:social_ease_app/features/activity/data/models/activity_model.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
-import 'package:social_ease_app/features/activity/domain/usecases/get_activities.dart';
 import 'package:social_ease_app/features/auth/data/models/user_model.dart';
 import 'package:social_ease_app/features/chat/data/models/group_model.dart';
 
@@ -21,6 +20,9 @@ abstract class ActivityRemoteDataSource {
   Future<LocalUserModel> getUserById(String userId);
   Future<void> joinActivity({required activityId, required userId});
   Future<void> leaveActivity({required activityId, required userId});
+  Future<void> completeActivity({required activityId, required userId});
+  Future<void> sendRequest({required activityId, required userId});
+  Future<void> removeRequest({required activityId, required userId});
   Future<void> updateActivityStatus(
       {required String activityId, required ActivityStatus status});
 }
@@ -50,7 +52,10 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
       final groupRef = _firestore.collection('groups').doc();
 
       var activityModel = (activity as ActivityModel).copyWith(
-          id: activityRef.id, groupId: groupRef.id, members: [user.uid]);
+        id: activityRef.id,
+        groupId: groupRef.id,
+        members: [user.uid],
+      );
       if (activityModel.imageIsFile) {
         final imageRef = _storage.ref().child(
             'activities/${activityModel.id}/profile_image/${activityModel.title}-pfp');
@@ -251,6 +256,75 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
       });
       await _firestore.collection('users').doc(userId).update({
         'ongoingActivities': FieldValue.arrayRemove([activityId])
+      });
+    } on FirebaseException catch (e) {
+      throw ServerException(
+        message: e.message ?? 'Unknown error occurred',
+        statusCode: e.code,
+      );
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw ServerException(
+        message: e.toString(),
+        statusCode: '505',
+      );
+    }
+  }
+
+  @override
+  Future<void> completeActivity({required activityId, required userId}) async {
+    try {
+      await DataSourceUtils.authorizeUser(_auth);
+      await _firestore.collection('users').doc(userId).update({
+        'completedActivities': FieldValue.arrayUnion([activityId])
+      });
+      await _firestore.collection('users').doc(userId).update({
+        'ongoingActivities': FieldValue.arrayRemove([activityId])
+      });
+    } on FirebaseException catch (e) {
+      throw ServerException(
+        message: e.message ?? 'Unknown error occurred',
+        statusCode: e.code,
+      );
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw ServerException(
+        message: e.toString(),
+        statusCode: '505',
+      );
+    }
+  }
+
+  @override
+  Future<void> sendRequest({required activityId, required userId}) async {
+    try {
+      await DataSourceUtils.authorizeUser(_auth);
+      await _firestore.collection('activities').doc(activityId).update({
+        'pendingRequests': FieldValue.arrayUnion([userId])
+      });
+    } on FirebaseException catch (e) {
+      throw ServerException(
+        message: e.message ?? 'Unknown error occurred',
+        statusCode: e.code,
+      );
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw ServerException(
+        message: e.toString(),
+        statusCode: '505',
+      );
+    }
+  }
+
+  @override
+  Future<void> removeRequest({required activityId, required userId}) async {
+    try {
+      await DataSourceUtils.authorizeUser(_auth);
+      await _firestore.collection('activities').doc(activityId).update({
+        'pendingRequests': FieldValue.arrayRemove([userId])
       });
     } on FirebaseException catch (e) {
       throw ServerException(
