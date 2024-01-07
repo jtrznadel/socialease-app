@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/enums/notification_enum.dart';
+import 'package:social_ease_app/core/enums/report_enum.dart';
+import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
@@ -8,6 +10,9 @@ import 'package:social_ease_app/features/auth/domain/entites/user.dart';
 import 'package:social_ease_app/features/notifications/data/models/notification_model.dart';
 import 'package:social_ease_app/features/notifications/presentation/cubit/notification_cubit.dart';
 import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
+import 'package:social_ease_app/features/reports/data/models/report_model.dart';
+import 'package:social_ease_app/features/reports/domain/entities/report.dart';
+import 'package:social_ease_app/features/reports/presentation/cubit/report_cubit.dart';
 
 class ActivityMemberTile extends StatefulWidget {
   final String memberId;
@@ -27,6 +32,7 @@ class _ActivityMemberTileState extends State<ActivityMemberTile> {
   LocalUser? user;
   final reasonController = TextEditingController();
   final pointsController = TextEditingController();
+  final explanationController = TextEditingController();
 
   @override
   void initState() {
@@ -38,6 +44,7 @@ class _ActivityMemberTileState extends State<ActivityMemberTile> {
   void dispose() {
     reasonController.dispose();
     pointsController.dispose();
+    explanationController.dispose();
     super.dispose();
   }
 
@@ -89,7 +96,9 @@ class _ActivityMemberTileState extends State<ActivityMemberTile> {
     );
   }
 
-  void _showReportDialog(BuildContext context) {
+  void _showReportDialog(BuildContext parentsContext) {
+    ReportCategory? selectedCategory;
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -99,16 +108,24 @@ class _ActivityMemberTileState extends State<ActivityMemberTile> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text('Please provide the reason for reporting this user:'),
-              DropdownButton<String>(
-                items: <String>['Category 1', 'Category 2'].map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
+              DropdownButton<ReportCategory>(
+                value: selectedCategory,
+                items: ReportCategory.values.map((ReportCategory category) {
+                  return DropdownMenuItem<ReportCategory>(
+                    value: category,
+                    child: Text(category.name),
                   );
                 }).toList(),
-                onChanged: (String? newValue) {
-                  // Handle dropdown value change
+                onChanged: (ReportCategory? newValue) {
+                  setState(() {
+                    selectedCategory = newValue;
+                  });
                 },
+              ),
+              const SizedBox(height: 16), // Add some spacing
+              TextField(
+                controller: explanationController,
+                decoration: const InputDecoration(labelText: 'Explanation'),
               ),
             ],
           ),
@@ -121,7 +138,14 @@ class _ActivityMemberTileState extends State<ActivityMemberTile> {
             ),
             TextButton(
               onPressed: () {
-                // TODO: Implement reporting user
+                ReportModel report = ReportModel.empty().copyWith(
+                  sentBy: context.currentUser!.uid,
+                  reportedId: widget.memberId,
+                  type: ReportType.userReport,
+                  category: selectedCategory,
+                  explanation: explanationController.text.trim(),
+                );
+                parentsContext.read<ReportCubit>().addReport(report);
                 Navigator.of(context).pop();
               },
               child: const Text('Submit'),

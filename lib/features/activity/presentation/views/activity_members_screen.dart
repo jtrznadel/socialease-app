@@ -7,6 +7,7 @@ import 'package:social_ease_app/features/activity/presentation/widgets/activity_
 import 'package:social_ease_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:social_ease_app/features/notifications/presentation/cubit/notification_cubit.dart';
 import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
+import 'package:social_ease_app/features/reports/presentation/cubit/report_cubit.dart';
 
 class ActivityMembersScreen extends StatelessWidget {
   const ActivityMembersScreen({
@@ -36,7 +37,7 @@ class ActivityMembersScreen extends StatelessWidget {
             return MultiBlocProvider(
               providers: [
                 BlocProvider(
-                  create: (context) => sl<AuthBloc>(),
+                  create: (context) => sl<ReportCubit>(),
                 ),
                 BlocProvider(
                   create: (context) => sl<ActivityCubit>(),

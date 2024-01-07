@@ -9,6 +9,28 @@ Future<void> init() async {
   await _initChat();
   await _initNotifications();
   await _initPoints();
+  await _initReports();
+}
+
+Future<void> _initReports() async {
+  sl
+    ..registerFactory(() => ReportCubit(
+          addReport: sl(),
+          removeReport: sl(),
+          changeReportStatus: sl(),
+          getReports: sl(),
+        ))
+    ..registerLazySingleton(() => AddReport(sl()))
+    ..registerLazySingleton(() => RemoveReport(sl()))
+    ..registerLazySingleton(() => ChangeReportStatus(sl()))
+    ..registerLazySingleton(() => GetReports(sl()))
+    ..registerLazySingleton<ReportRepo>(() => ReportRepoImpl(sl()))
+    ..registerLazySingleton<ReportRemoteDataSource>(
+      () => ReportRemoteDataSourceImpl(
+        firestore: sl(),
+        auth: sl(),
+      ),
+    );
 }
 
 Future<void> _initPoints() async {

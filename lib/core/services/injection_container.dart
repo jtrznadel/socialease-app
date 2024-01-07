@@ -64,4 +64,12 @@ import 'package:social_ease_app/features/points/domain/usecases/get_points.dart'
 import 'package:social_ease_app/features/points/domain/usecases/subtract_points.dart';
 import 'package:social_ease_app/features/points/domain/usecases/update_level.dart';
 import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
+import 'package:social_ease_app/features/reports/data/datasources/report_remote_data_source.dart';
+import 'package:social_ease_app/features/reports/data/repositories/report_repo_impl.dart';
+import 'package:social_ease_app/features/reports/domain/repositories/report_repo.dart';
+import 'package:social_ease_app/features/reports/domain/usecases/add_report.dart';
+import 'package:social_ease_app/features/reports/domain/usecases/change_report_status.dart';
+import 'package:social_ease_app/features/reports/domain/usecases/get_reports.dart';
+import 'package:social_ease_app/features/reports/domain/usecases/remove_report.dart';
+import 'package:social_ease_app/features/reports/presentation/cubit/report_cubit.dart';
 part 'injection_container.main.dart';
