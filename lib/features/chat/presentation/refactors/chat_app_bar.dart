@@ -15,6 +15,8 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final groupName =
+        group.name.length > 10 ? group.name.substring(0, 10) : group.name;
     return AppBar(
       leading: const NestedBackButton(),
       title: Row(
@@ -25,7 +27,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
           const SizedBox(
             width: 8,
           ),
-          Text(group.name),
+          Text(groupName),
         ],
       ),
       foregroundColor: Colors.white,

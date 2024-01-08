@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
+import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
 
 class AccountStats extends StatelessWidget {
   const AccountStats({
@@ -13,6 +16,7 @@ class AccountStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<PointsCubit>().getAllTimeRanking();
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -28,12 +32,37 @@ class AccountStats extends StatelessWidget {
           children: [
             Column(
               children: [
-                Text(
-                  '#3',
-                  style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: Fonts.montserrat),
+                BlocBuilder<PointsCubit, PointsState>(
+                  builder: (context, state) {
+                    if (state is PointsError) {
+                      return Text(
+                        '#999',
+                        style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: Fonts.montserrat),
+                      );
+                    } else if (state is AllTimeRankingLoaded) {
+                      var positon = state.allTimeRanking
+                          .where((position) =>
+                              position.userId == context.currentUser!.uid)
+                          .first;
+                      return Text(
+                        '#${positon.position}',
+                        style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: Fonts.montserrat),
+                      );
+                    }
+                    return Text(
+                      '#999',
+                      style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: Fonts.montserrat),
+                    );
+                  },
                 ),
                 Text(
                   'top rank',

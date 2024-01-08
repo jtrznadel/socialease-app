@@ -7,11 +7,13 @@ class StatsElement extends StatelessWidget {
     required this.color,
     required this.icon,
     required this.text,
+    required this.value,
   });
 
   final Color color;
   final IconData icon;
   final String text;
+  final String value;
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +29,23 @@ class StatsElement extends StatelessWidget {
           child: Icon(
             icon,
             color: color,
-            size: 25,
+            size: 30,
           ),
         ),
         const SizedBox(
           height: 2,
         ),
         Text(
+          value,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
           text,
           style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+            fontSize: 12,
           ),
         ),
       ],

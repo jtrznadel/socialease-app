@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/common/views/loading_view.dart';
 import 'package:social_ease_app/core/common/widgets/content_empty.dart';
 import 'package:social_ease_app/core/common/widgets/gradient_background.dart';
+import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
@@ -51,7 +52,8 @@ class _ActivitiesManagementScreenState
             } else if ((state is ActivitiesLoaded &&
                     state.activities
                         .where((activity) =>
-                            activity.createdBy == context.currentUser!.uid)
+                            activity.createdBy == context.currentUser!.uid &&
+                            activity.status == ActivityStatus.active.name)
                         .toList()
                         .isEmpty) ||
                 state is ActivityError) {

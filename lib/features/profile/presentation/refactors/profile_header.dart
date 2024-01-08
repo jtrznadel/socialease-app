@@ -144,9 +144,13 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                       child: Text(state.message),
                     );
                   } else if (state is PointsLoaded) {
-                    return AccountStats(
-                      points: state.points,
-                      activityCounter: user.groups.length,
+                    return BlocProvider(
+                      create: (context) => sl<PointsCubit>(),
+                      child: AccountStats(
+                        points: state.points,
+                        activityCounter: user.createdActivities.length +
+                            user.completedActivities.length,
+                      ),
                     );
                   } else {
                     return const SizedBox.shrink();

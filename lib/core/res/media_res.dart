@@ -27,15 +27,18 @@ class MediaRes {
   static const activityOfTheDay = '$_baseImage/activityOTD.png';
 
   //gradients
-
   static const onBoardingGradient = '$_baseImage/on_boarding_gradient.png';
   static const dashboardGradient = '$_baseImage/dashboard_gradient.png';
+
+  //backgrounds
+  static const goldenBg = '$_baseImage/golden_bg.png';
 
   //lotties
   static const underConstruction = '$_baseLottie/under_construction.json';
   static const noNotifications = '$_baseLottie/no_notifications.json';
   static const searchNotFound = '$_baseLottie/search.json';
   static const congrats = '$_baseLottie/congrats.json';
+  static const loading = '$_baseLottie/loading.json';
 
   //categories
   static const animalWelfare = '$_categories/animal_welfare.png';

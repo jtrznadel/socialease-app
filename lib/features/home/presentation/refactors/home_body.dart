@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:social_ease_app/core/common/app/providers/activity_of_the_day_notifier.dart';
 import 'package:social_ease_app/core/common/views/loading_view.dart';
+import 'package:social_ease_app/core/common/widgets/blank_tile.dart';
 import 'package:social_ease_app/core/common/widgets/content_empty.dart';
 import 'package:social_ease_app/core/common/widgets/gradient_background.dart';
 import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
+import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/core/utils/core_utils.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
-import 'package:social_ease_app/features/home/presentation/refactors/home_categories.dart';
-import 'package:social_ease_app/features/home/presentation/refactors/home_favorites.dart';
+import 'package:social_ease_app/features/activity/presentation/widgets/ongoing_activities_section.dart';
 import 'package:social_ease_app/features/home/presentation/refactors/home_header.dart';
 import 'package:social_ease_app/features/home/presentation/widgets/user_of_the_all_time.dart';
 import 'package:social_ease_app/features/home/presentation/widgets/user_of_the_month.dart';
+import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
+import 'package:social_ease_app/features/points/presentation/widgets/user_ranking.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
@@ -26,7 +27,8 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
-  final controller = PageController();
+  final rankingController = PageController();
+  final activityController = PageController();
 
   void getActivities() {
     context.read<ActivityCubit>().getActivities();
@@ -40,13 +42,13 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   void dispose() {
-    controller.dispose();
+    rankingController.dispose();
+    activityController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final pages = [const UserOfTheMonth(), const UserOfTheAllTime()];
     return BlocConsumer<ActivityCubit, ActivityState>(
       listener: (_, state) {
         if (state is ActivityError) {
@@ -79,11 +81,15 @@ class _HomeBodyState extends State<HomeBody> {
             ),
           );
         } else if (state is ActivitiesLoaded) {
+          final ongoingActivities = state.activities
+              .where((activity) =>
+                  context.currentUser!.ongoingActivities.contains(activity.id))
+              .toList();
           return Column(
             children: [
               Container(
                 padding: const EdgeInsets.all(15),
-                height: context.height * .3,
+                height: context.height * .32,
                 width: context.width,
                 color: Colors.white,
                 child: const HomeHeader(),
@@ -107,23 +113,56 @@ class _HomeBodyState extends State<HomeBody> {
                     ),
                   ),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 20),
-                        height: context.height * .2,
-                        child: PageView.builder(
-                          controller: controller,
-                          itemBuilder: (_, index) {
-                            return pages[index % pages.length];
-                          },
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(left: 15.0),
+                            child: Text(
+                              "Rankings",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: AppColors.primaryTextColor,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          BlocProvider(
+                            create: (context) => sl<PointsCubit>(),
+                            child: UserRankingSection(
+                              controller: rankingController,
+                            ),
+                          ),
+                        ],
                       ),
-                      SmoothPageIndicator(
-                          controller: controller,
-                          count: 2,
-                          effect: const WormEffect(),
-                          onDotClicked: (index) {})
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(left: 15.0),
+                            child: Text(
+                              "Ongoing initiatives",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: AppColors.primaryTextColor,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          ongoingActivities.isNotEmpty
+                              ? OngoingActivitiesSection(
+                                  activityController: activityController,
+                                  ongoingActivities: ongoingActivities)
+                              : const BlankTile(
+                                  text:
+                                      'At this moment you are not participating in any initiatives')
+                        ],
+                      ),
                     ],
                   ),
                 ),

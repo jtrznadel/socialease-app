@@ -171,8 +171,9 @@ class _RequestViewerState extends State<RequestViewer> {
                                 onPressed: () {
                                   final notification =
                                       NotificationModel.empty().copyWith(
-                                    title: "Activity has been accepted",
-                                    body: "Activity is now visible on socials.",
+                                    title:
+                                        "Activity ${widget.requests[_currentIndex].title} has been accepted",
+                                    body: "It's now visible on socials.",
                                     category:
                                         NotificationCategory.activityFeedback,
                                   );

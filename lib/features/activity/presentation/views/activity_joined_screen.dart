@@ -43,7 +43,7 @@ class ActivityJoinedScreen extends StatelessWidget {
                       fontFamily: Fonts.poppins),
                 ),
                 Text(
-                  'You have joined to the activity.',
+                  'You have joined to the inititive.',
                   style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,

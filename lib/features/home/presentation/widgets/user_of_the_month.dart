@@ -1,68 +1,175 @@
-import 'package:dashed_circular_progress_bar/dashed_circular_progress_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/common/widgets/stats_element.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
+import 'package:social_ease_app/core/services/injection_container.dart';
+import 'package:social_ease_app/core/utils/core_utils.dart';
+import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
+import 'package:social_ease_app/features/auth/domain/entites/user.dart';
+import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
 
-class UserOfTheMonth extends StatelessWidget {
-  const UserOfTheMonth({Key? key}) : super(key: key);
+class UserOfTheMonth extends StatefulWidget {
+  const UserOfTheMonth({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<UserOfTheMonth> createState() => _UserOfTheMonthState();
+}
+
+class _UserOfTheMonthState extends State<UserOfTheMonth> {
+  String? leaderId;
+
+  @override
+  void initState() {
+    context.read<PointsCubit>().getMonthlyRanking();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          CircleAvatar(
-            radius: 50,
-            backgroundImage: AssetImage(MediaRes.defaultAvatarImage),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                "Jakub Trznadel",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+    return BlocConsumer<PointsCubit, PointsState>(
+      listener: (context, state) {
+        if (state is PointsError) {
+          CoreUtils.showSnackBar(context, state.message);
+        } else if (state is MonthlyRankingLoaded) {
+          setState(() {
+            leaderId = state.monthlyRanking.isNotEmpty
+                ? state.monthlyRanking.first.userId
+                : null;
+          });
+        }
+      },
+      builder: (context, state) {
+        if (state is LoadingMonthlyRanking) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is MonthlyRankingLoaded) {
+          return BlocProvider(
+            create: (context) => sl<ActivityCubit>(),
+            child: MonthlyLeaderTile(
+              userId: leaderId!,
+            ),
+          );
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+}
+
+class MonthlyLeaderTile extends StatefulWidget {
+  const MonthlyLeaderTile({
+    super.key,
+    required this.userId,
+  });
+
+  final String userId;
+
+  @override
+  State<MonthlyLeaderTile> createState() => _MonthlyLeaderTileState();
+}
+
+class _MonthlyLeaderTileState extends State<MonthlyLeaderTile> {
+  LocalUser? user;
+  @override
+  void initState() {
+    context.read<ActivityCubit>().getUser(widget.userId);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<ActivityCubit, ActivityState>(
+      listener: (context, state) {
+        if (state is ActivityError) {
+          CoreUtils.showSnackBar(context, state.message);
+        } else if (state is UserLoaded) {
+          setState(() {
+            user = state.user;
+          });
+        }
+      },
+      builder: (context, state) {
+        if (state is GettingUser) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is UserLoaded) {
+          return Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              image: const DecorationImage(
+                image: AssetImage(MediaRes.goldenBg),
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundImage: NetworkImage(user!.profilePic!),
+                    ),
+                    Text(
+                      user?.fullName ?? 'unknown',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
+                  ],
                 ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  StatsElement(
-                    color: Colors.yellow,
-                    icon: Icons.star,
-                    text: '1',
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  StatsElement(
-                    color: Colors.yellow,
-                    icon: Icons.star,
-                    text: '1',
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  StatsElement(
-                    color: Colors.yellow,
-                    icon: Icons.star,
-                    text: '1',
-                  )
-                ],
-              )
-            ],
-          )
-        ],
-      ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "User of The Month",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    Row(
+                      children: [
+                        StatsElement(
+                          color: Colors.yellow,
+                          icon: Icons.star,
+                          value: '${user!.points}',
+                          text: 'points',
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        StatsElement(
+                          color: Colors.lime,
+                          icon: Icons.celebration,
+                          value: '${user!.completedActivities.length}',
+                          text: 'completed',
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        StatsElement(
+                          color: Colors.green,
+                          icon: Icons.local_activity,
+                          text: 'created',
+                          value: '${user!.createdActivities.length}',
+                        )
+                      ],
+                    )
+                  ],
+                )
+              ],
+            ),
+          );
+        }
+        return const Text('test');
+      },
     );
   }
 }

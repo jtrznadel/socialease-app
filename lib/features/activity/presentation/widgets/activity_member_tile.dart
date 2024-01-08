@@ -97,37 +97,42 @@ class _ActivityMemberTileState extends State<ActivityMemberTile> {
   }
 
   void _showReportDialog(BuildContext parentsContext) {
-    ReportCategory? selectedCategory;
+    ReportCategory? selectedCategory = ReportCategory.spamContent;
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Report User'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text('Please provide the reason for reporting this user:'),
-              DropdownButton<ReportCategory>(
-                value: selectedCategory,
-                items: ReportCategory.values.map((ReportCategory category) {
-                  return DropdownMenuItem<ReportCategory>(
-                    value: category,
-                    child: Text(category.name),
-                  );
-                }).toList(),
-                onChanged: (ReportCategory? newValue) {
-                  setState(() {
-                    selectedCategory = newValue;
-                  });
-                },
-              ),
-              const SizedBox(height: 16), // Add some spacing
-              TextField(
-                controller: explanationController,
-                decoration: const InputDecoration(labelText: 'Explanation'),
-              ),
-            ],
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                      'Please provide the reason for reporting this user:'),
+                  DropdownButton<ReportCategory>(
+                    value: selectedCategory,
+                    items: ReportCategory.values.map((ReportCategory category) {
+                      return DropdownMenuItem<ReportCategory>(
+                        value: category,
+                        child: Text(category.name),
+                      );
+                    }).toList(),
+                    onChanged: (ReportCategory? newValue) {
+                      setState(() {
+                        selectedCategory = newValue;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 16), // Add some spacing
+                  TextField(
+                    controller: explanationController,
+                    decoration: const InputDecoration(labelText: 'Explanation'),
+                  ),
+                ],
+              );
+            },
           ),
           actions: <Widget>[
             TextButton(

@@ -69,8 +69,8 @@ class PointsRemoteDataSrcImpl implements PointsRemoteDataSrc {
             )
             .toMap());
         await updateRanking();
-        await updateLevel(userId: userId);
       }
+      await updateLevel(userId: userId);
     } on FirebaseException catch (e) {
       throw ServerException(
         message: e.message ?? 'Unknown error occurred',
@@ -127,8 +127,8 @@ class PointsRemoteDataSrcImpl implements PointsRemoteDataSrc {
             )
             .toMap());
         await updateRanking();
-        await updateLevel(userId: userId);
       }
+      await updateLevel(userId: userId);
     } on FirebaseException catch (e) {
       throw ServerException(
         message: e.message ?? 'Unknown error occurred',
@@ -155,7 +155,7 @@ class PointsRemoteDataSrcImpl implements PointsRemoteDataSrc {
       await _firestore
           .collection('users')
           .doc(userId)
-          .update({'accountLevel': currentLevel.label});
+          .update({'accountLevel': currentLevel.name});
     } on FirebaseException catch (e) {
       throw ServerException(
         message: e.message ?? 'Unknown error occurred',

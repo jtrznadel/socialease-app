@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
-import 'package:social_ease_app/core/res/colors.dart';
-import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/core/utils/core_utils.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
@@ -44,7 +42,8 @@ class _ActivityActionButtonState extends State<ActivityActionButton> {
             onPressed: () {},
             child: const CircularProgressIndicator(),
           );
-        } else if (widget.activity.members.contains(context.currentUser!.uid) ||
+        } else if (context.currentUser!.ongoingActivities
+                .contains(widget.activity.id) ||
             state is JoinedActivity) {
           return BlocProvider(
             create: (context) => sl<ActivityCubit>(),
@@ -52,9 +51,15 @@ class _ActivityActionButtonState extends State<ActivityActionButton> {
               activityId: widget.activity.id,
             ),
           );
-        } else if (context.currentUser!.createdActivities
+        } else if (context.currentUser!.completedActivities
             .contains(widget.activity.id)) {
-          return const Text("You have completed that activity!");
+          return const Center(
+              child: Text(
+            "You have completed that activity!",
+            style: TextStyle(
+              fontSize: 14,
+            ),
+          ));
         } else {
           return MultiBlocProvider(
             providers: [

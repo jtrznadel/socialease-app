@@ -132,8 +132,10 @@ class PointsCubit extends Cubit<PointsState> {
           (ranking) => emit(AllTimeRankingLoaded(ranking)),
         );
       },
+      onDone: () => subscription?.cancel(),
       onError: (error) {
         emit(PointsError(error.toString()));
+        subscription?.cancel();
       },
     );
   }
@@ -149,8 +151,10 @@ class PointsCubit extends Cubit<PointsState> {
           (ranking) => emit(MonthlyRankingLoaded(ranking)),
         );
       },
+      onDone: () => subscription?.cancel(),
       onError: (error) {
         emit(PointsError(error.toString()));
+        subscription?.cancel();
       },
     );
   }

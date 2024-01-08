@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:lottie/lottie.dart' as lt;
+import 'package:provider/provider.dart';
+import 'package:social_ease_app/core/common/app/providers/location_provider.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
+import 'package:social_ease_app/core/res/media_res.dart';
+import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
+import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
+import 'package:social_ease_app/features/activity/presentation/widgets/activity_map_tile.dart';
 
 class ExploreMap extends StatefulWidget {
   const ExploreMap({Key? key, required this.activities}) : super(key: key);
@@ -23,23 +30,13 @@ class _ExploreMapState extends State<ExploreMap> {
   @override
   void initState() {
     super.initState();
-    getLocation();
+    _init();
   }
 
-  getLocation() async {
-    LocationPermission permission;
-    permission = await Geolocator.requestPermission();
-
-    Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-    double lat = position.latitude;
-    double long = position.longitude;
-
-    LatLng location = LatLng(lat, long);
-
+  Future<void> _init() async {
+    await context.read<LocationProvider>().initLocation();
     setState(() {
-      _currentPosition = location;
+      _currentPosition = context.read<LocationProvider>().currentPosition;
       _isLoading = false;
     });
   }
@@ -92,78 +89,9 @@ class _ExploreMapState extends State<ExploreMap> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return SizedBox(
-          height: context.height * .35,
-          child: Stack(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(5).copyWith(bottom: 0),
-                height: context.height * .2,
-                width: context.width,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    _selectedActivity!.image!,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 0,
-                left: 0,
-                bottom: 0,
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  width: context.width,
-                  height: context.height * .2,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: Colors.white,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _selectedActivity!.title.length > 20
-                            ? '${_selectedActivity!.title.substring(0, 20)}...'
-                            : _selectedActivity!.title,
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Icon(_selectedActivity!.category.icon),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            _selectedActivity!.category.label,
-                            style: const TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        'Category: ${_selectedActivity!.category.label}',
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+        return BlocProvider(
+          create: (context) => sl<ActivityCubit>(),
+          child: MapActivityTile(selectedActivity: _selectedActivity!),
         );
       },
     );
@@ -181,7 +109,9 @@ class _ExploreMapState extends State<ExploreMap> {
             color: Colors.transparent,
           ),
           child: _isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(
+                  child: lt.LottieBuilder.asset(MediaRes.loading),
+                )
               : GoogleMap(
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(
@@ -194,10 +124,13 @@ class _ExploreMapState extends State<ExploreMap> {
                 ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _moveToCurrentLocation,
-        tooltip: 'My Location',
-        child: const Icon(Icons.my_location),
+      floatingActionButton: Align(
+        alignment: AlignmentDirectional.bottomStart,
+        child: FloatingActionButton(
+          onPressed: _moveToCurrentLocation,
+          tooltip: 'My Location',
+          child: const Icon(Icons.my_location),
+        ),
       ),
     );
   }

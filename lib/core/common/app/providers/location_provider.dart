@@ -29,7 +29,6 @@ class LocationProvider extends ChangeNotifier {
 
   Future<int> calculateDistance(
       double destLatitude, double destLongitude) async {
-    await getCurrentPosition();
     const double earthRadius = 6371; // in kilometers
 
     double lat1 = _currentPosition!.latitude;

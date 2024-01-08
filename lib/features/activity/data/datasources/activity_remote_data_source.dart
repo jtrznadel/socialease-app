@@ -64,8 +64,11 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
           activityModel = activityModel.copyWith(image: url);
         });
       }
-
       await activityRef.set(activityModel.toMap());
+
+      await _firestore.collection('users').doc(user.uid).update({
+        'createdActivities': FieldValue.arrayUnion([activityModel.id]),
+      });
 
       final group = GroupModel(
         id: groupRef.id,
