@@ -31,7 +31,7 @@ class AllCategoriesView extends StatelessWidget {
                   'Categories',
                   style: TextStyle(
                     fontSize: 24,
-                    fontFamily: Fonts.montserrat,
+                    fontFamily: Fonts.poppins,
                     fontWeight: FontWeight.w600,
                     color: AppColors.primaryTextColor,
                   ),
@@ -41,7 +41,7 @@ class AllCategoriesView extends StatelessWidget {
                   style: TextStyle(
                     color: AppColors.secondaryTextColor,
                     fontSize: 18,
-                    fontFamily: Fonts.montserrat,
+                    fontFamily: Fonts.poppins,
                   ),
                 ),
                 const SizedBox(

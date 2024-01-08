@@ -7,6 +7,8 @@ class MediaRes {
 
   //images
 
+  static const testImage = '$_baseImage/test_image.jpg';
+
   //<-- ON BOARDING -->
   static const onBoardingImage1 = '$_baseImage/on_boarding_image_1.png';
   static const onBoardingImage2 = '$_baseImage/on_boarding_image_2.png';
@@ -32,6 +34,8 @@ class MediaRes {
 
   //backgrounds
   static const goldenBg = '$_baseImage/golden_bg.png';
+  static const blueBg = '$_baseImage/blue_bg.png';
+  static const blackBg = '$_baseImage/black_bg.png';
 
   //lotties
   static const underConstruction = '$_baseLottie/under_construction.json';

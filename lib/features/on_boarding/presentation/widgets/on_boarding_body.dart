@@ -31,7 +31,7 @@ class OnBoardingBody extends StatelessWidget {
                 pageContent.title,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontFamily: Fonts.lato,
+                    fontFamily: Fonts.poppins,
                     fontSize: 40,
                     fontWeight: FontWeight.bold),
               ),
@@ -59,7 +59,7 @@ class OnBoardingBody extends StatelessWidget {
                     'Get started',
                     style: TextStyle(
                         fontSize: 16,
-                        fontFamily: Fonts.lato,
+                        fontFamily: Fonts.poppins,
                         fontWeight: FontWeight.bold),
                   )),
             ],

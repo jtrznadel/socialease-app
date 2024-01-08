@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:social_ease_app/core/common/widgets/stats_element.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 
 import 'package:flutter/material.dart';
@@ -100,6 +101,10 @@ class _AllTimeLeaderTileState extends State<AllTimeLeaderTile> {
           return Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.black,
+                width: 2,
+              ),
               image: const DecorationImage(
                 image: AssetImage(MediaRes.goldenBg),
                 fit: BoxFit.cover,
@@ -115,12 +120,22 @@ class _AllTimeLeaderTileState extends State<AllTimeLeaderTile> {
                     CircleAvatar(
                       radius: 40,
                       backgroundImage: NetworkImage(user!.profilePic!),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 2,
+                          ),
+                        ),
+                      ),
                     ),
                     Text(
                       user?.fullName ?? 'unknown',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
+                        fontFamily: Fonts.poppins,
                       ),
                     )
                   ],
@@ -128,11 +143,12 @@ class _AllTimeLeaderTileState extends State<AllTimeLeaderTile> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       "User of The All-time",
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
+                        fontFamily: Fonts.poppins,
                       ),
                     ),
                     const SizedBox(

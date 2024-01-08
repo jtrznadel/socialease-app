@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:provider/provider.dart';
 import 'package:social_ease_app/core/common/app/providers/activity_of_the_day_notifier.dart';
+import 'package:social_ease_app/core/common/widgets/blank_tile.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
@@ -18,7 +19,7 @@ class _TinderCardsState extends State<TinderCards>
     with TickerProviderStateMixin {
   final cardController = CardController();
 
-  int totalCards = 10;
+  int totalCards = 2;
   late List<Activity> activities;
 
   @override
@@ -29,18 +30,21 @@ class _TinderCardsState extends State<TinderCards>
         width: context.width,
         height: context.width,
         child: TinderSwapCard(
-          totalNum: activities.length <= 10 ? activities.length : totalCards,
+          totalNum: activities.length <= 2 ? activities.length : totalCards,
           swipeEdge: 4,
           maxWidth: context.width,
           maxHeight: context.width * .9,
           minWidth: context.width * .71,
           minHeight: context.width * .6,
           cardController: cardController,
-          allowSwipe: true,
+          allowSwipe: false,
           swipeUpdateCallback:
               (DragUpdateDetails details, Alignment alignment) {
             if (alignment.x < 0) {
-            } else if (alignment.x > 0) {}
+              // Swiping left
+            } else if (alignment.x > 0) {
+              // Swiping right
+            }
           },
           swipeCompleteCallback: (CardSwipeOrientation orientation, int index) {
             if (index == totalCards - 1) {
@@ -50,8 +54,16 @@ class _TinderCardsState extends State<TinderCards>
             }
           },
           cardBuilder: (context, index) {
+            if (index >= activities.length) {
+              // No more cards, return BlankTile()
+              return const BlankTile(
+                text: 'test',
+              );
+            }
+
             final isFirst = index == 0;
             final colorByIndex = index == 1 ? Colors.yellow : Colors.purple;
+
             return Stack(
               children: [
                 Positioned(
@@ -66,13 +78,14 @@ class _TinderCardsState extends State<TinderCards>
                 ),
                 if (isFirst)
                   Positioned(
-                      bottom: 85,
-                      right: -20,
-                      child: Image.asset(
-                        MediaRes.activityOfTheDay,
-                        height: 180,
-                        width: 150,
-                      ))
+                    bottom: 85,
+                    right: -20,
+                    child: Image.asset(
+                      MediaRes.activityOfTheDay,
+                      height: 180,
+                      width: 150,
+                    ),
+                  ),
               ],
             );
           },

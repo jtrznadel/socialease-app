@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
-import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/home/presentation/widgets/user_of_the_all_time.dart';
 import 'package:social_ease_app/features/home/presentation/widgets/user_of_the_month.dart';
-import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
 
 class UserRankingSection extends StatefulWidget {
   const UserRankingSection({
@@ -21,8 +18,8 @@ class UserRankingSection extends StatefulWidget {
 
 class _UserRankingSectionState extends State<UserRankingSection> {
   final pages = [
-    UserOfTheMonth(),
-    UserOfTheAllTime(),
+    const UserOfTheMonth(key: Key('userOfTheMonth')),
+    const UserOfTheAllTime(key: Key('userOfTheAllTime')),
   ];
 
   @override

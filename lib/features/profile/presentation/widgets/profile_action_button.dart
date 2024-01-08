@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 
 class ProfileActionButton extends StatelessWidget {
   const ProfileActionButton({
@@ -38,7 +39,11 @@ class ProfileActionButton extends StatelessWidget {
                 const SizedBox(
                   width: 5,
                 ),
-                Text(label),
+                Text(
+                  label,
+                  style: TextStyle(
+                      fontFamily: Fonts.poppins, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(
                   width: 5,
                 ),
@@ -53,10 +58,11 @@ class ProfileActionButton extends StatelessWidget {
                 ),
                 child: Text(
                   numberToCheck!.toString(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
+                    fontFamily: Fonts.poppins,
                   ),
                 ),
               ),

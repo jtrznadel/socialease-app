@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 
 class TagTile extends StatelessWidget {
   const TagTile({super.key, required this.tag});
@@ -19,7 +20,10 @@ class TagTile extends StatelessWidget {
           )),
       child: Text(
         '#$tag',
-        style: const TextStyle(fontSize: 12),
+        style: TextStyle(
+          fontSize: 12,
+          fontFamily: Fonts.poppins,
+        ),
       ),
     );
   }

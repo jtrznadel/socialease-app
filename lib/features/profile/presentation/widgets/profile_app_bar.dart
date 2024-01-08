@@ -19,10 +19,11 @@ class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: true,
       title: Text(
         'Account',
         style: TextStyle(
-            fontFamily: Fonts.montserrat,
+            fontFamily: Fonts.poppins,
             fontWeight: FontWeight.w600,
             fontSize: 26,
             color: AppColors.primaryTextColor),

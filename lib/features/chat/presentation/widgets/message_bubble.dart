@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/utils/constants.dart';
 import 'package:social_ease_app/features/auth/domain/entites/user.dart';
 import 'package:social_ease_app/features/chat/domain/entities/message.dart';
@@ -70,6 +71,9 @@ class _MessageBubbleState extends State<MessageBubble> {
                   ),
                   Text(
                     user == null ? "Unknown User" : user!.fullName,
+                    style: TextStyle(
+                      fontFamily: Fonts.poppins,
+                    ),
                   )
                 ],
               ),
@@ -88,6 +92,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                 widget.message.message,
                 style: TextStyle(
                   color: isCurrentUser ? Colors.white : Colors.black,
+                  fontFamily: Fonts.poppins,
                 ),
               ),
             )

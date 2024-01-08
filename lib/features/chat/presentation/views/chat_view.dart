@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/common/views/loading_view.dart';
+import 'package:social_ease_app/core/common/widgets/gradient_background.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
+import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/core/utils/core_utils.dart';
 import 'package:social_ease_app/features/chat/domain/entities/group.dart';
@@ -37,7 +39,7 @@ class _ChatViewState extends State<ChatView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        extendBodyBehindAppBar: true,
         appBar: ChatAppBar(group: widget.group),
         body: BlocConsumer<ChatCubit, ChatState>(
           listener: (_, state) {
@@ -65,39 +67,42 @@ class _ChatViewState extends State<ChatView> {
             } else if (state is MessagesLoaded ||
                 showInputField ||
                 messages.isNotEmpty) {
-              return Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: messages.length,
-                      reverse: true,
-                      itemBuilder: (_, index) {
-                        final message = messages[index];
-                        final prevMessage =
-                            index > 0 ? messages[index - 1] : null;
+              return GradientBackground(
+                image: MediaRes.dashboardGradient,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: messages.length,
+                        reverse: true,
+                        itemBuilder: (_, index) {
+                          final message = messages[index];
+                          final prevMessage =
+                              index > 0 ? messages[index - 1] : null;
 
-                        final showSenderInfo = prevMessage == null ||
-                            prevMessage.senderId != message.senderId;
+                          final showSenderInfo = prevMessage == null ||
+                              prevMessage.senderId != message.senderId;
 
-                        return BlocProvider(
-                          create: (_) => sl<ChatCubit>(),
-                          child: MessageBubble(
-                            key: ValueKey<String>(message.id),
-                            message: message,
-                            showSenderInfo: showSenderInfo,
-                          ),
-                        );
-                      },
+                          return BlocProvider(
+                            create: (_) => sl<ChatCubit>(),
+                            child: MessageBubble(
+                              key: ValueKey<String>(message.id),
+                              message: message,
+                              showSenderInfo: showSenderInfo,
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  const Divider(height: 1),
-                  BlocProvider(
-                    create: (_) => sl<ChatCubit>(),
-                    child: ChatInputField(
-                      groupId: widget.group.id,
+                    const Divider(height: 1),
+                    BlocProvider(
+                      create: (_) => sl<ChatCubit>(),
+                      child: ChatInputField(
+                        groupId: widget.group.id,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             }
             return const SizedBox.shrink();

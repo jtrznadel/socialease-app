@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:social_ease_app/core/common/app/providers/activity_of_the_day_notifier.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
-import 'package:social_ease_app/core/res/colors.dart';
+
+import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
-import 'package:social_ease_app/core/utils/constants.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 
 class TinderCard extends StatelessWidget {
@@ -37,55 +35,64 @@ class TinderCard extends StatelessWidget {
         ],
         borderRadius: BorderRadius.circular(25),
       ),
-      child: isFirst
-          ? Container(
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(.8),
-                borderRadius: BorderRadius.circular(20),
+      child: Container(
+        width: context.width * .6,
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(.8),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              activity.title.length < 25
+                  ? activity.title
+                  : '${activity.title.substring(0, 25)}...',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+                fontFamily: Fonts.poppins,
               ),
-              margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    activity.title.length < 20
-                        ? activity.title
-                        : '${activity.title.substring(0, 20)}...',
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                    ),
+              maxLines: 2,
+            ),
+            Row(
+              children: [
+                Text(
+                  activity.category.label.length < 20
+                      ? activity.category.label
+                      : '${activity.category.label.substring(0, 20)}...',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    fontFamily: Fonts.poppins,
                   ),
-                  Text(
-                    activity.category.label.length < 20
-                        ? activity.category.label
-                        : '${activity.category.label.substring(0, 20)}...',
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                    ),
-                  ),
-                  Text(
-                    activity.description.length < 20
-                        ? activity.description
-                        : '${activity.description.substring(0, 20)}...',
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
+                ),
+                const SizedBox(
+                  width: 2,
+                ),
+                Icon(activity.category.icon)
+              ],
+            ),
+            Text(
+              activity.location,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                fontFamily: Fonts.poppins,
               ),
-            )
-          : null,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

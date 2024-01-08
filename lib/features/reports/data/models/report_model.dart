@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:social_ease_app/core/enums/report_enum.dart';
 import 'package:social_ease_app/core/utils/typedefs.dart';
 import 'package:social_ease_app/features/reports/domain/entities/report.dart';
@@ -6,8 +7,10 @@ class ReportModel extends Report {
   const ReportModel({
     required super.id,
     required super.sentBy,
-    required super.reportedId,
+    required super.reportedUserId,
+    super.reportedActivityId,
     required super.type,
+    required super.priority,
     required super.category,
     required super.explanation,
     required super.sentAt,
@@ -18,7 +21,9 @@ class ReportModel extends Report {
       : this(
           id: '_empty_id',
           sentBy: '_empty_sentBy',
-          reportedId: '_empty_reportedId',
+          reportedUserId: '_empty_reportedId',
+          reportedActivityId: null,
+          priority: 1,
           type: ReportType.activityReport,
           category: ReportCategory.spamContent,
           explanation: '_empty_explanation',
@@ -30,19 +35,23 @@ class ReportModel extends Report {
       : super(
           id: map['id'] as String,
           sentBy: map['sentBy'] as String,
-          reportedId: map['reportedId'] as String,
+          reportedUserId: map['reportedUserId'] as String,
+          reportedActivityId: map['reportedActivityId'],
           type: ReportType.values.byName(map['type']),
+          priority: map['priority'] as int,
           category: ReportCategory.values.byName(map['category']),
           explanation: map['explanation'] as String,
-          sentAt: (map['sentAt']),
+          sentAt: (map['sentAt'] as Timestamp).toDate(),
           status: ReportStatus.values.byName(map['status']),
         );
 
   ReportModel copyWith({
     String? id,
     String? sentBy,
-    String? reportedId,
+    String? reportedUserId,
+    String? reportedActivityId,
     ReportType? type,
+    int? priority,
     ReportCategory? category,
     String? explanation,
     DateTime? sentAt,
@@ -51,8 +60,10 @@ class ReportModel extends Report {
     return ReportModel(
       id: id ?? this.id,
       sentBy: sentBy ?? this.sentBy,
-      reportedId: reportedId ?? this.reportedId,
+      reportedUserId: reportedUserId ?? this.reportedUserId,
+      reportedActivityId: reportedActivityId ?? this.reportedActivityId,
       type: type ?? this.type,
+      priority: priority ?? this.priority,
       category: category ?? this.category,
       explanation: explanation ?? this.explanation,
       sentAt: sentAt ?? this.sentAt,
@@ -63,8 +74,10 @@ class ReportModel extends Report {
   DataMap toMap() => {
         'id': id,
         'sentBy': sentBy,
-        'reportedId': reportedId,
+        'reportedUserId': reportedUserId,
+        'reportedActivityId': reportedActivityId,
         'type': type.name,
+        'priority': priority,
         'category': category.name,
         'explanation': explanation,
         'sentAt': sentAt,

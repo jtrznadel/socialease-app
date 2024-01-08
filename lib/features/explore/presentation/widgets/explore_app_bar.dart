@@ -11,36 +11,45 @@ class ExploreAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      centerTitle: false,
+      centerTitle: true,
       title: Text(
         'Explore',
         style: TextStyle(
           fontSize: 26,
           color: AppColors.primaryTextColor,
-          fontFamily: Fonts.montserrat,
+          fontFamily: Fonts.poppins,
           fontWeight: FontWeight.w600,
         ),
       ),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 20.0),
-          child: FlutterSwitch(
-            width: 80,
-            showOnOff: true,
-            value: context.watch<ExploreActivitiesTypeNotifier>().exploreType,
-            activeIcon: const Icon(
-              Icons.explore_outlined,
+          child: Material(
+            color: Colors.transparent,
+            textStyle: TextStyle(
+              fontFamily: Fonts.poppins,
+              fontWeight: FontWeight.bold,
             ),
-            activeText: "MAP",
-            inactiveIcon: const Icon(Icons.format_list_bulleted),
-            inactiveText: "LIST",
-            inactiveColor: Colors.grey,
-            activeColor: AppColors.primaryColor,
-            activeTextFontWeight: FontWeight.normal,
-            inactiveTextFontWeight: FontWeight.normal,
-            onToggle: (val) {
-              context.read<ExploreActivitiesTypeNotifier>().setExploreType(val);
-            },
+            child: FlutterSwitch(
+              width: 80,
+              showOnOff: true,
+              value: context.watch<ExploreActivitiesTypeNotifier>().exploreType,
+              activeIcon: const Icon(
+                Icons.explore_outlined,
+              ),
+              activeText: "Map",
+              inactiveIcon: const Icon(Icons.format_list_bulleted),
+              inactiveText: "List",
+              inactiveColor: Colors.grey,
+              activeColor: AppColors.primaryColor,
+              activeTextFontWeight: FontWeight.normal,
+              inactiveTextFontWeight: FontWeight.normal,
+              onToggle: (val) {
+                context
+                    .read<ExploreActivitiesTypeNotifier>()
+                    .setExploreType(val);
+              },
+            ),
           ),
         ),
       ],

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:social_ease_app/core/common/app/providers/user_provider.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/features/home/presentation/widgets/tinder_cards.dart';
 
 class HomeHeader extends StatelessWidget {
@@ -14,7 +15,7 @@ class HomeHeader extends StatelessWidget {
       height: 210,
       child: Stack(
         children: [
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -22,6 +23,7 @@ class HomeHeader extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
+                  fontFamily: Fonts.poppins,
                 ),
               ),
             ],

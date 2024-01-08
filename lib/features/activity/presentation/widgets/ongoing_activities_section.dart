@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
+import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/activity/presentation/widgets/ongoing_activity_page.dart';
 
 class OngoingActivitiesSection extends StatelessWidget {
@@ -26,7 +29,10 @@ class OngoingActivitiesSection extends StatelessWidget {
             controller: activityController,
             itemCount: ongoingActivities.length,
             itemBuilder: (_, index) {
-              return OngoingActivityPage(activity: ongoingActivities[index]);
+              return BlocProvider(
+                create: (context) => sl<ActivityCubit>(),
+                child: OngoingActivityPage(activity: ongoingActivities[index]),
+              );
             },
           ),
         ),

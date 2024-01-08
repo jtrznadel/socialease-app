@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 
 class IField extends StatelessWidget {
   const IField({
@@ -50,35 +51,40 @@ class IField extends StatelessWidget {
       obscureText: obscureText,
       readOnly: readOnly,
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.grey),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(
-            width: 2,
-            color: Theme.of(context).primaryColor,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
-        ),
-        floatingLabelStyle: const TextStyle(color: AppColors.primaryColor),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        labelText: labelText,
-        // overwriting the default padding helps with that puffy look
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-        filled: filled,
-        fillColor: fillColour,
-        suffixIcon: suffixIcon,
-        hintText: hintText,
-        hintStyle: hintStyle ??
-            const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Colors.grey),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+              width: 2,
+              color: Theme.of(context).primaryColor,
             ),
-      ),
+          ),
+          floatingLabelStyle: TextStyle(
+            color: AppColors.primaryColor,
+            fontFamily: Fonts.poppins,
+          ),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          labelText: labelText,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+          filled: filled,
+          fillColor: fillColour,
+          suffixIcon: suffixIcon,
+          hintText: hintText,
+          hintStyle: hintStyle ??
+              TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                fontFamily: Fonts.poppins,
+              ),
+          labelStyle: TextStyle(
+            fontFamily: Fonts.poppins,
+          )),
     );
   }
 }

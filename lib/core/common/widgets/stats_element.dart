@@ -1,5 +1,6 @@
 import 'package:dashed_circular_progress_bar/dashed_circular_progress_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 
 class StatsElement extends StatelessWidget {
   const StatsElement({
@@ -37,15 +38,17 @@ class StatsElement extends StatelessWidget {
         ),
         Text(
           value,
-          style: const TextStyle(
-            fontSize: 14,
+          style: TextStyle(
+            fontSize: 12,
             fontWeight: FontWeight.bold,
+            fontFamily: Fonts.poppins,
           ),
         ),
         Text(
           text,
-          style: const TextStyle(
-            fontSize: 12,
+          style: TextStyle(
+            fontSize: 11,
+            fontFamily: Fonts.poppins,
           ),
         ),
       ],

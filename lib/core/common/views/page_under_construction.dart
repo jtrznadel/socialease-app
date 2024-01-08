@@ -22,9 +22,10 @@ class PageUnderConstruction extends StatelessWidget {
                   Lottie.asset(MediaRes.underConstruction),
                   Text('Page is under construction',
                       style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: Fonts.lato))
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: Fonts.poppins,
+                      ))
                 ],
               ))),
     ));

@@ -222,7 +222,7 @@ class _EditActivitySheetState extends State<EditActivitySheet> {
                     style: TextStyle(
                       fontSize: 14,
                       color: AppColors.primaryTextColor,
-                      fontFamily: Fonts.lato,
+                      fontFamily: Fonts.poppins,
                     ),
                     underline: Container(
                       height: 0,

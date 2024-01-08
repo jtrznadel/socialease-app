@@ -6,6 +6,7 @@ import 'package:social_ease_app/core/common/app/providers/user_provider.dart';
 import 'package:social_ease_app/core/enums/account_level.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
@@ -18,6 +19,9 @@ import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.
 import 'package:social_ease_app/features/profile/presentation/widgets/account_stats.dart';
 import 'package:social_ease_app/features/profile/presentation/widgets/profile_action_button.dart';
 import 'package:social_ease_app/features/profile/presentation/widgets/social_buttons.dart';
+import 'package:social_ease_app/features/reports/presentation/cubit/report_cubit.dart';
+import 'package:social_ease_app/features/reports/presentation/views/reports_management_screen.dart';
+import 'package:social_ease_app/features/reports/presentation/widgets/report_management_button.dart';
 
 class ProfileHeader extends StatefulWidget {
   const ProfileHeader({super.key});
@@ -88,10 +92,12 @@ class _ProfileHeaderState extends State<ProfileHeader> {
             Text(
               user.fullName ?? 'Hey, Stranger',
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryTextColor),
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: AppColors.primaryTextColor,
+                fontFamily: Fonts.poppins,
+              ),
             ),
             RichText(
               textAlign: TextAlign.center,
@@ -100,14 +106,16 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: level.color,
+                  fontFamily: Fonts.poppins,
                 ),
                 children: [
                   TextSpan(text: level.label),
                   TextSpan(
                     text: ' ($points/${level.maxRange})',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.secondaryTextColor,
                       fontSize: 14,
+                      fontFamily: Fonts.poppins,
                     ),
                   ),
                 ],
@@ -122,8 +130,13 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                 child: Text(
                   user.bio!,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontSize: 14, color: AppColors.secondaryTextColor),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppColors.secondaryTextColor,
+                    fontFamily: Fonts.poppins,
+                  ),
                 ),
               ),
             ],
@@ -216,14 +229,6 @@ class _ProfileHeaderState extends State<ProfileHeader> {
               const SizedBox(
                 height: 10,
               ),
-              ProfileActionButton(
-                label: 'Users Management',
-                icon: Icons.manage_accounts,
-                onPressed: () {},
-              ),
-              const SizedBox(
-                height: 10,
-              ),
               BlocProvider(
                 create: (context) => sl<ActivityCubit>(),
                 child: const RequestsManagementButton(),
@@ -231,19 +236,9 @@ class _ProfileHeaderState extends State<ProfileHeader> {
               const SizedBox(
                 height: 10,
               ),
-              ProfileActionButton(
-                label: 'Reports Management',
-                numberToCheck: 5,
-                icon: Icons.manage_search,
-                onPressed: () {},
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ProfileActionButton(
-                label: 'Manage ',
-                icon: Icons.manage_accounts,
-                onPressed: () {},
+              BlocProvider(
+                create: (context) => sl<ReportCubit>(),
+                child: const ReportsManagementButton(),
               ),
             ]
           ],

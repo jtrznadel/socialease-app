@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/core/utils/core_utils.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
@@ -53,11 +54,12 @@ class _ActivityActionButtonState extends State<ActivityActionButton> {
           );
         } else if (context.currentUser!.completedActivities
             .contains(widget.activity.id)) {
-          return const Center(
+          return Center(
               child: Text(
             "You have completed that activity!",
             style: TextStyle(
               fontSize: 14,
+              fontFamily: Fonts.poppins,
             ),
           ));
         } else {

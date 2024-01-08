@@ -16,27 +16,26 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: RichText(
         text: TextSpan(
             text: 'Hello, ',
-            style: const TextStyle(
-                fontSize: 22,
-                color: AppColors.primaryTextColor,
-                fontWeight: FontWeight.w400),
+            style: TextStyle(
+              fontSize: 22,
+              color: AppColors.primaryTextColor,
+              fontWeight: FontWeight.w400,
+              fontFamily: Fonts.poppins,
+            ),
             children: [
               TextSpan(
                 text: (context.watch<UserProvider>().user!.fullName)
                     .split(' ')[0],
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 26,
                   color: AppColors.primaryColor,
                   fontWeight: FontWeight.w600,
+                  fontFamily: Fonts.poppins,
                 ),
               )
             ]),
       ),
       actions: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.search),
-        ),
         const Padding(
           padding: EdgeInsets.only(right: 10.0),
           child: NotificationBell(),

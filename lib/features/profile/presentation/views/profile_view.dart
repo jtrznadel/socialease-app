@@ -11,17 +11,17 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: ProfileAppBar(),
+      appBar: const ProfileAppBar(),
       body: GradientBackground(
         image: MediaRes.dashboardGradient,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
             children: [
-              ProfileHeader(),
-              Spacer(),
+              const ProfileHeader(),
+              const Spacer(),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Column(
@@ -29,12 +29,18 @@ class ProfileView extends StatelessWidget {
                     Text(
                       'Version 0.0.1',
                       style: TextStyle(
-                          fontSize: 12, color: AppColors.secondaryTextColor),
+                        fontSize: 12,
+                        color: AppColors.secondaryTextColor,
+                        fontFamily: Fonts.poppins,
+                      ),
                     ),
                     Text(
                       '© 2023-2024 jTrznadel. Icons by Icons8',
                       style: TextStyle(
-                          fontSize: 12, color: AppColors.secondaryTextColor),
+                        fontSize: 12,
+                        color: AppColors.secondaryTextColor,
+                        fontFamily: Fonts.poppins,
+                      ),
                     ),
                   ],
                 ),

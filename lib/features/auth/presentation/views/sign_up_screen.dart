@@ -73,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         text: TextSpan(
                           text: 'Join Our Community of ',
                           style: TextStyle(
-                            fontFamily: Fonts.montserrat,
+                            fontFamily: Fonts.poppins,
                             fontSize: 32,
                             color: Colors.black,
                           ),
@@ -81,7 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             TextSpan(
                               text: 'Changemakers.',
                               style: TextStyle(
-                                fontFamily: Fonts.montserrat,
+                                fontFamily: Fonts.poppins,
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.primaryColor,

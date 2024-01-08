@@ -36,8 +36,12 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Activity Details',
+          style: TextStyle(
+            fontFamily: Fonts.poppins,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       body: Stack(
@@ -90,7 +94,7 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                             style: TextStyle(
                               fontSize: 26,
                               color: AppColors.primaryTextColor,
-                              fontFamily: Fonts.lato,
+                              fontFamily: Fonts.poppins,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -101,7 +105,7 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: AppColors.primaryTextColor,
-                                  fontFamily: Fonts.lato,
+                                  fontFamily: Fonts.poppins,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -160,9 +164,10 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                                     .getDistance;
                                 return Text(
                                   '${widget.arguments.activity.location} ($distance away)',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
+                                    fontFamily: Fonts.poppins,
                                   ),
                                 );
                               })
@@ -183,9 +188,10 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                               ),
                               Text(
                                 '${DateFormat.yMMMd().format(widget.arguments.activity.startDate!)}-${DateFormat.yMMMd().format(widget.arguments.activity.endDate!)} ($toEnd days left)',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
+                                  fontFamily: Fonts.poppins,
                                 ),
                               ),
                             ],
@@ -196,20 +202,22 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
+                              Text(
                                 'Organizer:',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
+                                  fontFamily: Fonts.poppins,
                                 ),
                               ),
                               Row(
                                 children: [
                                   Text(
                                     widget.arguments.user.fullName,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
+                                      fontFamily: Fonts.poppins,
                                     ),
                                   ),
                                   const SizedBox(

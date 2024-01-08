@@ -147,7 +147,7 @@ class _ActivityTileState extends State<ActivityTile> {
                                       color: Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
-                                      fontFamily: Fonts.montserrat,
+                                      fontFamily: Fonts.poppins,
                                     ),
                                   ),
                                 ),
@@ -174,7 +174,7 @@ class _ActivityTileState extends State<ActivityTile> {
                                       color: Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
-                                      fontFamily: Fonts.montserrat,
+                                      fontFamily: Fonts.poppins,
                                     ),
                                   ),
                                 ],
@@ -205,7 +205,7 @@ class _ActivityTileState extends State<ActivityTile> {
                               : '${widget.activity.title.substring(0, 31)}...',
                           style: TextStyle(
                             fontSize: 18,
-                            fontFamily: Fonts.montserrat,
+                            fontFamily: Fonts.poppins,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -218,7 +218,7 @@ class _ActivityTileState extends State<ActivityTile> {
                               : '${widget.activity.description.substring(0, 41)}...',
                           style: TextStyle(
                             fontSize: 14,
-                            fontFamily: Fonts.montserrat,
+                            fontFamily: Fonts.poppins,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -232,16 +232,38 @@ class _ActivityTileState extends State<ActivityTile> {
                               widget.activity.tags.join(', ').length >= 30
                                   ? '${widget.activity.tags.join(', ').substring(0, 29)}...'
                                   : widget.activity.tags.join(', '),
-                              style: const TextStyle(
-                                  color: AppColors.secondaryTextColor),
+                              style: TextStyle(
+                                color: AppColors.secondaryTextColor,
+                                fontFamily: Fonts.poppins,
+                              ),
                             ),
                             Consumer<LocationProvider>(
                               builder: (_, provider, __) {
-                                return Text(provider
-                                    .calculateDistance(widget.activity.latitude,
-                                        widget.activity.longitude)
-                                    .toString()
-                                    .getDistance);
+                                return FutureBuilder<int>(
+                                  future: provider.calculateDistance(
+                                    widget.activity.latitude,
+                                    widget.activity.longitude,
+                                  ),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.done) {
+                                      if (snapshot.hasError) {
+                                        // Handle error if needed
+                                        return const Text('Error');
+                                      }
+                                      // Display the distance
+                                      return Text(
+                                        snapshot.data.toString().getDistance,
+                                        style: TextStyle(
+                                          fontFamily: Fonts.poppins,
+                                        ),
+                                      );
+                                    } else {
+                                      // While the Future is still loading, display a loading indicator
+                                      return const CircularProgressIndicator();
+                                    }
+                                  },
+                                );
                               },
                             ),
                           ],

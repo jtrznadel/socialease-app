@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/enums/notification_enum.dart';
+import 'package:social_ease_app/core/enums/points_value_enum.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
@@ -187,7 +190,8 @@ class _RequestViewerState extends State<RequestViewer> {
                                   context.read<PointsCubit>().addPoints(
                                       userId: widget
                                           .requests[_currentIndex].createdBy,
-                                      points: 399);
+                                      points:
+                                          PointsValue.activityCreated.value);
                                   context
                                       .read<ActivityCubit>()
                                       .updateActivityStatus(

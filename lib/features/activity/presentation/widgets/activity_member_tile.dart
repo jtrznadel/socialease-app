@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/enums/notification_enum.dart';
+import 'package:social_ease_app/core/enums/points_value_enum.dart';
 import 'package:social_ease_app/core/enums/report_enum.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
@@ -11,7 +12,6 @@ import 'package:social_ease_app/features/notifications/data/models/notification_
 import 'package:social_ease_app/features/notifications/presentation/cubit/notification_cubit.dart';
 import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
 import 'package:social_ease_app/features/reports/data/models/report_model.dart';
-import 'package:social_ease_app/features/reports/domain/entities/report.dart';
 import 'package:social_ease_app/features/reports/presentation/cubit/report_cubit.dart';
 
 class ActivityMemberTile extends StatefulWidget {
@@ -66,7 +66,8 @@ class _ActivityMemberTileState extends State<ActivityMemberTile> {
             TextButton(
               onPressed: () {
                 int points = user?.accountLevel != null
-                    ? 100 * user!.accountLevel.multiplier.toInt()
+                    ? PointsValue.activityCompleted.value *
+                        user!.accountLevel.multiplier.toInt()
                     : 100;
                 NotificationModel notification =
                     NotificationModel.empty().copyWith(
@@ -145,10 +146,11 @@ class _ActivityMemberTileState extends State<ActivityMemberTile> {
               onPressed: () {
                 ReportModel report = ReportModel.empty().copyWith(
                   sentBy: context.currentUser!.uid,
-                  reportedId: widget.memberId,
+                  reportedUserId: widget.memberId,
                   type: ReportType.userReport,
                   category: selectedCategory,
                   explanation: explanationController.text.trim(),
+                  priority: context.currentUser!.accountLevel.priorityLevel,
                 );
                 parentsContext.read<ReportCubit>().addReport(report);
                 Navigator.of(context).pop();

@@ -6,6 +6,7 @@ import 'package:social_ease_app/core/common/widgets/content_empty.dart';
 import 'package:social_ease_app/core/common/widgets/gradient_background.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/core/utils/core_utils.dart';
 import 'package:social_ease_app/features/chat/domain/entities/group.dart';
@@ -36,10 +37,12 @@ class _ChatsViewState extends State<ChatsView> {
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text(
-          'Chat',
+        centerTitle: true,
+        title: Text(
+          'Chats',
           style: TextStyle(
             fontWeight: FontWeight.w600,
+            fontFamily: Fonts.poppins,
           ),
         ),
       ),
@@ -78,13 +81,6 @@ class _ChatsViewState extends State<ChatsView> {
                 padding: const EdgeInsets.all(20),
                 children: [
                   if (yourChats.isNotEmpty) ...[
-                    const Text(
-                      'Your Chats',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
                     const Divider(
                       color: AppColors.secondaryTextColor,
                     ),

@@ -7,6 +7,7 @@ import 'package:social_ease_app/core/enums/activity_category.dart';
 import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/presentation/refactors/activities_list.dart';
 import 'package:social_ease_app/features/activity/presentation/refactors/activities_map.dart';
@@ -54,15 +55,16 @@ class _ExploreBodyState extends State<ExploreBody> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const LoadingView();
         } else if (snapshot.hasError) {
-          return const Center(
+          return Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50.0),
+              padding: const EdgeInsets.symmetric(horizontal: 50.0),
               child: Text(
                 'Error loading activities',
                 style: TextStyle(
                   fontSize: 18,
                   color: AppColors.secondaryTextColor,
                   fontWeight: FontWeight.w400,
+                  fontFamily: Fonts.poppins,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -79,7 +81,10 @@ class _ExploreBodyState extends State<ExploreBody> {
               return Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15.0,
+                      vertical: 5.0,
+                    ),
                     child: Row(
                       children: [
                         GestureDetector(
@@ -105,78 +110,67 @@ class _ExploreBodyState extends State<ExploreBody> {
                           ),
                         ),
                         const SizedBox(width: 5),
-                        ShaderMask(
-                          shaderCallback: (Rect bounds) {
-                            return LinearGradient(
-                              colors: [
-                                Colors.white.withOpacity(.0),
-                                Colors.white,
-                                Colors.white,
-                                Colors.white.withOpacity(.0),
-                              ],
-                              stops: const [0, 0.05, 0.95, 1],
-                              begin: Alignment.topLeft,
-                              end: Alignment.topRight,
-                              tileMode: TileMode.mirror,
-                            ).createShader(bounds);
-                          },
-                          child: SizedBox(
-                            width: context.width - 80,
-                            height: context.height * .05,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: categories.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                var category = categories[index];
-                                bool isSelected =
-                                    selectedCategories.contains(category);
+                        SizedBox(
+                          width: context.width - 80,
+                          height: context.height * .05,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: categories.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              var category = categories[index];
+                              bool isSelected =
+                                  selectedCategories.contains(category);
 
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 3.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      List<ActivityCategory> updatedCategories =
-                                          List.from(selectedCategories);
-                                      setState(() {
-                                        if (updatedCategories
-                                            .contains(category)) {
-                                          updatedCategories.remove(category);
-                                        } else {
-                                          updatedCategories.add(category);
-                                        }
-                                        selectedCategories = updatedCategories;
-                                      });
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 5,
-                                        horizontal: 10,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: isSelected
-                                            ? AppColors.primaryColor
-                                            : Colors.transparent,
-                                        borderRadius: BorderRadius.circular(25),
-                                        border: Border.all(
-                                          color: Colors.black,
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Icon(category.icon),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(category.label),
-                                        ],
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 3.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    List<ActivityCategory> updatedCategories =
+                                        List.from(selectedCategories);
+                                    setState(() {
+                                      if (updatedCategories
+                                          .contains(category)) {
+                                        updatedCategories.remove(category);
+                                      } else {
+                                        updatedCategories.add(category);
+                                      }
+                                      selectedCategories = updatedCategories;
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 5,
+                                      horizontal: 10,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: isSelected
+                                          ? AppColors.primaryColor
+                                          : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(25),
+                                      border: Border.all(
+                                        color: Colors.black,
+                                        width: 1.0,
                                       ),
                                     ),
+                                    child: Row(
+                                      children: [
+                                        Icon(category.icon),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          category.label,
+                                          style: TextStyle(
+                                            fontFamily: Fonts.poppins,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                );
-                              },
-                            ),
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ],

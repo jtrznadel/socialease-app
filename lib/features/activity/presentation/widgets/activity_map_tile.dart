@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/entities/activity_details_arguments.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/utils/core_utils.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
@@ -89,20 +90,22 @@ class _MapActivityTileState extends State<MapActivityTile> {
                         widget.selectedActivity.title.length > 30
                             ? '${widget.selectedActivity.title.substring(0, 30)}...'
                             : widget.selectedActivity.title,
-                        style: const TextStyle(
-                          fontSize: 24.0,
+                        style: TextStyle(
+                          fontSize: 22.0,
                           fontWeight: FontWeight.bold,
                           color: AppColors.primaryTextColor,
+                          fontFamily: Fonts.poppins,
                         ),
                       ),
                       Row(
                         children: [
                           Text(
                             widget.selectedActivity.category.label,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.bold,
                               color: AppColors.secondaryTextColor,
+                              fontFamily: Fonts.poppins,
                             ),
                           ),
                           const SizedBox(
@@ -114,9 +117,10 @@ class _MapActivityTileState extends State<MapActivityTile> {
                       const SizedBox(height: 8.0),
                       Text(
                         widget.selectedActivity.description,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12.0,
                           color: Colors.black,
+                          fontFamily: Fonts.poppins,
                         ),
                         textAlign: TextAlign.justify,
                         maxLines: 3,

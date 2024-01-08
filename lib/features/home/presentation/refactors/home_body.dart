@@ -8,6 +8,7 @@ import 'package:social_ease_app/core/common/widgets/gradient_background.dart';
 import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/core/utils/core_utils.dart';
@@ -95,75 +96,87 @@ class _HomeBodyState extends State<HomeBody> {
                 child: const HomeHeader(),
               ),
               Expanded(
-                child: Container(
-                  width: context.width,
-                  decoration: BoxDecoration(
-                    color: AppColors.secondaryColor,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
-                        spreadRadius: 8,
-                        blurRadius: 15,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
-                    ),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 15.0),
-                            child: Text(
-                              "Rankings",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: AppColors.primaryTextColor,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+                  child: GradientBackground(
+                    image: MediaRes.dashboardGradient,
+                    child: Container(
+                      width: context.width,
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          top: BorderSide(
+                            color: Colors.black,
+                            width: 2,
                           ),
-                          BlocProvider(
-                            create: (context) => sl<PointsCubit>(),
-                            child: UserRankingSection(
-                              controller: rankingController,
-                            ),
+                        ),
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 15.0,
+                                  top: 5.0,
+                                ),
+                                child: Text(
+                                  "Rankings",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: AppColors.primaryTextColor,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: Fonts.poppins,
+                                  ),
+                                ),
+                              ),
+                              BlocProvider(
+                                create: (context) => sl<PointsCubit>(),
+                                child: UserRankingSection(
+                                  controller: rankingController,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0),
+                                child: Text(
+                                  "Ongoing initiatives",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: AppColors.primaryTextColor,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: Fonts.poppins,
+                                  ),
+                                ),
+                              ),
+                              ongoingActivities.isNotEmpty
+                                  ? OngoingActivitiesSection(
+                                      activityController: activityController,
+                                      ongoingActivities: ongoingActivities)
+                                  : const BlankTile(
+                                      text:
+                                          'At this moment you are not participating in any initiatives')
+                            ],
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 15.0),
-                            child: Text(
-                              "Ongoing initiatives",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: AppColors.primaryTextColor,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          ongoingActivities.isNotEmpty
-                              ? OngoingActivitiesSection(
-                                  activityController: activityController,
-                                  ongoingActivities: ongoingActivities)
-                              : const BlankTile(
-                                  text:
-                                      'At this moment you are not participating in any initiatives')
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),

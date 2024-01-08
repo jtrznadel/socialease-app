@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/common/widgets/time_text.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/features/notifications/domain/entities/notification.dart';
 import 'package:social_ease_app/features/notifications/presentation/cubit/notification_cubit.dart';
 
@@ -37,6 +38,7 @@ class NotificationTile extends StatelessWidget {
             fontWeight: FontWeight.w600,
             fontSize: 14,
             color: notification.seen ? Colors.grey : Colors.black,
+            fontFamily: Fonts.poppins,
           ),
         ),
         subtitle: Column(
@@ -46,6 +48,7 @@ class NotificationTile extends StatelessWidget {
               notification.body,
               style: TextStyle(
                 color: notification.seen ? Colors.grey : Colors.black,
+                fontFamily: Fonts.poppins,
               ),
             ),
             TimeText(time: notification.sentAt),

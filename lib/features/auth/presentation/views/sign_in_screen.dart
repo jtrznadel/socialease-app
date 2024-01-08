@@ -62,7 +62,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         text: TextSpan(
                           text: 'Witness the Beauty of ',
                           style: TextStyle(
-                            fontFamily: Fonts.montserrat,
+                            fontFamily: Fonts.poppins,
                             fontSize: 32,
                             color: Colors.black,
                           ),
@@ -70,7 +70,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             TextSpan(
                               text: 'Commpassion.',
                               style: TextStyle(
-                                fontFamily: Fonts.montserrat,
+                                fontFamily: Fonts.poppins,
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.primaryColor,

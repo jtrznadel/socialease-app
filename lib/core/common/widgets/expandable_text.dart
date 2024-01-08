@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 
 class ExpandableText extends StatefulWidget {
   const ExpandableText(this.context,
@@ -44,10 +45,11 @@ class _ExpandableTextState extends State<ExpandableText> {
 
   @override
   Widget build(BuildContext context) {
-    const defaultStyle = TextStyle(
+    final defaultStyle = TextStyle(
       height: 1.8,
       fontSize: 16,
       color: AppColors.secondaryTextColor,
+      fontFamily: Fonts.poppins,
     );
     return Container(
       child: textPainter.didExceedMaxLines

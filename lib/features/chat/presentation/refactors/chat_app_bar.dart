@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/common/widgets/nested_back_button.dart';
 import 'package:social_ease_app/core/common/widgets/popup_item.dart';
-import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/chat/domain/entities/group.dart';
 import 'package:social_ease_app/features/chat/presentation/cubit/chat_cubit.dart';
@@ -27,20 +27,15 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
           const SizedBox(
             width: 8,
           ),
-          Text(groupName),
+          Text(
+            groupName,
+            style: TextStyle(
+              fontFamily: Fonts.poppins,
+            ),
+          ),
         ],
       ),
-      foregroundColor: Colors.white,
-      flexibleSpace: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              AppColors.primaryColor,
-              AppColors.secondaryColor,
-            ],
-          ),
-        ),
-      ),
+      foregroundColor: Colors.black,
       actions: [
         PopupMenuButton(
           offset: const Offset(0, 50),

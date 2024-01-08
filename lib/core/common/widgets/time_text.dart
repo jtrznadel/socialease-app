@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:social_ease_app/core/extensions/date_time_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
+import 'package:social_ease_app/core/res/fonts.dart';
 
 class TimeText extends StatefulWidget {
   const TimeText({
@@ -56,9 +57,10 @@ class _TimeTextState extends State<TimeText> {
       maxLines: widget.maxLines,
       overflow: widget.overflow,
       style: widget.style ??
-          const TextStyle(
+          TextStyle(
             fontSize: 12,
             color: AppColors.secondaryTextColor,
+            fontFamily: Fonts.poppins,
           ),
     );
   }

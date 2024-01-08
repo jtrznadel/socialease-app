@@ -4,7 +4,6 @@ import 'package:social_ease_app/core/services/injection_container.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/activity/presentation/widgets/activity_member_tile.dart';
-import 'package:social_ease_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:social_ease_app/features/notifications/presentation/cubit/notification_cubit.dart';
 import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
 import 'package:social_ease_app/features/reports/presentation/cubit/report_cubit.dart';

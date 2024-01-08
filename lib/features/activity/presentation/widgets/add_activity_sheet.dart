@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_ease_app/core/common/widgets/i_field.dart';
 import 'package:social_ease_app/core/enums/activity_category.dart';
+import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
@@ -89,7 +90,9 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
           }
           CoreUtils.showSnackBar(
             context,
-            'Request has been sent. Wait for a response from the moderator.',
+            context.currentUser!.accountLevel.priorityLevel == 5
+                ? 'Due to your level of account activity has been accepted'
+                : 'Request has been sent. Wait for a response from the moderator.',
           );
           Navigator.pop(context);
         }
@@ -111,11 +114,14 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
             child: ListView(
               shrinkWrap: true,
               children: [
-                const Text(
-                  'Request Activity',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                Center(
+                  child: Text(
+                    'Request Activity',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: Fonts.poppins,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -151,9 +157,10 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                   controller: imageController,
                   labelText: 'Activity Image',
                   hintText: 'Enter image URL or pick from gallery',
-                  hintStyle: const TextStyle(
+                  hintStyle: TextStyle(
                     color: AppColors.secondaryTextColor,
                     fontSize: 12,
+                    fontFamily: Fonts.poppins,
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -206,7 +213,7 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                     style: TextStyle(
                       fontSize: 14,
                       color: AppColors.primaryTextColor,
-                      fontFamily: Fonts.lato,
+                      fontFamily: Fonts.poppins,
                     ),
                     underline: Container(
                       height: 0,
@@ -331,11 +338,12 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                           const SizedBox(
                             height: 5,
                           ),
-                          const Text(
+                          Text(
                             "Required",
                             style: TextStyle(
                               color: Colors.red,
                               fontSize: 12,
+                              fontFamily: Fonts.poppins,
                             ),
                           ),
                         ]
@@ -374,8 +382,9 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                             ),
                           ),
                           helperText: 'Enter tags to describe your activity...',
-                          helperStyle: const TextStyle(
+                          helperStyle: TextStyle(
                             color: AppColors.primaryColor,
+                            fontFamily: Fonts.poppins,
                           ),
                           hintText: tagController.hasTags ? '' : "Enter tag...",
                           errorText: error,
@@ -405,8 +414,9 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                                             InkWell(
                                               child: Text(
                                                 '#$tag',
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   color: Colors.white,
+                                                  fontFamily: Fonts.poppins,
                                                 ),
                                               ),
                                               onTap: () {
@@ -456,6 +466,11 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                               requestButtonPressed = true;
                             });
                           }
+                          final status =
+                              context.currentUser!.accountLevel.priorityLevel ==
+                                      5
+                                  ? ActivityStatus.active
+                                  : ActivityStatus.toBeVerified;
                           if (formKey.currentState!.validate()) {
                             final now = DateTime.now();
                             final activity = ActivityModel.empty().copyWith(
@@ -477,6 +492,7 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                               imageIsFile: isFile,
                               createdBy: context.currentUser!.uid,
                               tags: tagController.getTags,
+                              status: status.name,
                             );
                             context.read<ActivityCubit>().addActivity(activity);
                           }
@@ -485,7 +501,12 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                           backgroundColor: AppColors.primaryColor,
                           foregroundColor: Colors.white,
                         ),
-                        child: const Text('Send a request'),
+                        child: Text(
+                          'Send a request',
+                          style: TextStyle(
+                            fontFamily: Fonts.poppins,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -498,8 +519,11 @@ class _AddActivitySheetState extends State<AddActivitySheet> {
                           foregroundColor: Colors.white,
                         ),
                         onPressed: () => Navigator.pop(context),
-                        child: const Text(
+                        child: Text(
                           'Cancel',
+                          style: TextStyle(
+                            fontFamily: Fonts.poppins,
+                          ),
                         ),
                       ),
                     ),

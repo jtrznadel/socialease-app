@@ -25,5 +25,8 @@ import 'package:social_ease_app/features/dashboard/presentation/views/dashboard.
 import 'package:social_ease_app/features/on_boarding/data/datasources/on_boarding_local_data_source.dart';
 import 'package:social_ease_app/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
 import 'package:social_ease_app/features/on_boarding/presentation/views/on_boarding_screen.dart';
+import 'package:social_ease_app/features/reports/domain/entities/report.dart';
+import 'package:social_ease_app/features/reports/presentation/cubit/report_cubit.dart';
+import 'package:social_ease_app/features/reports/presentation/views/reports_management_screen.dart';
 
 part 'router.main.dart';

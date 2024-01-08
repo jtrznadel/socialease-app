@@ -40,7 +40,7 @@ class AccountStats extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.bold,
-                            fontFamily: Fonts.montserrat),
+                            fontFamily: Fonts.poppins),
                       );
                     } else if (state is AllTimeRankingLoaded) {
                       var positon = state.allTimeRanking
@@ -52,7 +52,7 @@ class AccountStats extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.bold,
-                            fontFamily: Fonts.montserrat),
+                            fontFamily: Fonts.poppins),
                       );
                     }
                     return Text(
@@ -60,7 +60,7 @@ class AccountStats extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
-                          fontFamily: Fonts.montserrat),
+                          fontFamily: Fonts.poppins),
                     );
                   },
                 ),
@@ -69,7 +69,7 @@ class AccountStats extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      fontFamily: Fonts.montserrat),
+                      fontFamily: Fonts.poppins),
                 ),
               ],
             ),
@@ -83,14 +83,14 @@ class AccountStats extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
-                      fontFamily: Fonts.montserrat),
+                      fontFamily: Fonts.poppins),
                 ),
                 Text(
                   'points',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      fontFamily: Fonts.montserrat),
+                      fontFamily: Fonts.poppins),
                 ),
               ],
             ),
@@ -104,14 +104,14 @@ class AccountStats extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
-                      fontFamily: Fonts.montserrat),
+                      fontFamily: Fonts.poppins),
                 ),
                 Text(
                   'activities',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      fontFamily: Fonts.montserrat),
+                      fontFamily: Fonts.poppins),
                 ),
               ],
             ),

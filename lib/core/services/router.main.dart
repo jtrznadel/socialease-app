@@ -53,6 +53,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         ),
         settings: settings,
       );
+    case ReportsManagementScreen.routeName:
+      return _pageBuilder(
+        (_) => BlocProvider(
+          create: (_) => sl<ReportCubit>(),
+          child: ReportsManagementScreen(settings.arguments as List<Report>),
+        ),
+        settings: settings,
+      );
     case ActivitiesManagementScreen.routeName:
       return _pageBuilder(
         (_) => BlocProvider(
