@@ -34,10 +34,10 @@ class _UserOfTheMonthState extends State<UserOfTheMonth> {
         if (state is PointsError) {
           CoreUtils.showSnackBar(context, state.message);
         } else if (state is MonthlyRankingLoaded) {
+          final ranking = state.monthlyRanking
+            ..sort((a, b) => a.position.compareTo(b.position));
           setState(() {
-            leaderId = state.monthlyRanking.isNotEmpty
-                ? state.monthlyRanking.first.userId
-                : null;
+            leaderId = ranking.isNotEmpty ? ranking.first.userId : null;
           });
         }
       },

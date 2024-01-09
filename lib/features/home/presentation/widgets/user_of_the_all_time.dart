@@ -38,10 +38,10 @@ class _UserOfTheAllTimeState extends State<UserOfTheAllTime> {
         if (state is PointsError) {
           CoreUtils.showSnackBar(context, state.message);
         } else if (state is AllTimeRankingLoaded) {
+          final ranking = state.allTimeRanking
+            ..sort((a, b) => a.position.compareTo(b.position));
           setState(() {
-            leaderId = state.allTimeRanking.isNotEmpty
-                ? state.allTimeRanking.first.userId
-                : null;
+            leaderId = ranking.isNotEmpty ? ranking.first.userId : null;
           });
         }
       },

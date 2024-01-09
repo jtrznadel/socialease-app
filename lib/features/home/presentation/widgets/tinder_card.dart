@@ -36,7 +36,7 @@ class TinderCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(25),
       ),
       child: Container(
-        width: context.width * .6,
+        width: context.width * .8,
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(.8),
           borderRadius: BorderRadius.circular(20),
