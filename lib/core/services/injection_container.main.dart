@@ -10,6 +10,7 @@ Future<void> init() async {
   await _initNotifications();
   await _initPoints();
   await _initReports();
+  await _initUser();
 }
 
 Future<void> _initReports() async {
@@ -104,6 +105,20 @@ Future<void> _initChat() async {
     );
 }
 
+Future<void> _initUser() async {
+  sl
+    ..registerFactory(
+      () => UserCubit(
+        getUserById: sl(),
+      ),
+    )
+    ..registerLazySingleton(() => user.GetUserById(sl()))
+    ..registerLazySingleton<UserRepo>(() => UserRepoImpl(sl()))
+    ..registerLazySingleton<UserRemoteDataSrc>(
+      () => UserRemoteDataSrcImpl(firestore: sl(), auth: sl()),
+    );
+}
+
 Future<void> _initActivity() async {
   sl
     ..registerFactory(
@@ -119,6 +134,10 @@ Future<void> _initActivity() async {
         sendRequest: sl(),
         removeRequest: sl(),
         updateActivityStatus: sl(),
+        addComment: sl(),
+        removeComment: sl(),
+        likeComment: sl(),
+        getComments: sl(),
       ),
     )
     ..registerLazySingleton(() => AddActivity(sl()))
@@ -132,6 +151,10 @@ Future<void> _initActivity() async {
     ..registerLazySingleton(() => SendRequest(sl()))
     ..registerLazySingleton(() => RemoveRequest(sl()))
     ..registerLazySingleton(() => UpdateActivityStatus(sl()))
+    ..registerLazySingleton(() => AddComment(sl()))
+    ..registerLazySingleton(() => RemoveComment(sl()))
+    ..registerLazySingleton(() => LikeComment(sl()))
+    ..registerLazySingleton(() => GetComments(sl()))
     ..registerLazySingleton<ActivityRepository>(
         () => ActivityRepositoryImpl(sl()))
     ..registerLazySingleton<ActivityRemoteDataSource>(

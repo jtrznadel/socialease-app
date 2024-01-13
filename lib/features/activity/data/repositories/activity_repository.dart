@@ -8,7 +8,9 @@ import 'package:social_ease_app/core/errors/failures.dart';
 import 'package:social_ease_app/core/utils/typedefs.dart';
 import 'package:social_ease_app/features/activity/data/datasources/activity_remote_data_source.dart';
 import 'package:social_ease_app/features/activity/data/models/activity_model.dart';
+import 'package:social_ease_app/features/activity/data/models/comment_model.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
+import 'package:social_ease_app/features/activity/domain/entities/comment.dart';
 import 'package:social_ease_app/features/activity/domain/repositories/activity_repository.dart';
 import 'package:social_ease_app/features/auth/domain/entites/user.dart';
 
@@ -144,6 +146,63 @@ class ActivityRepositoryImpl implements ActivityRepository {
     try {
       await _remoteDataSource.removeRequest(
           userId: userId, activityId: activityId);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> addComment(
+      {required ActivityComment comment, required String activityId}) async {
+    try {
+      await _remoteDataSource.addComment(
+          comment: comment, activityId: activityId);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
+
+  @override
+  ResultStream<List<ActivityComment>> getComments(String activityId) {
+    return _remoteDataSource.getComments(activityId).transform(
+          StreamTransformer<List<CommentModel>,
+              Either<Failure, List<ActivityComment>>>.fromHandlers(
+            handleData: (comments, sink) {
+              sink.add(Right(comments));
+            },
+            handleError: (error, stackTrace, sink) {
+              debugPrint(stackTrace.toString());
+              if (error is ServerException) {
+                sink.add(Left(ServerFailure.fromException(error)));
+              } else {
+                sink.add(Left(
+                    ServerFailure(message: error.toString(), statusCode: 505)));
+              }
+            },
+          ),
+        );
+  }
+
+  @override
+  ResultFuture<void> likeComment(
+      {required String commentId, required String activityId}) async {
+    try {
+      await _remoteDataSource.likeComment(
+          commentId: commentId, activityId: activityId);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> removeComment(
+      {required String commentId, required String activityId}) async {
+    try {
+      await _remoteDataSource.removeComment(
+          activityId: activityId, commentId: commentId);
       return const Right(null);
     } on ServerException catch (e) {
       return Left(ServerFailure.fromException(e));

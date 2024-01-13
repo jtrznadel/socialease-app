@@ -7,11 +7,15 @@ import 'package:social_ease_app/features/activity/data/datasources/activity_remo
 import 'package:social_ease_app/features/activity/data/repositories/activity_repository.dart';
 import 'package:social_ease_app/features/activity/domain/repositories/activity_repository.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/add_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/add_comment.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/complete_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/get_activities.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/get_comments.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/join_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/leave_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/like_comment.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/remove_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/remove_comment.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/remove_request.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/send_request.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/update_activity.dart';
@@ -33,6 +37,11 @@ import 'package:social_ease_app/features/chat/domain/usecases/get_messages.dart'
 import 'package:social_ease_app/features/chat/domain/usecases/get_user_by_id.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/get_user_by_id.dart'
     as ac;
+import 'package:social_ease_app/features/user/data/datasources/user_remote_data_source.dart';
+import 'package:social_ease_app/features/user/data/repositories/user_repo_impl.dart';
+import 'package:social_ease_app/features/user/domain/repositories/user_repo.dart';
+import 'package:social_ease_app/features/user/domain/usecases/get_user_by_id.dart'
+    as user;
 import 'package:social_ease_app/features/chat/domain/usecases/join_group.dart';
 import 'package:social_ease_app/features/chat/domain/usecases/leave_group.dart';
 import 'package:social_ease_app/features/chat/domain/usecases/send_message.dart';
@@ -72,4 +81,5 @@ import 'package:social_ease_app/features/reports/domain/usecases/change_report_s
 import 'package:social_ease_app/features/reports/domain/usecases/get_reports.dart';
 import 'package:social_ease_app/features/reports/domain/usecases/remove_report.dart';
 import 'package:social_ease_app/features/reports/presentation/cubit/report_cubit.dart';
+import 'package:social_ease_app/features/user/presentation/cubit/user_cubit.dart';
 part 'injection_container.main.dart';

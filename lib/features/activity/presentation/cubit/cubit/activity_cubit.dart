@@ -6,13 +6,18 @@ import 'package:equatable/equatable.dart';
 import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/errors/failures.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
+import 'package:social_ease_app/features/activity/domain/entities/comment.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/add_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/add_comment.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/complete_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/get_activities.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/get_comments.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/get_user_by_id.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/join_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/leave_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/like_comment.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/remove_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/remove_comment.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/remove_request.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/send_request.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/update_activity.dart';
@@ -33,8 +38,14 @@ class ActivityCubit extends Cubit<ActivityState> {
   final SendRequest _sendRequest;
   final RemoveRequest _removeRequest;
   final UpdateActivityStatus _updateActivityStatus;
+  final AddComment _addComment;
+  final RemoveComment _removeComment;
+  final LikeComment _likeComment;
+  final GetComments _getComments;
 
   StreamSubscription<Either<Failure, List<Activity>>>? activitiesSubscription;
+  StreamSubscription<Either<Failure, List<ActivityComment>>>?
+      commentsSubscription;
 
   ActivityCubit({
     required AddActivity addActivity,
@@ -48,6 +59,10 @@ class ActivityCubit extends Cubit<ActivityState> {
     required SendRequest sendRequest,
     required RemoveRequest removeRequest,
     required UpdateActivityStatus updateActivityStatus,
+    required AddComment addComment,
+    required RemoveComment removeComment,
+    required LikeComment likeComment,
+    required GetComments getComments,
   })  : _addActivity = addActivity,
         _removeActivity = removeActivity,
         _updateActivity = updateActivity,
@@ -59,6 +74,10 @@ class ActivityCubit extends Cubit<ActivityState> {
         _sendRequest = sendRequest,
         _removeRequest = removeRequest,
         _updateActivityStatus = updateActivityStatus,
+        _addComment = addComment,
+        _removeComment = removeComment,
+        _likeComment = likeComment,
+        _getComments = getComments,
         super(ActivityInitial());
 
   @override
@@ -203,6 +222,60 @@ class ActivityCubit extends Cubit<ActivityState> {
     result.fold(
       (failure) => emit(ActivityError(failure.errorMessage)),
       (_) => emit(const ActivityStatusUpdated()),
+    );
+  }
+
+  Future<void> addComment({
+    required String activityId,
+    required ActivityComment comment,
+  }) async {
+    emit(const AddingComment());
+    final result = await _addComment(
+        AddCommentParams(comment: comment, activityId: activityId));
+    result.fold(
+      (failure) => emit(ActivityError(failure.errorMessage)),
+      (_) => emit(const CommentAdded()),
+    );
+  }
+
+  Future<void> removeComment({
+    required String activityId,
+    required String commentId,
+  }) async {
+    emit(const ActivityRemoving());
+    final result = await _removeComment(
+        RemoveCommentParams(commentId: commentId, activityId: activityId));
+    result.fold(
+      (failure) => emit(ActivityError(failure.errorMessage)),
+      (_) => emit(const CommentRemoved()),
+    );
+  }
+
+  Future<void> likeComment({
+    required String activityId,
+    required String commentId,
+  }) async {
+    emit(const UpdadingCommentLikes());
+    final result = await _likeComment(
+        LikeCommentParams(commentId: commentId, activityId: activityId));
+    result.fold(
+      (failure) => emit(ActivityError(failure.errorMessage)),
+      (_) => emit(const CommentLikesUpdated()),
+    );
+  }
+
+  void getComments(String activityId) {
+    emit(const GettingComments());
+    commentsSubscription = _getComments(activityId).listen(
+      (result) {
+        result.fold(
+          (failure) => emit(ActivityError(failure.errorMessage)),
+          (comments) => emit(CommentsLoaded(comments)),
+        );
+      },
+      onError: (error) {
+        emit(ActivityError(error.toString()));
+      },
     );
   }
 }

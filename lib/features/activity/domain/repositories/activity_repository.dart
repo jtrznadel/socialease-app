@@ -1,6 +1,7 @@
 import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/utils/typedefs.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
+import 'package:social_ease_app/features/activity/domain/entities/comment.dart';
 import 'package:social_ease_app/features/auth/domain/entites/user.dart';
 
 abstract class ActivityRepository {
@@ -25,4 +26,11 @@ abstract class ActivityRepository {
     required String activityId,
     required ActivityStatus status,
   });
+  ResultFuture<void> addComment(
+      {required ActivityComment comment, required String activityId});
+  ResultFuture<void> removeComment(
+      {required String commentId, required String activityId});
+  ResultStream<List<ActivityComment>> getComments(String activityId);
+  ResultFuture<void> likeComment(
+      {required String commentId, required String activityId});
 }

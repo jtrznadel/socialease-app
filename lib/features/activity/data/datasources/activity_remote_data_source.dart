@@ -7,7 +7,9 @@ import 'package:social_ease_app/core/enums/activity_status.dart';
 import 'package:social_ease_app/core/errors/exceptions.dart';
 import 'package:social_ease_app/core/utils/datasource_utils.dart';
 import 'package:social_ease_app/features/activity/data/models/activity_model.dart';
+import 'package:social_ease_app/features/activity/data/models/comment_model.dart';
 import 'package:social_ease_app/features/activity/domain/entities/activity.dart';
+import 'package:social_ease_app/features/activity/domain/entities/comment.dart';
 import 'package:social_ease_app/features/auth/data/models/user_model.dart';
 import 'package:social_ease_app/features/chat/data/models/group_model.dart';
 
@@ -25,6 +27,10 @@ abstract class ActivityRemoteDataSource {
   Future<void> removeRequest({required activityId, required userId});
   Future<void> updateActivityStatus(
       {required String activityId, required ActivityStatus status});
+  Future<void> addComment({required comment, required activityId});
+  Future<void> removeComment({required activityId, required commentId});
+  Stream<List<CommentModel>> getComments(String activityId);
+  Future<void> likeComment({required activityId, required commentId});
 }
 
 class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
@@ -353,6 +359,124 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
           .collection('activities')
           .doc(activityId)
           .update({'status': status.name});
+    } on FirebaseException catch (e) {
+      throw ServerException(
+        message: e.message ?? 'Unknown error occurred',
+        statusCode: e.code,
+      );
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw ServerException(
+        message: e.toString(),
+        statusCode: '505',
+      );
+    }
+  }
+
+  @override
+  Future<void> addComment({required activityId, required comment}) async {
+    try {
+      await DataSourceUtils.authorizeUser(_auth);
+      final commentRef = _firestore
+          .collection('activities')
+          .doc(activityId)
+          .collection('comments')
+          .doc();
+
+      var commentModel = (comment as CommentModel).copyWith(
+        id: commentRef.id,
+      );
+
+      await commentRef.set(commentModel.toMap());
+    } on FirebaseException catch (e) {
+      throw ServerException(
+          message: e.message ?? 'Unknown error occured', statusCode: e.code);
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw ServerException(message: e.toString(), statusCode: '505');
+    }
+  }
+
+  @override
+  Stream<List<CommentModel>> getComments(String activityId) {
+    try {
+      DataSourceUtils.authorizeUser(_auth);
+      final commentsStream = _firestore
+          .collection('activities')
+          .doc(activityId)
+          .collection('comments')
+          .snapshots()
+          .map((snapshot) {
+        return snapshot.docs
+            .map((doc) => CommentModel.fromMap(doc.data()))
+            .toList();
+      });
+      return commentsStream.handleError((error) {
+        if (error is FirebaseException) {
+          throw ServerException(
+            message: error.message ?? 'Unknown error occurred',
+            statusCode: error.code,
+          );
+        } else {
+          throw ServerException(message: error.toString(), statusCode: '505');
+        }
+      });
+    } on FirebaseException catch (e) {
+      return Stream.error(
+        ServerException(
+          message: e.message ?? 'Unknown error occurred',
+          statusCode: e.code,
+        ),
+      );
+    } on ServerException catch (e) {
+      return Stream.error(e);
+    } catch (e) {
+      return Stream.error(
+        ServerException(
+          message: e.toString(),
+          statusCode: '505',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<void> likeComment({required activityId, required commentId}) async {
+    try {
+      await DataSourceUtils.authorizeUser(_auth);
+      _firestore
+          .collection('activities')
+          .doc(activityId)
+          .collection('comments')
+          .doc(commentId)
+          .update({'likes': FieldValue.increment(1)});
+    } on FirebaseException catch (e) {
+      throw ServerException(
+        message: e.message ?? 'Unknown error occurred',
+        statusCode: e.code,
+      );
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw ServerException(
+        message: e.toString(),
+        statusCode: '505',
+      );
+    }
+  }
+
+  @override
+  Future<void> removeComment({required activityId, required commentId}) async {
+    try {
+      await DataSourceUtils.authorizeUser(_auth);
+      _firestore
+          .collection('activities')
+          .doc(activityId)
+          .collection('comments')
+          .doc(commentId)
+          .delete();
     } on FirebaseException catch (e) {
       throw ServerException(
         message: e.message ?? 'Unknown error occurred',

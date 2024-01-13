@@ -109,3 +109,40 @@ final class CompletingActivity extends ActivityState {
 final class ActivityCompleted extends ActivityState {
   const ActivityCompleted();
 }
+
+final class AddingComment extends ActivityState {
+  const AddingComment();
+}
+
+final class CommentAdded extends ActivityState {
+  const CommentAdded();
+}
+
+final class RemovingComment extends ActivityState {
+  const RemovingComment();
+}
+
+final class CommentRemoved extends ActivityState {
+  const CommentRemoved();
+}
+
+final class GettingComments extends ActivityState {
+  const GettingComments();
+}
+
+final class CommentsLoaded extends ActivityState {
+  const CommentsLoaded(this.comments);
+
+  final List<ActivityComment> comments;
+
+  @override
+  List<Object> get props => [comments];
+}
+
+final class UpdadingCommentLikes extends ActivityState {
+  const UpdadingCommentLikes();
+}
+
+final class CommentLikesUpdated extends ActivityState {
+  const CommentLikesUpdated();
+}
