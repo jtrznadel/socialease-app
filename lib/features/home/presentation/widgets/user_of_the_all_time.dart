@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:social_ease_app/core/common/widgets/stats_element.dart';
+import 'package:social_ease_app/core/common/widgets/user_profile_modal.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 
@@ -98,93 +99,100 @@ class _AllTimeLeaderTileState extends State<AllTimeLeaderTile> {
         if (state is GettingUser) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is UserLoaded) {
-          return Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.black,
-                width: 2,
+          return GestureDetector(
+            onTap: () {
+              if (user != null) {
+                showUserProfileModal(context, user!);
+              }
+            },
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.black,
+                  width: 2,
+                ),
+                image: const DecorationImage(
+                  image: AssetImage(MediaRes.goldenBg),
+                  fit: BoxFit.cover,
+                ),
+                borderRadius: BorderRadius.circular(25),
               ),
-              image: const DecorationImage(
-                image: AssetImage(MediaRes.goldenBg),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundImage: NetworkImage(user!.profilePic!),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundImage: NetworkImage(user!.profilePic!),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 2,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Text(
-                      user?.fullName ?? 'unknown',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: Fonts.poppins,
+                      Text(
+                        user?.fullName ?? 'unknown',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: Fonts.poppins,
+                        ),
+                      )
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "User of The All-time",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: Fonts.poppins,
+                        ),
                       ),
-                    )
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "User of The All-time",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: Fonts.poppins,
+                      const SizedBox(
+                        height: 2,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 2,
-                    ),
-                    Row(
-                      children: [
-                        StatsElement(
-                          color: Colors.yellow,
-                          icon: Icons.star,
-                          value: '${user!.points}',
-                          text: 'points',
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        StatsElement(
-                          color: Colors.lime,
-                          icon: Icons.celebration,
-                          value: '${user!.completedActivities.length}',
-                          text: 'completed',
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        StatsElement(
-                          color: Colors.green,
-                          icon: Icons.local_activity,
-                          text: 'created',
-                          value: '${user!.createdActivities.length}',
-                        )
-                      ],
-                    )
-                  ],
-                )
-              ],
+                      Row(
+                        children: [
+                          StatsElement(
+                            color: Colors.yellow,
+                            icon: Icons.star,
+                            value: '${user!.points}',
+                            text: 'points',
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          StatsElement(
+                            color: Colors.lime,
+                            icon: Icons.celebration,
+                            value: '${user!.completedActivities.length}',
+                            text: 'completed',
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          StatsElement(
+                            color: Colors.green,
+                            icon: Icons.local_activity,
+                            text: 'created',
+                            value: '${user!.createdActivities.length}',
+                          )
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
           );
         }

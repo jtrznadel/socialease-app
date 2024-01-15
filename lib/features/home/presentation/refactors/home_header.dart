@@ -1,8 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
-import 'package:social_ease_app/core/common/app/providers/user_provider.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
-import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/features/home/presentation/widgets/tinder_cards.dart';
 

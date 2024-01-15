@@ -45,6 +45,7 @@ class _DashboardState extends State<Dashboard> {
           }
           return Consumer<DashboardController>(builder: (_, controller, __) {
             return Scaffold(
+              resizeToAvoidBottomInset: false,
               body: IndexedStack(
                 index: controller.currentIndex,
                 children: controller.screens,

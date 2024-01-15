@@ -74,6 +74,7 @@ class ReportCubit extends Cubit<ReportState> {
       onError: (error) {
         emit(ReportError(error.toString()));
       },
+      onDone: () => reportsSubscription?.cancel(),
     );
   }
 }

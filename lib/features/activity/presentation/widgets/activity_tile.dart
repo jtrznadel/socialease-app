@@ -248,10 +248,8 @@ class _ActivityTileState extends State<ActivityTile> {
                                     if (snapshot.connectionState ==
                                         ConnectionState.done) {
                                       if (snapshot.hasError) {
-                                        // Handle error if needed
                                         return const Text('Error');
                                       }
-                                      // Display the distance
                                       return Text(
                                         snapshot.data.toString().getDistance,
                                         style: TextStyle(
@@ -259,7 +257,6 @@ class _ActivityTileState extends State<ActivityTile> {
                                         ),
                                       );
                                     } else {
-                                      // While the Future is still loading, display a loading indicator
                                       return const CircularProgressIndicator();
                                     }
                                   },

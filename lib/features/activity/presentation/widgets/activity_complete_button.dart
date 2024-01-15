@@ -11,9 +11,11 @@ class ActivityCompleteButton extends StatefulWidget {
   const ActivityCompleteButton({
     super.key,
     required this.activityId,
+    required this.notifyParent,
   });
 
   final String activityId;
+  final Function() notifyParent;
 
   @override
   State<ActivityCompleteButton> createState() => _ActivityCompleteButtonState();
@@ -35,6 +37,7 @@ class _ActivityCompleteButtonState extends State<ActivityCompleteButton> {
           setState(() {
             isFinished = false;
           });
+          widget.notifyParent();
         },
         onWaitingProcess: () {
           Future.delayed(const Duration(seconds: 2), () {

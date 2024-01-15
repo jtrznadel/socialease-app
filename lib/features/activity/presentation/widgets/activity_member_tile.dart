@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_ease_app/core/common/widgets/user_profile_modal.dart';
 import 'package:social_ease_app/core/enums/notification_enum.dart';
 import 'package:social_ease_app/core/enums/points_value_enum.dart';
 import 'package:social_ease_app/core/enums/report_enum.dart';
@@ -88,6 +89,7 @@ class _ActivityMemberTileState extends State<ActivityMemberTile> {
                       userId: widget.memberId,
                     );
                 Navigator.of(context).pop();
+                setState(() {});
               },
               child: const Text('Submit'),
             ),
@@ -233,13 +235,27 @@ class _ActivityMemberTileState extends State<ActivityMemberTile> {
         }
       },
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: user?.profilePic != null
-              ? NetworkImage(user!.profilePic!) as ImageProvider
-              : const AssetImage(MediaRes.defaultAvatarImage),
+        leading: GestureDetector(
+          onTap: () {
+            if (user != null) {
+              showUserProfileModal(context, user!);
+            }
+          },
+          child: CircleAvatar(
+            backgroundImage: user?.profilePic != null
+                ? NetworkImage(user!.profilePic!) as ImageProvider
+                : const AssetImage(MediaRes.defaultAvatarImage),
+          ),
         ),
-        title: Text(
-          user?.fullName ?? 'Unknown',
+        title: GestureDetector(
+          onTap: () {
+            if (user != null) {
+              showUserProfileModal(context, user!);
+            }
+          },
+          child: Text(
+            user?.fullName ?? 'Unknown',
+          ),
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,

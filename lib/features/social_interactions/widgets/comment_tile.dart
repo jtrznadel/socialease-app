@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:social_ease_app/core/common/widgets/user_profile_modal.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
@@ -21,11 +22,16 @@ class CommentTile extends StatelessWidget {
           LocalUser user = state.user;
 
           return ListTile(
-            leading: CircleAvatar(
-              radius: 25,
-              backgroundImage: user.profilePic != null
-                  ? NetworkImage(user.profilePic!) as ImageProvider
-                  : const AssetImage(MediaRes.defaultAvatarImage),
+            leading: GestureDetector(
+              onTap: () {
+                showUserProfileModal(context, user);
+              },
+              child: CircleAvatar(
+                radius: 25,
+                backgroundImage: user.profilePic != null
+                    ? NetworkImage(user.profilePic!) as ImageProvider
+                    : const AssetImage(MediaRes.defaultAvatarImage),
+              ),
             ),
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

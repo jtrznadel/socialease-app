@@ -33,6 +33,10 @@ class ActivityDetailsScreen extends StatefulWidget {
 }
 
 class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
+  refresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     var toEnd =
@@ -299,6 +303,7 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                 ],
                 child: ActivityActionButton(
                   activity: widget.arguments.activity,
+                  notifyParent: refresh,
                 ),
               ),
             ),

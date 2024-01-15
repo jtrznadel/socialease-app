@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_ease_app/core/common/widgets/user_profile_modal.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
@@ -56,26 +57,33 @@ class _MessageBubbleState extends State<MessageBubble> {
               isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             if (!isCurrentUser && widget.showSenderInfo)
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 16,
-                    backgroundImage: NetworkImage(
-                      user == null || user!.profilePic == null
-                          ? kDefaultAvatar
-                          : user!.profilePic!,
+              GestureDetector(
+                onTap: () {
+                  if (user != null) {
+                    showUserProfileModal(context, user!);
+                  }
+                },
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 16,
+                      backgroundImage: NetworkImage(
+                        user == null || user!.profilePic == null
+                            ? kDefaultAvatar
+                            : user!.profilePic!,
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(
-                    user == null ? "Unknown User" : user!.fullName,
-                    style: TextStyle(
-                      fontFamily: Fonts.poppins,
+                    const SizedBox(
+                      width: 8,
                     ),
-                  )
-                ],
+                    Text(
+                      user == null ? "Unknown User" : user!.fullName,
+                      style: TextStyle(
+                        fontFamily: Fonts.poppins,
+                      ),
+                    )
+                  ],
+                ),
               ),
             Container(
               margin: EdgeInsets.only(

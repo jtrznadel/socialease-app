@@ -15,9 +15,12 @@ class ActivityJoinButton extends StatefulWidget {
     super.key,
     required this.groupId,
     required this.activityId,
+    required this.notifyParent,
   });
   final String groupId;
   final String activityId;
+  final Function() notifyParent;
+
   @override
   State<ActivityJoinButton> createState() => _ActivityJoinButtonState();
 }
@@ -44,6 +47,7 @@ class _ActivityJoinButtonState extends State<ActivityJoinButton> {
         setState(() {
           isFinished = false;
         });
+        widget.notifyParent();
       },
       onWaitingProcess: () {
         Future.delayed(const Duration(seconds: 2), () {

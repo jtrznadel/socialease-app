@@ -14,8 +14,9 @@ class ActivityActionButton extends StatefulWidget {
   const ActivityActionButton({
     super.key,
     required this.activity,
+    required this.notifyParent,
   });
-
+  final Function() notifyParent;
   final Activity activity;
 
   @override
@@ -23,6 +24,10 @@ class ActivityActionButton extends StatefulWidget {
 }
 
 class _ActivityActionButtonState extends State<ActivityActionButton> {
+  refresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ActivityCubit, ActivityState>(
@@ -49,6 +54,7 @@ class _ActivityActionButtonState extends State<ActivityActionButton> {
           return BlocProvider(
             create: (context) => sl<ActivityCubit>(),
             child: ActivityCompleteButton(
+              notifyParent: refresh,
               activityId: widget.activity.id,
             ),
           );
@@ -73,6 +79,7 @@ class _ActivityActionButtonState extends State<ActivityActionButton> {
               ),
             ],
             child: ActivityJoinButton(
+              notifyParent: refresh,
               activityId: widget.activity.id,
               groupId: widget.activity.groupId,
             ),
