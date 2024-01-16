@@ -20,7 +20,6 @@ class CommentInputField extends StatefulWidget {
 
 class _CommentInputFieldState extends State<CommentInputField> {
   final TextEditingController _controller = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -30,7 +29,6 @@ class _CommentInputFieldState extends State<CommentInputField> {
   @override
   void dispose() {
     _controller.dispose();
-    _focusNode.dispose();
     super.dispose();
   }
 
@@ -40,8 +38,7 @@ class _CommentInputFieldState extends State<CommentInputField> {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Form(
         key: CommentInputField._formKey,
-        child: TextField(
-          focusNode: _focusNode,
+        child: TextFormField(
           keyboardType: TextInputType.text,
           controller: _controller,
           minLines: 1,
@@ -68,25 +65,26 @@ class _CommentInputFieldState extends State<CommentInputField> {
               child: Material(
                 color: AppColors.primaryColor,
                 borderRadius: BorderRadius.circular(50),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.send, color: Colors.white),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    onPressed: () {
+                      _onAddCommentPressed(context);
+                    },
+                    icon: const Icon(Icons.send, color: Colors.white),
+                  ),
                 ),
               ),
             ),
           ),
-          onSubmitted: (value) {
-            _onAddCommentPressed();
-          },
         ),
       ),
     );
   }
 
-  void _onAddCommentPressed() {
+  void _onAddCommentPressed(BuildContext context) {
     final comment = _controller.text.trim();
     if (comment.isEmpty) return;
-    _controller.clear();
     context.read<ActivityCubit>().addComment(
           activityId: widget.activityId,
           comment: CommentModel.empty().copyWith(
@@ -94,5 +92,6 @@ class _CommentInputFieldState extends State<CommentInputField> {
             createdBy: context.currentUser!.uid,
           ),
         );
+    _controller.clear();
   }
 }

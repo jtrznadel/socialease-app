@@ -264,6 +264,9 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                               );
                             }
                           }),
+                    ),
+                    SizedBox(
+                      height: context.height * .1,
                     )
                   ],
                 ),

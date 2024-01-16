@@ -90,7 +90,7 @@ class _HomeBodyState extends State<HomeBody> {
             children: [
               Container(
                 padding: const EdgeInsets.all(15),
-                height: context.height * .32,
+                height: context.height * .28,
                 width: context.width,
                 color: Colors.white,
                 child: const HomeHeader(),

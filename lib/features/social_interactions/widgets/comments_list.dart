@@ -22,7 +22,10 @@ class CommentsList extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        CommentInputField(activityId: activityId),
+        BlocProvider(
+          create: (context) => sl<ActivityCubit>(),
+          child: CommentInputField(activityId: activityId),
+        ),
         Expanded(
           child: ListView.builder(
             padding: EdgeInsets.zero,
