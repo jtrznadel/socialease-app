@@ -26,10 +26,10 @@ class UserChatTile extends StatelessWidget {
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(360),
         child: CircleAvatar(
-          backgroundColor: Colors.transparent,
           child: Image.network(
             group.groupImageUrl!,
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
+            height: 100,
           ),
         ),
       ),

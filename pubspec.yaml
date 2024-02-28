@@ -57,6 +57,7 @@ dependencies:
   page_transition: ^2.1.0
   flutter_emoji: ^2.5.1
   confirm_dialog: ^1.0.3
+  percent_indicator: ^4.2.3
 
 dev_dependencies:
   flutter_test:

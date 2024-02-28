@@ -40,12 +40,15 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isLikedByUser =
+        widget.arguments.activity.likedBy.contains(widget.arguments.user.uid);
     var toEnd =
         widget.arguments.activity.endDate!.difference(DateTime.now()).inDays;
     return Scaffold(
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
+          backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
             'Activity Details',
@@ -74,28 +77,48 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                   children: [
                     Text(
                       widget.arguments.activity.title,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                       style: TextStyle(
-                        fontSize: 26,
+                        fontSize: 22,
                         color: AppColors.primaryTextColor,
                         fontFamily: Fonts.poppins,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          widget.arguments.activity.category.label,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: AppColors.primaryTextColor,
-                            fontFamily: Fonts.poppins,
-                            fontWeight: FontWeight.w400,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              widget.arguments.activity.category.label,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: AppColors.primaryTextColor,
+                                fontFamily: Fonts.poppins,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Icon(widget.arguments.activity.category.icon),
+                          ],
                         ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Icon(widget.arguments.activity.category.icon),
+                        IconButton(
+                            onPressed: () {
+                              context.read<ActivityCubit>().likeActivity(
+                                  activityId: widget.arguments.activity.id,
+                                  userId: widget.arguments.user.uid);
+                            },
+                            icon: Icon(
+                              !isLikedByUser
+                                  ? Icons.favorite_outline_outlined
+                                  : Icons.favorite,
+                              color: !isLikedByUser ? Colors.black : Colors.red,
+                              size: 30,
+                            ))
                       ],
                     ),
                     const SizedBox(
@@ -236,13 +259,43 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                     const Divider(
                       color: AppColors.secondaryTextColor,
                     ),
-                    Text(
-                      'Reviews',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: Fonts.poppins,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Reviews',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: Fonts.poppins,
+                          ),
+                        ),
+                        StreamBuilder(
+                          stream: DashboardUtils.commentsStream(
+                              widget.arguments.activity.id),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const LoadingView();
+                            } else if (snapshot.hasError) {
+                              return const Text('No comments');
+                            } else {
+                              List<ActivityComment> comments = snapshot.data!;
+                              return Row(
+                                children: [
+                                  Text(comments.length.toString()),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  const Icon(
+                                    Icons.forum,
+                                  ),
+                                ],
+                              );
+                            }
+                          },
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: context.height * .3,

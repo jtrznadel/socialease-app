@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:social_ease_app/core/common/app/providers/favorite_activities_notifier.dart';
 import 'package:social_ease_app/core/common/app/providers/location_provider.dart';
 import 'package:social_ease_app/core/entities/activity_details_arguments.dart';
+import 'package:social_ease_app/core/enums/account_level.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/extensions/string_extensions.dart';
 import 'package:social_ease_app/core/res/colors.dart';
@@ -13,6 +14,7 @@ import 'package:social_ease_app/features/activity/domain/entities/activity.dart'
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/activity/presentation/views/activity_details_screen.dart';
 import 'package:social_ease_app/features/activity/presentation/views/edit_activity_screen.dart';
+import 'package:social_ease_app/features/activity/presentation/widgets/recommendation_tile.dart';
 import 'package:social_ease_app/features/auth/domain/entites/user.dart';
 
 class ActivityTile extends StatefulWidget {
@@ -90,34 +92,52 @@ class _ActivityTileState extends State<ActivityTile> {
                 image: image,
                 fit: BoxFit.cover,
               ),
-              boxShadow: const [
-                BoxShadow(
-                  offset: Offset(0, 2),
-                  blurRadius: 2,
-                ),
-              ],
             ),
             child: Column(
               children: [
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0).copyWith(top: 0),
+                    padding: const EdgeInsets.all(8.0).copyWith(top: 5),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: IconButton(
-                            onPressed: () {
-                              context
-                                  .read<FavoriteActivitiesNotifier>()
-                                  .addActivityToFavorites(widget.activity);
-                            },
-                            icon: const Icon(
-                              Icons.favorite_border_outlined,
-                              color: Colors.white,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 2,
+                                horizontal: 5,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    widget.activity.likedBy.length.toString(),
+                                    style: const TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
+                                  const Icon(
+                                    Icons.favorite,
+                                    color: Colors.red,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
+                            if (user?.accountLevel == AccountLevel.master ||
+                                user?.accountLevel == AccountLevel.veteran)
+                              RecommendationTile(
+                                  accountLevel: user?.accountLevel ??
+                                      AccountLevel.rookie),
+                          ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -165,18 +185,18 @@ class _ActivityTileState extends State<ActivityTile> {
                                     widget.activity.category.icon,
                                     size: 20,
                                   ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    widget.activity.category.label,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: Fonts.poppins,
-                                    ),
-                                  ),
+                                  // const SizedBox(
+                                  //   width: 5,
+                                  // ),
+                                  // Text(
+                                  //   widget.activity.category.label,
+                                  //   style: TextStyle(
+                                  //     color: Colors.black,
+                                  //     fontSize: 14,
+                                  //     fontWeight: FontWeight.w600,
+                                  //     fontFamily: Fonts.poppins,
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             )
@@ -204,7 +224,7 @@ class _ActivityTileState extends State<ActivityTile> {
                               ? widget.activity.title
                               : '${widget.activity.title.substring(0, 31)}...',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                             fontFamily: Fonts.poppins,
                             fontWeight: FontWeight.w600,
                           ),
@@ -213,11 +233,11 @@ class _ActivityTileState extends State<ActivityTile> {
                           height: 5,
                         ),
                         Text(
-                          widget.activity.description.length <= 40
+                          widget.activity.description.length <= 50
                               ? widget.activity.description
-                              : '${widget.activity.description.substring(0, 41)}...',
+                              : '${widget.activity.description.substring(0, 51)}...',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 12,
                             fontFamily: Fonts.poppins,
                             fontWeight: FontWeight.w400,
                           ),
@@ -235,6 +255,7 @@ class _ActivityTileState extends State<ActivityTile> {
                               style: TextStyle(
                                 color: AppColors.secondaryTextColor,
                                 fontFamily: Fonts.poppins,
+                                fontSize: 12,
                               ),
                             ),
                             Consumer<LocationProvider>(

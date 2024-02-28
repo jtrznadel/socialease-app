@@ -31,6 +31,7 @@ abstract class ActivityRemoteDataSource {
   Future<void> removeComment({required activityId, required commentId});
   Stream<List<CommentModel>> getComments(String activityId);
   Future<void> likeComment({required activityId, required commentId});
+  Future<void> likeActivity({required activityId, required userId});
 }
 
 class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
@@ -477,6 +478,28 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
           .collection('comments')
           .doc(commentId)
           .delete();
+    } on FirebaseException catch (e) {
+      throw ServerException(
+        message: e.message ?? 'Unknown error occurred',
+        statusCode: e.code,
+      );
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw ServerException(
+        message: e.toString(),
+        statusCode: '505',
+      );
+    }
+  }
+
+  @override
+  Future<void> likeActivity({required activityId, required userId}) async {
+    try {
+      await DataSourceUtils.authorizeUser(_auth);
+      await _firestore.collection('activities').doc(activityId).update({
+        'likedBy': FieldValue.arrayUnion([userId])
+      });
     } on FirebaseException catch (e) {
       throw ServerException(
         message: e.message ?? 'Unknown error occurred',

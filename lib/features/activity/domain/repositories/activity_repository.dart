@@ -33,4 +33,6 @@ abstract class ActivityRepository {
   ResultStream<List<ActivityComment>> getComments(String activityId);
   ResultFuture<void> likeComment(
       {required String commentId, required String activityId});
+  ResultFuture<void> likeActivity(
+      {required String activityId, required String userId});
 }

@@ -15,6 +15,7 @@ import 'package:social_ease_app/features/activity/domain/usecases/get_comments.d
 import 'package:social_ease_app/features/activity/domain/usecases/get_user_by_id.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/join_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/leave_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/like_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/like_comment.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/remove_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/remove_comment.dart';
@@ -42,6 +43,7 @@ class ActivityCubit extends Cubit<ActivityState> {
   final RemoveComment _removeComment;
   final LikeComment _likeComment;
   final GetComments _getComments;
+  final LikeActivity _likeActivity;
 
   StreamSubscription<Either<Failure, List<Activity>>>? activitiesSubscription;
   StreamSubscription<Either<Failure, List<ActivityComment>>>?
@@ -63,6 +65,7 @@ class ActivityCubit extends Cubit<ActivityState> {
     required RemoveComment removeComment,
     required LikeComment likeComment,
     required GetComments getComments,
+    required LikeActivity likeActivity,
   })  : _addActivity = addActivity,
         _removeActivity = removeActivity,
         _updateActivity = updateActivity,
@@ -78,6 +81,7 @@ class ActivityCubit extends Cubit<ActivityState> {
         _removeComment = removeComment,
         _likeComment = likeComment,
         _getComments = getComments,
+        _likeActivity = likeActivity,
         super(ActivityInitial());
 
   @override
@@ -276,6 +280,21 @@ class ActivityCubit extends Cubit<ActivityState> {
       onError: (error) {
         emit(ActivityError(error.toString()));
       },
+    );
+  }
+
+  Future<void> likeActivity({
+    required String activityId,
+    required String userId,
+  }) async {
+    emit(const SendingActivityLike());
+    final result = await _likeActivity(LikeActivityParams(
+      activityId: activityId,
+      userId: userId,
+    ));
+    result.fold(
+      (failure) => emit(ActivityError(failure.errorMessage)),
+      (_) => emit(const ActivityLiked()),
     );
   }
 }

@@ -208,4 +208,16 @@ class ActivityRepositoryImpl implements ActivityRepository {
       return Left(ServerFailure.fromException(e));
     }
   }
+
+  @override
+  ResultFuture<void> likeActivity(
+      {required String activityId, required String userId}) async {
+    try {
+      await _remoteDataSource.likeActivity(
+          activityId: activityId, userId: userId);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
 }

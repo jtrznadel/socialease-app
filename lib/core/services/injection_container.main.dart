@@ -138,6 +138,7 @@ Future<void> _initActivity() async {
         removeComment: sl(),
         likeComment: sl(),
         getComments: sl(),
+        likeActivity: sl(),
       ),
     )
     ..registerLazySingleton(() => AddActivity(sl()))
@@ -155,6 +156,7 @@ Future<void> _initActivity() async {
     ..registerLazySingleton(() => RemoveComment(sl()))
     ..registerLazySingleton(() => LikeComment(sl()))
     ..registerLazySingleton(() => GetComments(sl()))
+    ..registerLazySingleton(() => LikeActivity(sl()))
     ..registerLazySingleton<ActivityRepository>(
         () => ActivityRepositoryImpl(sl()))
     ..registerLazySingleton<ActivityRemoteDataSource>(

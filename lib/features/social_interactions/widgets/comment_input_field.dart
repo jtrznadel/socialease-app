@@ -42,7 +42,7 @@ class _CommentInputFieldState extends State<CommentInputField> {
           keyboardType: TextInputType.text,
           controller: _controller,
           minLines: 1,
-          maxLines: 5,
+          maxLines: 2,
           style: TextStyle(fontSize: 14, fontFamily: Fonts.poppins),
           decoration: InputDecoration(
             hintText: "Comment",
@@ -66,7 +66,7 @@ class _CommentInputFieldState extends State<CommentInputField> {
                 color: AppColors.primaryColor,
                 borderRadius: BorderRadius.circular(50),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(3.0),
                   child: IconButton(
                     onPressed: () {
                       _onAddCommentPressed(context);

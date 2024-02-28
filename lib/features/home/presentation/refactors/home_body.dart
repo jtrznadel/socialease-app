@@ -108,8 +108,8 @@ class _HomeBodyState extends State<HomeBody> {
                       decoration: const BoxDecoration(
                         border: Border(
                           top: BorderSide(
-                            color: Colors.black,
-                            width: 2,
+                            color: Colors.grey,
+                            width: 3,
                           ),
                         ),
                         color: Colors.transparent,
@@ -156,7 +156,7 @@ class _HomeBodyState extends State<HomeBody> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 15.0),
                                 child: Text(
-                                  "Ongoing initiatives",
+                                  "Ongoing Initiatives",
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: AppColors.primaryTextColor,

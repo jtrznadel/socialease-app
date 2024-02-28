@@ -146,3 +146,11 @@ final class UpdadingCommentLikes extends ActivityState {
 final class CommentLikesUpdated extends ActivityState {
   const CommentLikesUpdated();
 }
+
+final class SendingActivityLike extends ActivityState {
+  const SendingActivityLike();
+}
+
+final class ActivityLiked extends ActivityState {
+  const ActivityLiked();
+}

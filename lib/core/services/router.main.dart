@@ -71,8 +71,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case ActivityDetailsScreen.routeName:
       return _pageBuilder(
-          (_) => ActivityDetailsScreen(
-              settings.arguments as ActivityDetailsArguments),
+          (_) => BlocProvider(
+                create: (context) => sl<ActivityCubit>(),
+                child: ActivityDetailsScreen(
+                    settings.arguments as ActivityDetailsArguments),
+              ),
           settings: settings);
     case EditActivityScreen.routeName:
       return _pageBuilder(

@@ -13,6 +13,7 @@ import 'package:social_ease_app/features/activity/domain/usecases/get_activities
 import 'package:social_ease_app/features/activity/domain/usecases/get_comments.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/join_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/leave_activity.dart';
+import 'package:social_ease_app/features/activity/domain/usecases/like_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/like_comment.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/remove_activity.dart';
 import 'package:social_ease_app/features/activity/domain/usecases/remove_comment.dart';

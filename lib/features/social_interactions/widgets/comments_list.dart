@@ -33,8 +33,11 @@ class CommentsList extends StatelessWidget {
             itemBuilder: (context, index) {
               return BlocProvider(
                 create: (_) =>
-                    sl<UserCubit>()..getUser(comments[index].createdBy),
-                child: CommentTile(comment: comments[index]),
+                    sl<ActivityCubit>()..getUser(comments[index].createdBy),
+                child: CommentTile(
+                  comment: comments[index],
+                  activityId: activityId,
+                ),
               );
             },
           ),

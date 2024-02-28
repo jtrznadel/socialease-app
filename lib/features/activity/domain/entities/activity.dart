@@ -19,6 +19,7 @@ class Activity extends Equatable {
     required this.pendingRequests,
     required this.latitude,
     required this.longitude,
+    required this.likedBy,
     this.status = "toBeVerified",
     this.image,
     this.imageIsFile = false,
@@ -34,6 +35,7 @@ class Activity extends Equatable {
           groupId: '_empty.groupId',
           tags: const [],
           members: const [],
+          likedBy: const [],
           pendingRequests: const [],
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
@@ -59,6 +61,7 @@ class Activity extends Equatable {
   final String createdBy;
   final List<String> members;
   final List<String> pendingRequests;
+  final List<String> likedBy;
   final double longitude;
   final double latitude;
 
