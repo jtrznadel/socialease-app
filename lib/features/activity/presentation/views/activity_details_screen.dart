@@ -48,11 +48,12 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           centerTitle: true,
           title: Text(
             'Activity Details',
             style: TextStyle(
+              color: Colors.white,
               fontFamily: Fonts.poppins,
               fontWeight: FontWeight.w600,
             ),
