@@ -9,6 +9,7 @@ import 'package:social_ease_app/core/common/widgets/expandable_text.dart';
 import 'package:social_ease_app/core/common/widgets/tag_tile.dart';
 import 'package:social_ease_app/core/common/widgets/user_profile_modal.dart';
 import 'package:social_ease_app/core/entities/activity_details_arguments.dart';
+import 'package:social_ease_app/core/enums/points_value_enum.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/extensions/string_extensions.dart';
 import 'package:social_ease_app/core/res/colors.dart';
@@ -20,6 +21,7 @@ import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activ
 import 'package:social_ease_app/features/activity/presentation/widgets/activity_action_button.dart';
 import 'package:social_ease_app/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:social_ease_app/features/dashboard/presentation/utils/dashboard_utils.dart';
+import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
 import 'package:social_ease_app/features/social_interactions/widgets/comments_list.dart';
 
 class ActivityDetailsScreen extends StatefulWidget {
@@ -112,6 +114,12 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                               context.read<ActivityCubit>().likeActivity(
                                   activityId: widget.arguments.activity.id,
                                   userId: widget.arguments.user.uid);
+                              int points = PointsValue.communityActivity.value *
+                                  context.currentUser!.accountLevel.multiplier
+                                      .toInt();
+                              context.read<PointsCubit>().addPoints(
+                                  userId: context.currentUser!.uid,
+                                  points: points);
                             },
                             icon: Icon(
                               !isLikedByUser

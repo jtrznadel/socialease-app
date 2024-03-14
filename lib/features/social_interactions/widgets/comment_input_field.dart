@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_ease_app/core/enums/points_value_enum.dart';
 import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/features/activity/data/models/comment_model.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
+import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
 
 class CommentInputField extends StatefulWidget {
   final String activityId;
@@ -84,6 +86,9 @@ class _CommentInputFieldState extends State<CommentInputField> {
 
   void _onAddCommentPressed(BuildContext context) {
     final comment = _controller.text.trim();
+    int points = PointsValue.communityActivity.value *
+        context.currentUser!.accountLevel.multiplier.toInt();
+
     if (comment.isEmpty) return;
     context.read<ActivityCubit>().addComment(
           activityId: widget.activityId,
@@ -92,6 +97,9 @@ class _CommentInputFieldState extends State<CommentInputField> {
             createdBy: context.currentUser!.uid,
           ),
         );
+    context
+        .read<PointsCubit>()
+        .addPoints(userId: context.currentUser!.uid, points: points);
     _controller.clear();
   }
 }

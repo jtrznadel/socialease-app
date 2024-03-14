@@ -71,8 +71,15 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case ActivityDetailsScreen.routeName:
       return _pageBuilder(
-          (_) => BlocProvider(
-                create: (context) => sl<ActivityCubit>(),
+          (_) => MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) => sl<ActivityCubit>(),
+                  ),
+                  BlocProvider(
+                    create: (context) => sl<PointsCubit>(),
+                  ),
+                ],
                 child: ActivityDetailsScreen(
                     settings.arguments as ActivityDetailsArguments),
               ),

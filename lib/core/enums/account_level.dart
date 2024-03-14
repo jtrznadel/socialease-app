@@ -18,7 +18,7 @@ enum AccountLevel {
     priorityLevel: 2,
   ),
   merchant(
-    label: 'Social Merchant',
+    label: 'Hope Advocate',
     minRange: 1501,
     maxRange: 2500,
     color: Colors.blue,
@@ -26,7 +26,7 @@ enum AccountLevel {
     priorityLevel: 3,
   ),
   veteran(
-    label: 'Social Veteran',
+    label: 'Community Guardian',
     minRange: 2501,
     maxRange: 5000,
     color: Colors.purple,
@@ -34,7 +34,7 @@ enum AccountLevel {
     priorityLevel: 4,
   ),
   master(
-    label: 'Social Master',
+    label: 'Community Luminary',
     minRange: 5001,
     maxRange: 99999,
     color: Colors.yellow,

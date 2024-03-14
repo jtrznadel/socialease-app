@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:social_ease_app/core/common/widgets/user_profile_modal.dart';
+import 'package:social_ease_app/core/enums/points_value_enum.dart';
+import 'package:social_ease_app/core/extensions/context_extension.dart';
 import 'package:social_ease_app/core/res/colors.dart';
 import 'package:social_ease_app/core/res/fonts.dart';
 import 'package:social_ease_app/core/res/media_res.dart';
 import 'package:social_ease_app/features/activity/domain/entities/comment.dart';
 import 'package:social_ease_app/features/activity/presentation/cubit/cubit/activity_cubit.dart';
 import 'package:social_ease_app/features/auth/domain/entites/user.dart';
+import 'package:social_ease_app/features/points/presentation/cubit/points_cubit.dart';
 
 class CommentTile extends StatelessWidget {
   final ActivityComment comment;
@@ -71,9 +74,15 @@ class CommentTile extends StatelessWidget {
                         ),
                         IconButton(
                             onPressed: () {
+                              int points = PointsValue.communityActivity.value *
+                                  context.currentUser!.accountLevel.multiplier
+                                      .toInt();
                               context.read<ActivityCubit>().likeComment(
                                   activityId: activityId,
                                   commentId: comment.id);
+                              context.read<PointsCubit>().addPoints(
+                                  userId: context.currentUser!.uid,
+                                  points: points);
                             },
                             icon: const Icon(Icons.favorite)),
                       ],
